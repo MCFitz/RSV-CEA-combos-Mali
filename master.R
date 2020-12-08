@@ -11,7 +11,7 @@ source("economic outcome parameters.R")
 int_names <- c("llAb", "mVax", "pVax")
 efficacy <- c(rep.int(0.70, length(int_names)))
 duration <- c(5, 4, 12)
-coverage <- c(0.830, 0.355, 0.60)
+coverage <- c(0.830, 0.355, 0.77)
 costs <- c(rep.int(4.35, length(int_names)))
 
 # Calculate number of RSV cases under status quo and each intervention
@@ -28,6 +28,10 @@ deaths_mVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func
 deaths_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax)), CFR_nr_care, nr_care_func(p_inpatient,pneum_func(p_pneum ,cases_pVax)))
 
 # Calculate DALYs lost under status quo and each intervention
+DALYS_lost_no <- YLL_func(deaths_no) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), deaths_no, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_no), dw_LRTI_mod)
+DALYS_lost_llAb <- YLL_func(deaths_llAb) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)), deaths_llAb, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_llAb), dw_LRTI_mod)
+DALYS_lost_mVax <- YLL_func(deaths_mVax) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_mVax)), deaths_mVax, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_mVax), dw_LRTI_mod)
+DALYS_lost_pVax <- YLL_func(deaths_pVax) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax)), deaths_pVax, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_pVax), dw_LRTI_mod)
 
 # Calculate medical costs
 
@@ -43,13 +47,16 @@ totalcost_mVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + medco
 totalcost_pVax <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax
 
 ####
+additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no)
 deaths_averted <- c(deaths_no - deaths_llAb, deaths_no - deaths_mVax, deaths_no - deaths_pVax)
-interventions <- data.frame(int_names, efficacy, duration, coverage, deaths_averted)
+DALYs_averted <- c(DALYS_lost_no - DALYS_lost_llAb, DALYS_lost_no - DALYS_lost_mVax, DALYS_lost_no - DALYS_lost_pVax)
+interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted)
 
-# Plot cost per death averted real quick
-plot(deaths_no - deaths_llAb, totalcost_llAb- totalcost_no)
-plot(deaths_no - deaths_mVax, totalcost_mVax- totalcost_no)
-plot(deaths_no - deaths_pVax, totalcost_pVax- totalcost_no)
-
+# Plot cost per DALYs averted 
+plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "red", pch = 19, xlim = c(0,3000), ylim = c(0,5000000), xlab = "DALYs averted", ylab = 
+       "Added cost (USD)")
+points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "blue", pch = 19)
+points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "chartreuse4", pch = 19)
+legend("topleft", legend = c("llAb", "mVax", "pVax"), pch = 19, col = c("red","blue", "chartreuse4", pch = 19))
 
 
