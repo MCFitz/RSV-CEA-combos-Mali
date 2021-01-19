@@ -143,7 +143,7 @@ ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_
 interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
 
 # Plot cost per DALYs averted 
-plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "blue", pch = 19, xlim = c(0,3500), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
+plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "blue", pch = 19, xlim = c(0,6000), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
        "Added cost (USD)")
 points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "blue", pch = 15)
 points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "blue", pch = 17)
@@ -161,6 +161,9 @@ plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col 
        "Added cost (USD)")
 points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "blue", pch = 15)
 points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "blue", pch = 17)
+points(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "goldenrod", pch = 19)
+points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "goldenrod", pch = 15)
+points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "goldenrod", pch = 17)
 legend("bottomright", legend = c("llAb", "mVax", "pVax"),
        pch = c(19,15,17), col = c("blue","blue", "blue"))
 
