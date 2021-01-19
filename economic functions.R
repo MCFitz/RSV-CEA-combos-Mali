@@ -25,20 +25,20 @@ YLL_func <- function(num_mort) {
 # Duration of illness
 di_bc <- 8.5   
 di_yrs <- di_bc/365
-# di <- rnorm(trials, 8.5, (1.5/1.96)) # uncertainty, 7-10 days (Mathers et al.)
-# di_yrs_u <- di/365
+di <- rnorm(trials, 8.5, (1.5/1.96)) # uncertainty, 7-10 days (Mathers et al.)
+di_yrs_u <- di/365
 
 # install.packages("triangle")
-# library("triangle")
+library("triangle")
 
 # Life Expectancy at birth, males and females combined
 le_mali <- 58 # life expectancy in Mali (World Bank, 2017)
 
 # DALY disability weight for acute lower respiratory infections (LRTI)
 dw_LRTI_severe <- 0.133 # severe LRTI (IHME GBD, 2017), for RSV-LRTI inpatient
-# dw_LRTI_severe_u <- rtriangle(trials, a = 0.088, b = 0.190 , c = 0.133) # uncertainty distribution
+dw_LRTI_severe_u <- rtriangle(trials, a = 0.088, b = 0.190 , c = 0.133) # uncertainty distribution
 dw_LRTI_mod <- 0.051 # moderate LRTI (IHME GBD, 2017), for RSV-LRTI outpatient
-# dw_LRTI_mod_u <- rtriangle(trials, a = 0.032, b = 0.074, c = 0.051)
+dw_LRTI_mod_u <- rtriangle(trials, a = 0.032, b = 0.074, c = 0.051)
 
 # calculate YLD for each intervention
 YLD_func <- function(num_inpat, num_mort, di, dw_LRTI_s, num_pneum, dw_LRTI_m) {

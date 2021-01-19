@@ -23,7 +23,7 @@ age_dat <- data.frame(age = seq(1,6, by =1), cases = c(8,11,28,27,47,32), follow
 # calculate age-based attack rate estimates, 0 to 6 months
 age_AR <- age_dat$cases / (age_dat$follow_up*12)
 
-### create AR matrices for birth cohorts followed for one-year (scenario analysis)
+### create AR matrices for birth cohorts followed for one-year
 age_AR_y <- c(age_AR, seq(age_AR[6], age_AR[3], length = 6))
 
 temp3 <- empty_year_cohort
@@ -36,4 +36,19 @@ temp4 <- matrix(rep(cal_AR_y, each = 12), 12, 23)
 
 AR_y_bc <- temp4/(mali_inc/1000)*temp3
 
+# add uncertainty
+AR_age_sample <- function (cases, fu, num_tri) {
+  ARvec <- rbeta(num_tri, cases, fu*12 - cases)
+}
 
+AR_cases_year <- c(age_dat$cases, seq(age_dat$cases[6], age_dat$cases[3], length = 6))
+AR_ft_year <- c(age_dat$follow_up, seq(age_dat$follow_up[6], age_dat$follow_up[3], length =6))
+AR_age_y_u <- mapply(AR_age_sample, AR_cases_year, AR_ft_year, trials)
+
+temp3_u <- array(0, dim = c(12, 23, trials))
+for (a in 1:12) {
+  temp3_u[a,a:(a+11),] <- t(AR_age_y_u)
+}
+
+temp4_u <- array(rep(rep(cal_AR_y, each = 12), trials), dim = c(12, 23, trials))
+AR_y_u <- temp4_u/(mali_inc/1000)*temp3_u

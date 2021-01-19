@@ -6,6 +6,6 @@ cost_outpatient <- 6.56
 
 # # sampling distribution for medical costs
 # # using SE of costs
-# cost_hosp_u <- rnorm(trials, cost_hosp, 15.90)
-# cost_outpatient_u <- rnorm(trials, cost_outpatient, 0.67)
+cost_hosp_u <- rnorm(trials, cost_hosp, 15.90)
+cost_outpatient_u <- rnorm(trials, cost_outpatient, 0.67)
 

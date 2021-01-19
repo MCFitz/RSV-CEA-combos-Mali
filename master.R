@@ -1,4 +1,5 @@
 # Master Script
+trials <- 100
 source("health_functions.R")
 source("health_outcome_parameters.R")
 source("attack_rates.R")
@@ -16,7 +17,6 @@ coverage <- c(0.830, 0.355, 0.77, NA, NA, NA, NA, NA, NA)
 costs <- c(4.35, 4.35, 4.35, NA, NA, NA, NA, NA, NA)
 
 # Calculate number of RSV cases under status quo and each intervention
-
 cases_no <- RSVcases(pd_calc(0, 0, AR_y_bc, 0), num_infants)
 cases_llAb <- RSVcases(pd_calc(efficacy[1], coverage[1], AR_y_bc, mat_eff_llAb), num_infants)
 cases_mVax <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax), num_infants)
@@ -27,6 +27,27 @@ cases_intfhi_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1
 cases_intfhi_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[7]), num_infants)
 cases_intflo_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[8]), num_infants)
 cases_intflo_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[9]), num_infants)
+
+# Calculate number of RSV cases w/ uncertainty
+cases_no_u <- apply(AR_y_u, 3, RSVcases, babies = num_infants)
+
+pd_llAb_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
+for (ll in 1:trials) {
+  pd_llAb_array[,,ll] <- pd_calc(efficacy[1], coverage[1], AR_y_u[,,ll], mat_eff_llAb)
+} 
+cases_llAb_u <- apply(pd_llAb_array, 3, RSVcases, babies = num_infants)
+
+pd_mVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
+for (m in 1:trials) {
+  pd_mVax_array[,,m] <- pd_calc(efficacy[2], coverage[2], AR_y_u[,,m], mat_eff_mVax)
+} 
+cases_mVax_u <- apply(pd_mVax_array, 3, RSVcases, babies = num_infants)
+
+pd_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
+for (p in 1:trials) {
+  pd_pVax_array[,,p] <- pd_calc(efficacy[3], coverage[3], AR_y_u[,,p], mat_eff_pVax)
+} 
+cases_pVax_u <- apply(pd_pVax_array, 3, RSVcases, babies = num_infants)
 
 # Calculate number of deaths under status quo and each intervention
 deaths_no <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
@@ -40,6 +61,12 @@ deaths_intfhi_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient
 deaths_intflo_llAb_pVax <-mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
 deaths_intflo_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
 
+# Calculate number of deaths with uncertainty
+deaths_no_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)))
+deaths_llAb_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_llAb_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_llAb_u)))
+deaths_mVax_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_mVax_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_mVax_u)))
+deaths_pVax_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_pVax_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_pVax_u)))
+
 # Calculate DALYs lost under status quo and each intervention
 DALYS_lost_no <- YLL_func(deaths_no) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), deaths_no, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_no), dw_LRTI_mod)
 DALYS_lost_llAb <- YLL_func(deaths_llAb) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)), deaths_llAb, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_llAb), dw_LRTI_mod)
@@ -52,8 +79,13 @@ DALYS_lost_intfhi_mVax_pVax <- YLL_func(deaths_intfhi_mVax_pVax ) + YLD_func(inp
 DALYS_lost_intflo_llAb_pVax <- YLL_func(deaths_intflo_llAb_pVax) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)), deaths_intfhi_llAb_pVax, di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_intflo_llAb_pVax), dw_LRTI_mod)
 DALYS_lost_intflo_mVax_pVax <- YLL_func(deaths_intflo_mVax_pVax ) + YLD_func(inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), deaths_intflo_mVax_pVax , di_yrs, dw_LRTI_severe, pneum_func(p_pneum, cases_intflo_mVax_pVax), dw_LRTI_mod)
 
-# Calculate medical costs
+# Calculate DALYs lost with uncertainty
+DALYS_lost_no_u <- YLL_func(deaths_no_u) + YLD_func(inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)), deaths_no_u, di_yrs_u, dw_LRTI_severe_u, pneum_func(p_pneum_u, cases_no_u), dw_LRTI_mod_u)
+DALYS_lost_llAb_u <- YLL_func(deaths_llAb_u) + YLD_func(inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_llAb_u)), deaths_llAb_u, di_yrs_u, dw_LRTI_severe_u, pneum_func(p_pneum_u, cases_llAb_u), dw_LRTI_mod_u)
+DALYS_lost_mVax_u <- YLL_func(deaths_mVax_u) + YLD_func(inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_mVax_u)), deaths_mVax_u, di_yrs_u, dw_LRTI_severe_u, pneum_func(p_pneum_u, cases_mVax_u), dw_LRTI_mod_u)
+DALYS_lost_pVax_u <- YLL_func(deaths_pVax_u) + YLD_func(inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_pVax_u)), deaths_pVax_u, di_yrs_u, dw_LRTI_severe_u, pneum_func(p_pneum_u, cases_pVax_u), dw_LRTI_mod_u)
 
+# Calculate medical costs
 medcost_no <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), cost_outpatient, outpat_func(p_inpatient, pneum_func(p_pneum, cases_no)))
 medcost_llAb <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)), cost_outpatient, outpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)))
 medcost_mVax <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneum_func(p_pneum, cases_mVax)), cost_outpatient, outpat_func(p_inpatient, pneum_func(p_pneum, cases_mVax)))
@@ -64,6 +96,13 @@ medcost_intfhi_llAb_pVax <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneu
 medcost_intfhi_mVax_pVax <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)), cost_outpatient, outpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)))
 medcost_intflo_llAb_pVax <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)), cost_outpatient, outpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
 medcost_intflo_mVax_pVax <- medcost_func(cost_hosp, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), cost_outpatient, outpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
+
+# Calculate medical costs with uncertainty
+# Need to come back in and add additional uncertainty besides cases
+medcost_no_u <- medcost_func(cost_hosp_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)), cost_outpatient_u, outpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)))
+medcost_llAb_u <- medcost_func(cost_hosp_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_llAb_u)), cost_outpatient_u, outpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_llAb_u)))
+medcost_mVax_u <- medcost_func(cost_hosp_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_mVax_u)), cost_outpatient_u, outpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_mVax_u)))
+medcost_pVax_u <- medcost_func(cost_hosp_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_pVax_u)), cost_outpatient_u, outpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_pVax_u)))
 
 # Calculate total intervention costs
 totalcost_no <- medcost_no
@@ -76,6 +115,13 @@ totalcost_intfhi_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs
 totalcost_intfhi_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intfhi_mVax_pVax
 totalcost_intflo_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_llAb_pVax
 totalcost_intflo_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_mVax_pVax
+
+# Calculate total intervention costs with uncertainty
+# Need to come back in and add additional uncertainty besides cases
+totalcost_no_u <- medcost_no_u
+totalcost_llAb_u <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + medcost_llAb_u
+totalcost_mVax_u <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + medcost_mVax_u
+totalcost_pVax_u <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax_u
 
 ####
 additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no,
@@ -91,6 +137,8 @@ ICERs_base <- additional_cost/DALYs_averted
 ICER_mVax_pVax <- (totalcost_joint_mVax_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_mVax_pVax)
 # Calculate ICER moving from pVax to llAb + pVax:
 ICER_llAb_pVax <- (totalcost_joint_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_llAb_pVax)
+# Calculate ICER mocing from pVax to llAb + pVax with 20% interference
+ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_intflo_llAb_pVax)
 
 interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
 
@@ -108,6 +156,11 @@ points(DALYS_lost_no - DALYS_lost_intflo_mVax_pVax, totalcost_intflo_mVax_pVax -
 legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "llAb + pVax, hi intf", "llAb + pVax, lo inf", "mVax + pVax, no intf", "mVax + pVax, hi intf", "mVax + pVax, lo intf"),
        pch = c(19,15,17,18,18,18,10,10,10), col = c("blue","blue", "blue","blue","orange","maroon", "blue", "orange", "maroon"))
 
-
-
+# plot cost per DALYs averted with uncertainty
+plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,6000), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
+       "Added cost (USD)")
+points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "blue", pch = 15)
+points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "blue", pch = 17)
+legend("bottomright", legend = c("llAb", "mVax", "pVax"),
+       pch = c(19,15,17), col = c("blue","blue", "blue"))
 
