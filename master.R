@@ -49,6 +49,19 @@ for (p in 1:trials) {
 } 
 cases_pVax_u <- apply(pd_pVax_array, 3, RSVcases, babies = num_infants)
 
+pd_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
+for (lp in 1:trials) {
+  pd_llAb_pVax_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax, intf[4])
+}
+cases_joint_llAb_pVax_u <- apply(pd_llAb_pVax_array, 3, RSVcases, babies = num_infants)
+
+pd_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
+for (mp in 1:trials) {
+  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_llAb, mat_eff_pVax, intf[5])
+}
+cases_joint_mVax_pVax_u <- apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants)
+
+
 # Calculate number of deaths under status quo and each intervention
 deaths_no <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
 deaths_llAb <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_llAb)))
