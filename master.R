@@ -1,5 +1,5 @@
 # Master Script
-trials <- 100
+trials <- 10000
 source("health_functions.R")
 source("health_outcome_parameters.R")
 source("attack_rates.R")
@@ -143,6 +143,43 @@ totalcost_pVax_u <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + med
 totalcost_joint_llAb_pVax_u <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_llAb_pVax_u
 totalcost_joint_mVax_pVax_u <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_mVax_pVax_u
 
+# calculate probability of being cost-effective across WTP
+
+prep_llAb <- cbind(DALYS_lost_no_u, DALYS_lost_llAb_u, totalcost_llAb_u, totalcost_no_u)
+pce_llAb <- rep(0, length(WTP_sp))
+for (pl in 1: length(WTP_sp)){
+  NHB_pl <- NHB_func(prep_llAb, WTP_sp[pl])
+  pce_llAb[pl] <- sum(NHB_pl >0)/trials
+}
+
+prep_mVax <- cbind(DALYS_lost_no_u, DALYS_lost_mVax_u, totalcost_mVax_u, totalcost_no_u)
+pce_mVax <- rep(0, length(WTP_sp))
+for (ml in 1: length(WTP_sp)){
+  NHB_ml <- NHB_func(prep_mVax, WTP_sp[ml])
+  pce_mVax[ml] <- sum(NHB_ml >0)/trials
+}
+
+prep_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_pVax_u, totalcost_pVax_u, totalcost_no_u)
+pce_pVax <- rep(0, length(WTP_sp))
+for (pl in 1: length(WTP_sp)){
+  NHB_pl <- NHB_func(prep_pVax, WTP_sp[pl])
+  pce_pVax[pl] <- sum(NHB_pl >0)/trials
+}
+
+prep_joint_llAb_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u, totalcost_no_u)
+pce_joint_llAb_pVax <- rep(0, length(WTP_sp))
+for (lp in 1: length(WTP_sp)){
+  NHB_lp <- NHB_func(prep_joint_llAb_pVax, WTP_sp[lp])
+  pce_joint_llAb_pVax[lp] <- sum(NHB_lp >0)/trials
+}
+
+prep_joint_mVax_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_joint_mVax_pVax_u, totalcost_joint_mVax_pVax_u, totalcost_no_u)
+pce_joint_mVax_pVax <- rep(0, length(WTP_sp))
+for (mp in 1: length(WTP_sp)){
+  NHB_mp <- NHB_func(prep_joint_mVax_pVax, WTP_sp[mp])
+  pce_joint_mVax_pVax[mp] <- sum(NHB_mp >0)/trials
+}
+
 ####
 additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no,
                      totalcost_intfhi_llAb_pVax - totalcost_no, totalcost_intfhi_mVax_pVax - totalcost_no, totalcost_intflo_llAb_pVax- totalcost_no, totalcost_intflo_mVax_pVax- totalcost_no)
@@ -161,33 +198,3 @@ ICER_llAb_pVax <- (totalcost_joint_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVa
 ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_intflo_llAb_pVax)
 
 interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
-
-# Plot cost per DALYs averted 
-plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "blue", pch = 19, xlim = c(0,6000), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
-       "Added cost (USD)")
-points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "blue", pch = 15)
-points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "blue", pch = 17)
-points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = "blue", pch = 18)
-points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = "blue", pch = 10)
-points(DALYS_lost_no - DALYS_lost_intfhi_llAb_pVax, totalcost_intfhi_llAb_pVax - totalcost_no, col = "orange", pch =18)
-points(DALYS_lost_no - DALYS_lost_intfhi_mVax_pVax, totalcost_intfhi_mVax_pVax - totalcost_no, col = "orange", pch =10)
-points(DALYS_lost_no - DALYS_lost_intflo_llAb_pVax, totalcost_intflo_llAb_pVax - totalcost_no, col = "maroon", pch =18)
-points(DALYS_lost_no - DALYS_lost_intflo_mVax_pVax, totalcost_intflo_mVax_pVax - totalcost_no, col = "maroon", pch =10)
-legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "llAb + pVax, hi intf", "llAb + pVax, lo inf", "mVax + pVax, no intf", "mVax + pVax, hi intf", "mVax + pVax, lo intf"),
-       pch = c(19,15,17,18,18,18,10,10,10), col = c("blue","blue", "blue","blue","orange","maroon", "blue", "orange", "maroon"))
-
-# plot cost per DALYs averted with uncertainty
-plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,6000), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
-       "Added cost (USD)")
-points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "blue", pch = 15)
-points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "blue", pch = 17)
-points(DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u - totalcost_no_u, col ="blue", pch = 18)
-points(DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u, totalcost_joint_mVax_pVax_u - totalcost_no_u, col = "blue", pch = 10)
-points(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "goldenrod", pch = 19)
-points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "goldenrod", pch = 15)
-points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "goldenrod", pch = 17)
-points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = "goldenrod", pch = 18)
-points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = "goldenrod", pch = 10)
-legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
-       pch = c(19,15,17,18,10), col = c("blue","blue", "blue", "blue", "blue"))
-

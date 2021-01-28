@@ -46,3 +46,16 @@ YLD_func <- function(num_inpat, num_mort, di, dw_LRTI_s, num_pneum, dw_LRTI_m) {
     ((num_pneum - num_inpat) * di * dw_LRTI_m)
 }
 
+# Net Health Benefits function
+NHB_func <- function (inputs, WTP) {
+DALY_lost_no <- inputs[,1]
+DALY_lost_int <- inputs[,2]
+total_cost <- inputs[,3]
+total_cost_no <- inputs[,4]
+NHB <- (DALY_lost_no - DALY_lost_int) - (total_cost - totalcost_no) / WTP
+NHB
+}
+
+# WTP
+CET_Mali_GDP <- 891
+WTP_sp <- c(0.01, seq(10, 20*CET_Mali_GDP, by = 5))
