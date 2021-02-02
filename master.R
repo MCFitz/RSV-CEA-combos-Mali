@@ -147,23 +147,23 @@ totalcost_joint_mVax_pVax_u <- sum(mVax_admin * coverage[2] * num_infants * cost
 
 prep_llAb <- cbind(DALYS_lost_no_u, DALYS_lost_llAb_u, totalcost_llAb_u, totalcost_no_u)
 pce_llAb <- rep(0, length(WTP_sp))
-for (pl in 1: length(WTP_sp)){
-  NHB_pl <- NHB_func(prep_llAb, WTP_sp[pl])
-  pce_llAb[pl] <- sum(NHB_pl >0)/trials
+for (l in 1: length(WTP_sp)){
+  NHB_l <- NHB_func(prep_llAb, WTP_sp[l])
+  pce_llAb[l] <- sum(NHB_l >0)/trials
 }
 
 prep_mVax <- cbind(DALYS_lost_no_u, DALYS_lost_mVax_u, totalcost_mVax_u, totalcost_no_u)
 pce_mVax <- rep(0, length(WTP_sp))
-for (ml in 1: length(WTP_sp)){
-  NHB_ml <- NHB_func(prep_mVax, WTP_sp[ml])
-  pce_mVax[ml] <- sum(NHB_ml >0)/trials
+for (m in 1: length(WTP_sp)){
+  NHB_m <- NHB_func(prep_mVax, WTP_sp[m])
+  pce_mVax[m] <- sum(NHB_m >0)/trials
 }
 
 prep_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_pVax_u, totalcost_pVax_u, totalcost_no_u)
 pce_pVax <- rep(0, length(WTP_sp))
-for (pl in 1: length(WTP_sp)){
-  NHB_pl <- NHB_func(prep_pVax, WTP_sp[pl])
-  pce_pVax[pl] <- sum(NHB_pl >0)/trials
+for (p in 1: length(WTP_sp)){
+  NHB_p <- NHB_func(prep_pVax, WTP_sp[p])
+  pce_pVax[p] <- sum(NHB_p >0)/trials
 }
 
 prep_joint_llAb_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u, totalcost_no_u)
@@ -178,6 +178,40 @@ pce_joint_mVax_pVax <- rep(0, length(WTP_sp))
 for (mp in 1: length(WTP_sp)){
   NHB_mp <- NHB_func(prep_joint_mVax_pVax, WTP_sp[mp])
   pce_joint_mVax_pVax[mp] <- sum(NHB_mp >0)/trials
+}
+
+####
+prep_no <- cbind(DALYS_lost_no_u, DALYS_lost_no_u, totalcost_no_u, totalcost_no_u)
+for (no in 1: length(WTP_sp)){
+NHB_no <- NHB_func(prep_no, WTP_sp[no])}
+###
+
+compare_NHB <- cbind(NHB_no, NHB_l, NHB_m, NHB_p, NHB_lp, NHB_mp)
+compare_NHB$win <- max.col(compare_NHB, ties.method = "first")
+
+pO_llAb <- rep(0, length(WTP_sp))
+for(Ol in 1: length(WTP_sp)){
+  pO_llAb[Ol] <- sum(compare_NHB$win == 2)/trials
+}
+
+pO_mVax <- rep(0, length(WTP_sp))
+for(Om in 1: length(WTP_sp)){
+  pO_mVax[Om] <- sum(compare_NHB$win == 3)/trials
+}
+
+pO_pVax <- rep(0, length(WTP_sp))
+for(Op in 1: length(WTP_sp)){
+  pO_mVax[Op] <- sum(compare_NHB$win == 4)/trials
+}
+
+pO_llAb_pVax <- rep(0, length(WTP_sp))
+for(Olp in 1: length(WTP_sp)){
+  pO_llAb_pVax[Olp] <- sum(compare_NHB$win == 5)/trials
+}
+
+pO_mVax_pVax <- rep(0, length(WTP_sp))
+for(Omp in 1: length(WTP_sp)){
+  pO_mVax_pVax[Omp] <- sum(compare_NHB$win == 6)/trials
 }
 
 ####

@@ -58,4 +58,20 @@ text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
 legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
        lty = 1, lwd = 2, col = c(UMBforest, UMBblue, UMBplum, UMBslate, UMBgray))
 
+# plot probability optimal across WTP values
+plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
+     type = "l", lwd = 2, col = UMBplum,
+     xlab = "Society willingness to pay (USD)",
+     ylab = "Probability optimal")
+lines(WTP_sp, pO_llAb, col = UMBforest, lty = 1, lwd = 2)
+lines(WTP_sp, pO_mVax, col = UMBblue, lty = 1, lwd = 2)
+lines(WTP_sp, pO_llAb_pVax, col = UMBslate, lty = 1, lwd = 2)
+lines(WTP_sp, pO_mVax_pVax, col = UMBcharcoal, lty = 1, lwd =2)
+abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
+abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
+       lty = 1, lwd = 2, col = c(UMBforest, UMBblue, UMBplum, UMBslate, UMBgray))
+
 
