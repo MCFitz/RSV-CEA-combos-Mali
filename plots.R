@@ -71,7 +71,7 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
+legend("right", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
        lty = 1, lwd = 2, col = c(UMBforest, UMBblue, UMBplum, UMBslate, UMBgray))
 
 

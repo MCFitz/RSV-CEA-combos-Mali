@@ -6,7 +6,7 @@ pop_mali <- 18540000 # 2017 population in Mali (World Bank)
 br_crude <- 42 # crude birth rate per 1000 people in Mali, 2017 (World Bank)
 pop_bc <- pop_mali * (br_crude/1000) # total number of infants born in one year in Mali
 
-# create a matrix for the number of infants alive in birth cohort through first sixth months of life
+# create a matrix for the number of infants in birth cohort 
 days_per_month <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 days_per_year <- days_per_month/365
 num_infants <- days_per_year* pop_bc

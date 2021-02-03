@@ -147,71 +147,78 @@ totalcost_joint_mVax_pVax_u <- sum(mVax_admin * coverage[2] * num_infants * cost
 
 prep_llAb <- cbind(DALYS_lost_no_u, DALYS_lost_llAb_u, totalcost_llAb_u, totalcost_no_u)
 pce_llAb <- rep(0, length(WTP_sp))
+NHB_l <- matrix(0, trials, length(WTP_sp))
 for (l in 1: length(WTP_sp)){
-  NHB_l <- NHB_func(prep_llAb, WTP_sp[l])
-  pce_llAb[l] <- sum(NHB_l >0)/trials
+  NHB_l[,l] <- NHB_func(prep_llAb, WTP_sp[l])
+  pce_llAb[l] <- sum(NHB_l[,l] >0)/trials
 }
 
 prep_mVax <- cbind(DALYS_lost_no_u, DALYS_lost_mVax_u, totalcost_mVax_u, totalcost_no_u)
 pce_mVax <- rep(0, length(WTP_sp))
+NHB_m <- matrix(0, trials, length(WTP_sp))
 for (m in 1: length(WTP_sp)){
-  NHB_m <- NHB_func(prep_mVax, WTP_sp[m])
-  pce_mVax[m] <- sum(NHB_m >0)/trials
+  NHB_m[,m] <- NHB_func(prep_mVax, WTP_sp[m])
+  pce_mVax[m] <- sum(NHB_m[,m] >0)/trials
 }
 
 prep_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_pVax_u, totalcost_pVax_u, totalcost_no_u)
 pce_pVax <- rep(0, length(WTP_sp))
+NHB_p <- matrix(0, trials, length(WTP_sp))
 for (p in 1: length(WTP_sp)){
-  NHB_p <- NHB_func(prep_pVax, WTP_sp[p])
-  pce_pVax[p] <- sum(NHB_p >0)/trials
+  NHB_p[,p] <- NHB_func(prep_pVax, WTP_sp[p])
+  pce_pVax[p] <- sum(NHB_p[,p] >0)/trials
 }
 
 prep_joint_llAb_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u, totalcost_no_u)
 pce_joint_llAb_pVax <- rep(0, length(WTP_sp))
+NHB_lp <- matrix(0, trials, length(WTP_sp))
 for (lp in 1: length(WTP_sp)){
-  NHB_lp <- NHB_func(prep_joint_llAb_pVax, WTP_sp[lp])
-  pce_joint_llAb_pVax[lp] <- sum(NHB_lp >0)/trials
+  NHB_lp[,lp] <- NHB_func(prep_joint_llAb_pVax, WTP_sp[lp])
+  pce_joint_llAb_pVax[lp] <- sum(NHB_lp[,lp] >0)/trials
 }
 
 prep_joint_mVax_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_joint_mVax_pVax_u, totalcost_joint_mVax_pVax_u, totalcost_no_u)
 pce_joint_mVax_pVax <- rep(0, length(WTP_sp))
+NHB_mp <- matrix(0, trials, length(WTP_sp))
 for (mp in 1: length(WTP_sp)){
-  NHB_mp <- NHB_func(prep_joint_mVax_pVax, WTP_sp[mp])
-  pce_joint_mVax_pVax[mp] <- sum(NHB_mp >0)/trials
+  NHB_mp[,mp] <- NHB_func(prep_joint_mVax_pVax, WTP_sp[mp])
+  pce_joint_mVax_pVax[mp] <- sum(NHB_mp[,mp] >0)/trials
 }
 
 ####
 prep_no <- cbind(DALYS_lost_no_u, DALYS_lost_no_u, totalcost_no_u, totalcost_no_u)
+NHB_no <- matrix(0, trials, length(WTP_sp))
 for (no in 1: length(WTP_sp)){
-NHB_no <- NHB_func(prep_no, WTP_sp[no])}
+NHB_no[,no] <- NHB_func(prep_no, WTP_sp[no])}
 ###
 
-compare_NHB <- cbind(NHB_no, NHB_l, NHB_m, NHB_p, NHB_lp, NHB_mp)
-compare_NHB$win <- max.col(compare_NHB, ties.method = "first")
+compare_NHB <- array(c(NHB_no, NHB_l, NHB_m, NHB_p, NHB_lp, NHB_mp), dim = c(trials, length(WTP_sp), 6))
+# win_NHB <- max.col(compare_NHB, ties.method = "first")
+win_NHB <- apply(compare_NHB, MARGIN = c(1,2), which.max)
 
 pO_llAb <- rep(0, length(WTP_sp))
 for(Ol in 1: length(WTP_sp)){
-  pO_llAb[Ol] <- sum(compare_NHB$win == 2)/trials
+  pO_llAb[Ol] <- sum(win_NHB[,Ol] == 2)/trials
 }
 
 pO_mVax <- rep(0, length(WTP_sp))
 for(Om in 1: length(WTP_sp)){
-  pO_mVax[Om] <- sum(compare_NHB$win == 3)/trials
+  pO_mVax[Om] <- sum(win_NHB[,Om] == 3)/trials
 }
 
 pO_pVax <- rep(0, length(WTP_sp))
 for(Op in 1: length(WTP_sp)){
-  pO_mVax[Op] <- sum(compare_NHB$win == 4)/trials
+  pO_pVax[Op] <- sum(win_NHB[,Op] == 4)/trials
 }
 
 pO_llAb_pVax <- rep(0, length(WTP_sp))
 for(Olp in 1: length(WTP_sp)){
-  pO_llAb_pVax[Olp] <- sum(compare_NHB$win == 5)/trials
+  pO_llAb_pVax[Olp] <- sum(win_NHB[,Olp] == 5)/trials
 }
 
 pO_mVax_pVax <- rep(0, length(WTP_sp))
 for(Omp in 1: length(WTP_sp)){
-  pO_mVax_pVax[Omp] <- sum(compare_NHB$win == 6)/trials
+  pO_mVax_pVax[Omp] <- sum(win_NHB[,Omp] == 6)/trials
 }
 
 ####
@@ -228,7 +235,7 @@ ICERs_base <- additional_cost/DALYs_averted
 ICER_mVax_pVax <- (totalcost_joint_mVax_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_mVax_pVax)
 # Calculate ICER moving from pVax to llAb + pVax:
 ICER_llAb_pVax <- (totalcost_joint_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_llAb_pVax)
-# Calculate ICER mocing from pVax to llAb + pVax with 20% interference
+# Calculate ICER moving from pVax to llAb + pVax with 20% interference
 ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_intflo_llAb_pVax)
 
 interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
