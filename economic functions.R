@@ -61,3 +61,5 @@ CET_Mali_GDP <- 891
 GDP3 <- 3* CET_Mali_GDP
 WTP_5k <- 5000
 WTP_sp <- c(0.01, seq(10, 20*CET_Mali_GDP, by = 5))
+
+#####

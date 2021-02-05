@@ -47,3 +47,4 @@ mort_inpat_func <- function(CFR_inpat, num_inpat, CFR_nr, num_nr_care){
   (CFR_inpat * num_inpat) + (CFR_nr * num_nr_care)
 }
 
+#####

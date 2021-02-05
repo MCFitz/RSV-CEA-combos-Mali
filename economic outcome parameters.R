@@ -9,3 +9,4 @@ cost_outpatient <- 6.56
 cost_hosp_u <- rnorm(trials, cost_hosp, 15.90)
 cost_outpatient_u <- rnorm(trials, cost_outpatient, 0.67)
 
+#####

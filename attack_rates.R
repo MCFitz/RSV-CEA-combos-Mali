@@ -52,3 +52,5 @@ for (a in 1:12) {
 
 temp4_u <- array(rep(rep(cal_AR_y, each = 12), trials), dim = c(12, 23, trials))
 AR_y_u <- temp4_u/(mali_inc/1000)*temp3_u
+
+#####

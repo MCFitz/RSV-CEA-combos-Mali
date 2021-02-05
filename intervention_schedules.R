@@ -93,10 +93,3 @@ for (i in 1:12){
 }
 
 ######
-# intervention combos
-# llAb + pVax
-# where there is overlap
-mat_eff_ovrlp_llAb_pVax <- mat_eff_llAb * mat_eff_pVax
-
-
-

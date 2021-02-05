@@ -87,3 +87,5 @@ legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax, no
 # lines(WTP_sp, pO_mVax_pVax_5k, col = UMBcharcoal, lty = 1, lwd =2)
 # legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
 #        lty = 1, lwd = 2, bty = "n", col = c(UMBred, UMBforest, UMBblue, UMBplum, UMByellow, UMBcharcoal))
+
+######
