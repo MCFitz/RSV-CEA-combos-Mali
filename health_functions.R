@@ -7,7 +7,7 @@ pd_calc <- function (Ve, cov, AR, ad) {
 
 pd_joint <- function (Ve1, Ve2, cov1, cov2, AR, ad1, ad2, intf){
   pd1 <- AR* (1-ad1) + AR* ad1* cov1* (1-Ve1) + AR* ad1* (1-cov1)
-  pd2 <- pd1* (1-ad2) + pd1* ad2* cov2* (1-(Ve2*intf)) + pd1* ad2* (1-cov2)
+  pd2 <- pd1* (1-ad2) + pd1* ad2* cov2* ((1-intf) *Ve2) + pd1* ad2* (1-cov2)
 }
 
 RSVcases <- function (pd, babies) {

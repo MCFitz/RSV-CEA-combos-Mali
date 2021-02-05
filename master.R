@@ -7,6 +7,11 @@ source("intervention_schedules.R")
 source("economic functions.R")
 source("economic outcome parameters.R")
 
+# generic functions for code
+rep.col<-function(x,n){
+  matrix(rep(x,each=n), ncol=n, byrow=TRUE)
+}
+
 # Create data frame for running intervention scenarios
 # Add in: "ss_llAb", "ss_mVax", "ss1_pVax", "ss2_pVax"
 int_names <- c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf", "llAb + pVax, hi intf", "mVax + pVax, hi intf", "llAb + pVax, lo intf", "mVax + pVax, lo intf")
@@ -23,10 +28,11 @@ cases_mVax <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax),
 cases_pVax <- RSVcases(pd_calc(efficacy[3], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
 cases_joint_llAb_pVax <-  RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[4]), num_infants)
 cases_joint_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[5]), num_infants)
-cases_intfhi_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[6]), num_infants)
-cases_intfhi_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[7]), num_infants)
-cases_intflo_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[8]), num_infants)
-cases_intflo_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[9]), num_infants)
+cases_intflo_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[6]), num_infants)
+cases_intflo_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[7]), num_infants)
+cases_intfhi_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[8]), num_infants)
+cases_intfhi_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[9]), num_infants)
+
 
 # Calculate number of RSV cases w/ uncertainty
 cases_no_u <- apply(AR_y_u, 3, RSVcases, babies = num_infants)
@@ -57,10 +63,24 @@ cases_joint_llAb_pVax_u <- apply(pd_llAb_pVax_array, 3, RSVcases, babies = num_i
 
 pd_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (mp in 1:trials) {
-  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_llAb, mat_eff_pVax, intf[5])
+  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax, intf[5])
 }
 cases_joint_mVax_pVax_u <- apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants)
 
+# # Calculating number of cases across efficacy reduction (intf) from 0 to 100%
+# eff_red_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials, length(eff_red)))
+# for (lp in 1:trials) {
+#   for(er in 1:length(eff_red)){
+#     eff_red_llAb_pVax_array[,,lp,er] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax, intf[er])
+# }}
+# cases_eff_red_llAb_pVax_u <- apply(eff_red_llAb_pVax_array, c(3,4), RSVcases, babies = num_infants)
+# 
+# eff_red_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials, length(eff_red)))
+# for (mp in 1:trials) {
+#   for(er in 1:length(eff_red)){
+#     eff_red_mVax_pVax_array[,,mp,er] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax, intf[er])
+#   }}
+# cases_eff_red_mVax_pVax_u <- apply(eff_red_mVax_pVax_array, c(3,4), RSVcases, babies = num_infants)
 
 # Calculate number of deaths under status quo and each intervention
 deaths_no <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
@@ -185,16 +205,22 @@ for (mp in 1: length(WTP_sp)){
   pce_joint_mVax_pVax[mp] <- sum(NHB_mp[,mp] >0)/trials
 }
 
-####
+# Calculate probability of each strategy being optimal across WTP
+
+# calculate NHB for no intervention at all
 prep_no <- cbind(DALYS_lost_no_u, DALYS_lost_no_u, totalcost_no_u, totalcost_no_u)
 NHB_no <- matrix(0, trials, length(WTP_sp))
 for (no in 1: length(WTP_sp)){
 NHB_no[,no] <- NHB_func(prep_no, WTP_sp[no])}
-###
 
+# compare NHB across all strategies
 compare_NHB <- array(c(NHB_no, NHB_l, NHB_m, NHB_p, NHB_lp, NHB_mp), dim = c(trials, length(WTP_sp), 6))
-# win_NHB <- max.col(compare_NHB, ties.method = "first")
 win_NHB <- apply(compare_NHB, MARGIN = c(1,2), which.max)
+
+pO_no <- rep(0, length(WTP_sp))
+for(no in 1: length(WTP_sp)){
+  pO_no[no] <- sum(win_NHB[,no] == 1)/trials
+}
 
 pO_llAb <- rep(0, length(WTP_sp))
 for(Ol in 1: length(WTP_sp)){
@@ -220,6 +246,48 @@ pO_mVax_pVax <- rep(0, length(WTP_sp))
 for(Omp in 1: length(WTP_sp)){
   pO_mVax_pVax[Omp] <- sum(win_NHB[,Omp] == 6)/trials
 }
+
+# Calculate the probability of each strategy being optimal at WTP = $5000
+# and as the efficacy reduction in pVax as a secondary intervention increases
+eff_red <- c(0.01, seq(5, 100, by = 5))
+
+NHB_no_5k <-rep.col(NHB_func(prep_no, WTP_5k), length(eff_red))
+NHB_l_5k <- rep.col(NHB_func(prep_llAb, WTP_5k), length(eff_red))
+NHB_m_5k <- rep.col(NHB_func(prep_mVax, WTP_5k), length(eff_red))
+NHB_p_5k <- rep.col(NHB_func(prep_pVax, WTP_5k), length(eff_red))
+
+# compare_NHB_5k <- array(c(NHB_no_5k, NHB_l_5k, NHB_m_5k, NHB_p_5k, NHB_lp_5k, NHB_mp_5k), dim = c(trials, length(eff_red), 6))
+# win_NHB_5k <- apply(compare_NHB_5k, MARGIN = c(1,2), which.max)
+
+# pO_no_5k <- rep(0, length(eff_red))
+# for(no in 1: length(eff_red)){
+#   pO_no_5k[no] <- sum(win_NHB_5k[,no] == 1)/trials
+# }
+# 
+# pO_llAb_5k <- rep(0, length(eff_red))
+# for(Ol in 1: length(eff_red)){
+#   pO_llAb_5k[Ol] <- sum(win_NHB_5k[,Ol] == 2)/trials
+# }
+# 
+# pO_mVax_5k <- rep(0, length(eff_red))
+# for(Om in 1: length(eff_red)){
+#   pO_mVax_5k[Om] <- sum(win_NHB_5k[,Om] == 3)/trials
+# }
+# 
+# pO_pVax_5k <- rep(0, length(eff_red))
+# for(Op in 1: length(eff_red)){
+#   pO_pVax_5k[Op] <- sum(win_NHB_5k[,Op] == 4)/trials
+# }
+# 
+# pO_llAb_pVax_5k <- rep(0, length(eff_red))
+# for(Olp in 1: length(eff_red)){
+#   pO_llAb_pVax_5k[Olp] <- sum(win_NHB_5k[,Olp] == 5)/trials
+# }
+# 
+# pO_mVax_pVax_5k <- rep(0, length(eff_red))
+# for(Omp in 1: length(eff_red)){
+#   pO_mVax_pVax_5k[Omp] <- sum(win_NHB_5k[,Omp] == 6)/trials
+# }
 
 ####
 additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no,
