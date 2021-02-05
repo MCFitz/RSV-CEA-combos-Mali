@@ -1,5 +1,5 @@
 # Master Script
-trials <- 10000
+trials <- 100
 source("health_functions.R")
 source("health_outcome_parameters.R")
 source("attack_rates.R")
@@ -68,14 +68,23 @@ for (mp in 1:trials) {
 cases_joint_mVax_pVax_u <- apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants)
 
 # Calculating number of cases across efficacy reduction (intf) from 0 to 100%
-eff_red <- c(0.01, seq(5, 100, by = 5))
+eff_red <- c(0.01, seq(0.05, 1, by = 0.05))
+
+# suggested structure:
+# 1. create a function that takes a specific efficacy reduction and the other inputs (AR_blah)
+# and then gives you the new case count
 
 eff_red_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials, length(eff_red)))
+
+er_lp_cases <- matrix(NA, trials, length(eff_red))
+
 for (lp in 1:trials) {
   for(er in 1:length(eff_red)){
-    eff_red_llAb_pVax_array[,,lp,er] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax, intf[er])
+    temp <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], 
+                     mat_eff_llAb, mat_eff_pVax, eff_red[er])
+    er_lp_cases[lp,er] <- RSVcases(temp, babies = num_infants)
 }}
-cases_eff_red_llAb_pVax_u <- apply(eff_red_llAb_pVax_array, c(3,4), RSVcases, babies = num_infants)
+# cases_eff_red_llAb_pVax_u <- apply(eff_red_llAb_pVax_array, c(3,4), RSVcases, babies = num_infants)
 
 eff_red_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials, length(eff_red)))
 for (mp in 1:trials) {
