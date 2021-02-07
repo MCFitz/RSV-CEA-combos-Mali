@@ -67,31 +67,24 @@ for (mp in 1:trials) {
 }
 cases_joint_mVax_pVax_u <- apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants)
 
-# Calculating number of cases across efficacy reduction (intf) from 0 to 100%
+# Calculating number of cases across pVax efficacy reduction from 0 to 100%
 eff_red <- c(0.01, seq(0.05, 1, by = 0.05))
 
-# suggested structure:
-# 1. create a function that takes a specific efficacy reduction and the other inputs (AR_blah)
-# and then gives you the new case count
-
-eff_red_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials, length(eff_red)))
-
 er_lp_cases <- matrix(NA, trials, length(eff_red))
-
 for (lp in 1:trials) {
   for(er in 1:length(eff_red)){
-    temp <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], 
+    temp_lp <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], 
                      mat_eff_llAb, mat_eff_pVax, eff_red[er])
-    er_lp_cases[lp,er] <- RSVcases(temp, babies = num_infants)
+    er_lp_cases[lp, er] <- RSVcases(temp_lp, babies = num_infants)
 }}
-# cases_eff_red_llAb_pVax_u <- apply(eff_red_llAb_pVax_array, c(3,4), RSVcases, babies = num_infants)
 
-eff_red_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials, length(eff_red)))
+er_mp_cases <- matrix(NA, trials, length(eff_red))
 for (mp in 1:trials) {
   for(er in 1:length(eff_red)){
-    eff_red_mVax_pVax_array[,,mp,er] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax, intf[er])
-  }}
-cases_eff_red_mVax_pVax_u <- apply(eff_red_mVax_pVax_array, c(3,4), RSVcases, babies = num_infants)
+    temp_mp <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp],
+                        mat_eff_mVax, mat_eff_pVax, eff_red[er])
+er_mp_cases[mp, er] <- RSVcases(temp_mp, babies = num_infants)
+}}
 
 # Calculate number of deaths under status quo and each intervention
 deaths_no <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
@@ -104,6 +97,10 @@ deaths_intfhi_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient
 deaths_intfhi_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)))
 deaths_intflo_llAb_pVax <-mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
 deaths_intflo_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
+
+# Calculate number of deaths across pVax efficacy reduction from 0 to 100%
+
+
 
 # Calculate number of deaths with uncertainty
 deaths_no_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_no_u)))
