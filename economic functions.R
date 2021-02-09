@@ -36,7 +36,7 @@ le_mali <- 58 # life expectancy in Mali (World Bank, 2017)
 
 # DALY disability weight for acute lower respiratory infections (LRTI)
 dw_LRTI_severe <- 0.133 # severe LRTI (IHME GBD, 2017), for RSV-LRTI inpatient
-dw_LRTI_severe_u <- rtriangle(trials, a = 0.088, b = 0.190 , c = 0.133) # uncertainty distribution
+dw_LRTI_severe_u <- rtriangle(trials, a = 0.088, b = 0.190 , c = 0.133)
 dw_LRTI_mod <- 0.051 # moderate LRTI (IHME GBD, 2017), for RSV-LRTI outpatient
 dw_LRTI_mod_u <- rtriangle(trials, a = 0.032, b = 0.074, c = 0.051)
 
@@ -55,6 +55,16 @@ total_cost_no <- inputs[,4]
 NHB <- (DALY_lost_no - DALY_lost_int) - (total_cost - totalcost_no) / WTP
 NHB
 }
+
+# NHB function for 2-dimmensional inputs
+NHB_func_er <- function(inputs, WTP) {
+  DALY_lost_no <- inputs[, ,1]
+  DALY_lost_int <- inputs[, ,2]
+  total_cost <- inputs[, ,3]
+  total_cost_no <- inputs[, ,4]
+  NHB_er <- (DALY_lost_no - DALY_lost_int) - (total_cost - totalcost_no) / WTP
+  NHB_er
+}  
 
 # WTP
 CET_Mali_GDP <- 891

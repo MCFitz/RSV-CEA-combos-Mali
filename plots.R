@@ -75,17 +75,17 @@ text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
 legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
        lty = 1, lwd = 2, bty = "n", col = c(UMBred, UMBforest, UMBblue, UMBplum, UMByellow, UMBcharcoal))
 
-# plot probability optimal across increasing pVax efficacy reduction
-# plot(eff_red, pO_pVax_5k, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
-#      type = "l", lwd = 2, col = UMBplum,
-#      xlab = "Efficacy reduction in pediatric vaccine as secondary intervention",
-#      ylab = "Probability optimal")
-# lines(WTP_sp, pO_no_5k, col = UMBred, lty = 1, lwd = 2)
-# lines(WTP_sp, pO_llAb_5k, col = UMBforest, lty = 1, lwd = 2)
-# lines(WTP_sp, pO_mVax_5k, col = UMBblue, lty = 1, lwd = 2)
-# lines(WTP_sp, pO_llAb_pVax_5k, col = UMByellow, lty = 1, lwd = 2)
-# lines(WTP_sp, pO_mVax_pVax_5k, col = UMBcharcoal, lty = 1, lwd =2)
-# legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
-#        lty = 1, lwd = 2, bty = "n", col = c(UMBred, UMBforest, UMBblue, UMBplum, UMByellow, UMBcharcoal))
+#plot probability optimal across increasing pVax efficacy reduction
+plot(eff_red, pO_pVax_5k, ylim = c(0, 1), xlim = c(0,1), bty = "l",
+     type = "l", lwd = 2, col = UMBplum,
+     xlab = "Efficacy reduction in pediatric vaccine as secondary intervention",
+     ylab = "Probability optimal")
+lines(eff_red, pO_no_5k, col = UMBred, lty = 1, lwd = 2)
+lines(eff_red, pO_llAb_5k, col = UMBforest, lty = 1, lwd = 2)
+lines(eff_red, pO_mVax_5k, col = UMBblue, lty = 1, lwd = 2)
+lines(eff_red, pO_llAb_pVax_5k, col = UMByellow, lty = 1, lwd = 2)
+lines(eff_red, pO_mVax_pVax_5k, col = UMBcharcoal, lty = 1, lwd =2)
+legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
+       lty = 1, lwd = 2, bty = "n", col = c(UMBred, UMBforest, UMBblue, UMBplum, UMByellow, UMBcharcoal))
 
 ######
