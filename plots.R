@@ -85,7 +85,7 @@ lines(eff_red, pO_llAb_5k, col = UMBforest, lty = 1, lwd = 2)
 lines(eff_red, pO_mVax_5k, col = UMBblue, lty = 1, lwd = 2)
 lines(eff_red, pO_llAb_pVax_5k, col = UMByellow, lty = 1, lwd = 2)
 lines(eff_red, pO_mVax_pVax_5k, col = UMBcharcoal, lty = 1, lwd =2)
-legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
+legend("right", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
        lty = 1, lwd = 2, bty = "n", col = c(UMBred, UMBforest, UMBblue, UMBplum, UMByellow, UMBcharcoal))
 
 ######

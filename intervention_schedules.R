@@ -92,4 +92,16 @@ for (i in 1:12){
   mat_eff_pVax[i,(i+3):(i+11)] <-1
 }
 
+# pVax, pre-seasonal, two doses admin at 6 & 7 months, protection delayed (2 wks?)
+pVax_older_admin <- empty_year_cohort
+for (i in 1:12){
+  pVax_older_admin[i,(i+5):(i+6)] <-1
+}
+
+# create matrix for pVax duration of efficacy
+mat_eff_older_pVax <- empty_year_cohort
+for (i in 1:12){
+  mat_eff_older_pVax[i,(i+5):(i+11)] <-1
+}
+
 ######

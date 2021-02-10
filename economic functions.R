@@ -28,9 +28,6 @@ di_yrs <- di_bc/365
 di <- rnorm(trials, 8.5, (1.5/1.96)) # uncertainty, 7-10 days (Mathers et al.)
 di_yrs_u <- di/365
 
-# install.packages("triangle")
-library("triangle")
-
 # Life Expectancy at birth, males and females combined
 le_mali <- 58 # life expectancy in Mali (World Bank, 2017)
 
