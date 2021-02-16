@@ -26,6 +26,8 @@ age_AR <- age_dat$cases / (age_dat$follow_up*12)
 ### create AR matrices for birth cohorts followed for one-year
 age_AR_y <- c(age_AR, seq(age_AR[6], age_AR[3], length = 6))
 
+AR_age_weights <- age_AR_y/ (sum(age_AR_y))
+
 temp3 <- empty_year_cohort
 for (a in 1:12) {
   temp3[a,] <- c(rep(0, times = a-1), age_AR_y, rep(0, times = 12-a))
