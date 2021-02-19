@@ -1,5 +1,5 @@
 # Master Script
-trials <- 1000
+trials <- 5000
 
 # load required packages
 library(abind)
@@ -72,14 +72,14 @@ cases_pVax_u <- apply(pd_pVax_array, 3, RSVcases, babies = num_infants)
 #intf[4]
 pd_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (lp in 1:trials) {
-  pd_llAb_pVax_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax, intf[4])
+  pd_llAb_pVax_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax, 0.5)
 }
 cases_joint_llAb_pVax_u <- apply(pd_llAb_pVax_array, 3, RSVcases, babies = num_infants)
 
 #intf[5]
 pd_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (mp in 1:trials) {
-  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax, intf[5])
+  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax, 0.5)
 }
 cases_joint_mVax_pVax_u <- apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants)
 
