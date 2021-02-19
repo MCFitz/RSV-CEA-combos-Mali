@@ -29,7 +29,7 @@ costs <- c(4.35, 4.35, 4.35, NA, NA, NA, NA, NA, NA)
 
 # fully loaded EPI visit intervention costs
 # estimate for now
-cost_EPI <- 4.86
+cost_EPI <- 3.73
 cost_prod <- 3
 
 # Calculate number of RSV cases under status quo and each intervention
@@ -179,8 +179,8 @@ deaths_pVax_older_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u
 deaths_joint_llAb_pVax_older_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_joint_llAb_pVax_older_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_joint_llAb_pVax_older_u)))
 deaths_joint_mVax_pVax_older_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, cases_joint_mVax_pVax_older_u)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, cases_joint_mVax_pVax_older_u)))
 
-# # Calculate number of deaths with uncertainty and age-weighted CFRs
-# # Switch code block ON to age-weight the CFRs (based on Lower-middle income country spline from Li et al. 2020)
+# # # Calculate number of deaths with uncertainty and age-weighted CFRs
+# # # Switch code block ON to age-weight the CFRs (based on Lower-middle income country spline from Li et al. 2020)
 # deaths_no_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_llAb_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_mVax_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights)) * AR_age_weights)))
@@ -191,17 +191,17 @@ deaths_joint_mVax_pVax_older_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_
 # deaths_pVax_older_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_pVax_older_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_pVax_older_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_joint_llAb_pVax_older_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_joint_mVax_pVax_older_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights)) * AR_age_weights)))
-
-# sum the rows
-deaths_no_u <- apply(deaths_no_u_age, MARGIN = 1, sum)
-deaths_llAb_u <- apply(deaths_llAb_u_age, MARGIN = 1, sum)
-deaths_mVax_u <- apply(deaths_mVax_u_age, MARGIN = 1, sum)
-deaths_pVax_u <- apply(deaths_pVax_u_age, MARGIN = 1, sum)
-deaths_joint_llAb_pVax_u <- apply(deaths_joint_llAb_pVax_u_age, MARGIN = 1, sum)
-deaths_joint_mVax_pVax_u <- apply(deaths_joint_mVax_pVax_u_age, MARGIN = 1, sum)
-deaths_pVax_older_u <- apply(deaths_pVax_older_u_age, MARGIN = 1, sum)
-deaths_joint_llAb_pVax_older_u <- apply(deaths_joint_llAb_pVax_older_u_age, MARGIN = 1, sum)
-deaths_joint_mVax_pVax_older_u <- apply(deaths_joint_mVax_pVax_older_u_age, MARGIN = 1, sum)
+# 
+# # # sum the rows
+# deaths_no_u <- apply(deaths_no_u_age, MARGIN = 1, sum)
+# deaths_llAb_u <- apply(deaths_llAb_u_age, MARGIN = 1, sum)
+# deaths_mVax_u <- apply(deaths_mVax_u_age, MARGIN = 1, sum)
+# deaths_pVax_u <- apply(deaths_pVax_u_age, MARGIN = 1, sum)
+# deaths_joint_llAb_pVax_u <- apply(deaths_joint_llAb_pVax_u_age, MARGIN = 1, sum)
+# deaths_joint_mVax_pVax_u <- apply(deaths_joint_mVax_pVax_u_age, MARGIN = 1, sum)
+# deaths_pVax_older_u <- apply(deaths_pVax_older_u_age, MARGIN = 1, sum)
+# deaths_joint_llAb_pVax_older_u <- apply(deaths_joint_llAb_pVax_older_u_age, MARGIN = 1, sum)
+# deaths_joint_mVax_pVax_older_u <- apply(deaths_joint_mVax_pVax_older_u_age, MARGIN = 1, sum)
 
 # Calculate number of deaths across pVax efficacy reduction from 0 to 100%
 
