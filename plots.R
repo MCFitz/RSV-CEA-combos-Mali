@@ -40,8 +40,8 @@ segments(0, 0, x1 = DALYS_lost_no - DALYS_lost_llAb, y1 = totalcost_llAb- totalc
          col = par("fg"), lty = 3, lwd = par("lwd"))
 segments(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, x1 = DALYS_lost_no - DALYS_lost_intfhi_llAb_pVax, y1 = totalcost_intfhi_llAb_pVax- totalcost_no,
          col = par("fg"), lty = 3, lwd = par("lwd"))
-legend("bottomright", legend = c("llAb", "mVax", "pVax 70% efficacy", "pVax 30% efficacy", "pVax 50% efficacy", "llAb + pVax 70% efficacy.", "llAb + pVax 30% efficacy.", "llAb + pVax 50% efficacy", "mVax + pVax 70% efficacy", "mVax + pVax 30% efficacy", "mVax + pVax 50% efficacy"),
-       bty = "n", pch = c(19,19,19,15, 17, 19,15,17,19,15,17), col = c(UMBblue, UMBforest, UMBplum, UMBplum, UMBplum, UMByellow, UMByellow, UMByellow, UMBcharcoal, UMBcharcoal, UMBcharcoal))
+legend("bottomright", legend = c("llAb", "mVax", "pVax 70% efficacy", "pVax 50% efficacy", "pVax 30% efficacy", "llAb + pVax 70% efficacy.", "llAb + pVax 50% efficacy.", "llAb + pVax 30% efficacy", "mVax + pVax 70% efficacy", "mVax + pVax 50% efficacy", "mVax + pVax 30% efficacy"),
+       bty = "n", pch = c(19,19,19,17,15,19,17,15,19,17,15), col = c(UMBblue, UMBforest, UMBplum, UMBplum, UMBplum, UMByellow, UMByellow, UMByellow, UMBcharcoal, UMBcharcoal, UMBcharcoal))
 quartz.save(file = "Figures/CE_plane.pdf", type = "pdf")
 
 # # plot cost per DALYs averted with uncertainty
@@ -59,27 +59,27 @@ quartz.save(file = "Figures/CE_plane.pdf", type = "pdf")
 # legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
 #        pch = c(19,15,17,18,10), col = c("blue","blue", "blue", "blue", "blue"))
 
-# plot probability cost-effective across WTP values
-quartz("pCE by WTP", 8, 8)
-par(xaxs="i", yaxs="i")
-plot(WTP_sp, pce_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
-     type = "l", lwd = 2, col = UMBplum,
-     xlab = "Society willingness to pay (USD)",
-     ylab = "Probability cost-effective")
-lines(WTP_sp, pce_llAb, col = UMBblue, lty = 1, lwd = 2)
-lines(WTP_sp, pce_mVax, col = UMBforest, lty = 1, lwd = 2)
-lines(WTP_sp, pce_joint_llAb_pVax, col = UMByellow, lty = 1, lwd = 2)
-lines(WTP_sp, pce_joint_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 2)
-lines(WTP_sp, pce_pVax_older, col = UMBsea, lty = 1, lwd = 2)
-lines(WTP_sp, pce_joint_llAb_pVax_older, col = UMBtan, lty = 1, lwd =2)
-lines(WTP_sp, pce_joint_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 2)
-abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
-abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 8 & 9", "llAb + pVax mo. 8 & 9", "mVax + pVax mo. 8 & 9"),
-       lty = 1, lwd = 2, bty = "n", col = c( UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
-quartz.save(file = "Figures/pCE_by_WTP.pdf", type = "pdf")
+# # plot probability cost-effective across WTP values
+# quartz("pCE by WTP", 8, 8)
+# par(xaxs="i", yaxs="i")
+# plot(WTP_sp, pce_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
+#      type = "l", lwd = 2, col = UMBplum,
+#      xlab = "Society willingness to pay (USD)",
+#      ylab = "Probability cost-effective")
+# lines(WTP_sp, pce_llAb, col = UMBblue, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_mVax, col = UMBforest, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_joint_llAb_pVax, col = UMByellow, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_joint_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_pVax_older, col = UMBsea, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_joint_llAb_pVax_older, col = UMBtan, lty = 1, lwd =2)
+# lines(WTP_sp, pce_joint_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 2)
+# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
+# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
+# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+# legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 8 & 9", "llAb + pVax mo. 8 & 9", "mVax + pVax mo. 8 & 9"),
+#        lty = 1, lwd = 2, bty = "n", col = c( UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+# quartz.save(file = "Figures/pCE_by_WTP.pdf", type = "pdf")
 
 # plot probability optimal across WTP values
 quartz("pOptimal by WTP", 8, 8)
@@ -100,7 +100,7 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("topright", legend = c("status quo","llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 8 & 9", "llAb + pVax mo. 8 & 9", "mVax + pVax mo. 8 & 9"),
+legend("topright", legend = c("status quo","llAb", "mVax", "pVax 10 & 14 wks", "llAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "llAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
 
@@ -124,7 +124,7 @@ legend("top", ncol =2, legend = c("status quo","llAb", "mVax", "pVax 10 & 14 wks
        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/efficacy_reduction_immaturity.pdf", type = "pdf")
 
-#plot probability optimal across increasing pVax efficacy 
+# plot probability optimal across increasing pVax efficacy 
 # when efficacy reduction is based on interference
 quartz("efficacy reduction, interference", 8, 8)
 par(xaxs="i", yaxs="i")
@@ -143,5 +143,10 @@ lines(eff_red, pO_mVax_pVax_older_5k, col = UMBslate, lty = 4, lwd =3)
 legend("top", ncol =2, legend = c("status quo","llAb", "mVax", "pVax 10 & 14 wks", "llAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "llAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
        lty = 4, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
+
+# two-way sensitivity plot
+m = matrix(runif(100),10,10)
+par(mar=c(0, 0, 0, 0))
+image(m, useRaster=TRUE, axes=FALSE)
 
 ######

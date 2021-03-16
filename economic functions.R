@@ -4,6 +4,16 @@ medcost_func <- function(c_hosp, num_inpat, c_out, num_outpat){
   (c_hosp * num_inpat) + (c_out * num_outpat)
 }
 
+# new medcost function (with uncertainty)
+mcost <- function(cases){
+  (cost_hosp_u * cases * p_pneum_u * p_inpatient_u * p_seek_care) + (cost_outpatient_u * cases * p_pneum_u * (1-p_inpatient_u) * p_seek_care)
+}
+
+# total cost function
+tcost <- function(admin, cov, admincost, medcost){
+  sum(admin * cov * admincost * num_infants) + medcost
+}
+
 # discounting function
 # net present value (NPV) is a function of time in years (yrs), the discount rate (dr), and the original outcome (oo)
 # discount YLL at 3% per year
