@@ -21,10 +21,10 @@ source("economic outcome parameters.R")
 
 # Create data frame for running intervention scenarios
 int_names <- c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf", "llAb + pVax, hi intf", "mVax + pVax, hi intf", "llAb + pVax, lo intf", "mVax + pVax, lo intf")
-efficacy <- c(0.70, 0.70, 0.70, NA, NA, NA, NA, NA, NA)
+efficacy <- c(0.70, 0.70, 0.70, 0.70, 0.70, 0.30, 0.30, 0.50, 0.50)
 duration <- c(5, 4, 12, NA, NA, NA, NA, NA, NA)
-intf <- c(NA, NA, NA, 0, 0, 0.25, 0.25, 0.50, 0.50) # 25% and 50% interference
-coverage <- c(0.830, 0.355, 0.77, NA, NA, NA, NA, NA, NA)
+# intf <- c(NA, NA, NA, 0, 0, 0.25, 0.25, 0.50, 0.50) # 25% and 50% interference
+coverage <- c(0.830, 0.433, 0.77, NA, NA, NA, NA, NA, NA)
 costs <- c(4.35, 4.35, 4.35, NA, NA, NA, NA, NA, NA)
 
 # fully loaded EPI visit intervention costs
@@ -37,18 +37,18 @@ cases_no <- RSVcases(pd_calc(0, 0, AR_y_bc, empty_year_cohort), num_infants)
 cases_llAb <- RSVcases(pd_calc(efficacy[1], coverage[1], AR_y_bc, mat_eff_llAb), num_infants)
 cases_mVax <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax), num_infants)
 cases_pVax <- RSVcases(pd_calc(efficacy[3], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
-cases_pVax_intflo <- RSVcases(pd_calc(efficacy[3]*(1-intf[6]), coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
-cases_pVax_intfhi <- RSVcases(pd_calc(efficacy[3]*(1-intf[8]), coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
-cases_joint_llAb_pVax <-  RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[4]), num_infants)
-cases_joint_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[5]), num_infants)
-cases_intflo_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[6]), num_infants)
-cases_intflo_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[7]), num_infants)
-cases_intfhi_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax, intf[8]), num_infants)
-cases_intfhi_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax, intf[9]), num_infants)
+cases_pVax_intflo <- RSVcases(pd_calc(efficacy[8], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
+cases_pVax_intfhi <- RSVcases(pd_calc(efficacy[6], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
+cases_joint_llAb_pVax <-  RSVcases(pd_joint(efficacy[1], efficacy[4], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
+cases_joint_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[5], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
+cases_intflo_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[8], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
+cases_intflo_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[9], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
+cases_intfhi_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[6], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
+cases_intfhi_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[7], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
 
 cases_pVax_older <- RSVcases(pd_calc(efficacy[3], coverage[3], AR_y_bc, mat_eff_older_pVax), num_infants)
-cases_joint_llAb_pVax_older  <-  RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_older_pVax, intf[4]), num_infants)
-cases_joint_mVax_pVax_older  <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_older_pVax, intf[5]), num_infants)
+cases_joint_llAb_pVax_older  <-  RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_older_pVax), num_infants)
+cases_joint_mVax_pVax_older  <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_older_pVax), num_infants)
 
 # Calculate number of RSV cases w/ uncertainty
 cases_no_u <- apply(AR_y_u, 3, RSVcases, babies = num_infants)
@@ -68,7 +68,7 @@ cases_mVax_u <- apply(pd_mVax_array, 3, RSVcases, babies = num_infants)
 #* (1-intf[8])
 pd_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (p in 1:trials) {
-  pd_pVax_array[,,p] <- pd_calc(efficacy[3]* (1-intf[8]), coverage[3], AR_y_u[,,p], mat_eff_pVax)
+  pd_pVax_array[,,p] <- pd_calc(efficacy[8], coverage[3], AR_y_u[,,p], mat_eff_pVax)
 } 
 cases_pVax_u <- apply(pd_pVax_array, 3, RSVcases, babies = num_infants)
 
@@ -82,14 +82,14 @@ cases_pVax_u_SA <- apply(pd_pVax_array, 3, RSVcases, babies = num_infants)
 #intf[4]
 pd_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (lp in 1:trials) {
-  pd_llAb_pVax_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax, 0.5)
+  pd_llAb_pVax_array[,,lp] <- pd_joint(efficacy[1], efficacy[8], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax)
 }
 cases_joint_llAb_pVax_u <- apply(pd_llAb_pVax_array, 3, RSVcases, babies = num_infants)
 
 #intf[5]
 pd_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (mp in 1:trials) {
-  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax, 0.5)
+  pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[9], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax)
 }
 cases_joint_mVax_pVax_u <- apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants)
 
@@ -101,13 +101,13 @@ cases_pVax_older_u <- apply(pd_pVax_older_array, 3, RSVcases, babies = num_infan
 
 pd_llAb_pVax_older_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (lp in 1:trials) {
-  pd_llAb_pVax_older_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_older_pVax, intf[4])
+  pd_llAb_pVax_older_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_older_pVax)
 }
 cases_joint_llAb_pVax_older_u <- apply(pd_llAb_pVax_older_array, 3, RSVcases, babies = num_infants)
 
 pd_mVax_pVax_older_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (mp in 1:trials) {
-  pd_mVax_pVax_older_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_older_pVax, intf[5])
+  pd_mVax_pVax_older_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_older_pVax)
 }
 cases_joint_mVax_pVax_older_u <- apply(pd_mVax_pVax_older_array, 3, RSVcases, babies = num_infants)
 
@@ -117,30 +117,30 @@ eff_red <- c(0.01, seq(0.05, 1, by = 0.01))
 er_p_cases <- matrix(NA, trials, length(eff_red))
 for (p in 1:trials) {
   for(er in 1:length(eff_red)){
-    temp_p <- pd_calc(efficacy[3], coverage[3], AR_y_u[,,p], mat_eff_pVax * (1 - eff_red[er]))
+    temp_p <- pd_calc(eff_red[er], coverage[3], AR_y_u[,,p], mat_eff_pVax)
     er_p_cases[p, er] <- RSVcases(temp_p, babies = num_infants)
   }}
 
 er_lp_cases <- matrix(NA, trials, length(eff_red))
 for (lp in 1:trials) {
   for(er in 1:length(eff_red)){
-    temp_lp <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], 
-                     mat_eff_llAb, mat_eff_pVax, eff_red[er])
+    temp_lp <- pd_joint(efficacy[3], eff_red[er], coverage[1], coverage[3], AR_y_u[,,lp], 
+                     mat_eff_llAb, mat_eff_pVax)
     er_lp_cases[lp, er] <- RSVcases(temp_lp, babies = num_infants)
 }}
 
 er_mp_cases <- matrix(NA, trials, length(eff_red))
 for (mp in 1:trials) {
   for(er in 1:length(eff_red)){
-    temp_mp <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp],
-                        mat_eff_mVax, mat_eff_pVax, eff_red[er])
+    temp_mp <- pd_joint(efficacy[3], eff_red[er], coverage[2], coverage[3], AR_y_u[,,mp],
+                        mat_eff_mVax, mat_eff_pVax)
 er_mp_cases[mp, er] <- RSVcases(temp_mp, babies = num_infants)
   }}
 
 er_p_older_cases <- matrix(NA, trials, length(eff_red))
 for (p in 1:trials) {
   for(er in 1:length(eff_red)){
-    temp_p <- pd_calc(efficacy[3], coverage[3], AR_y_u[,,p], mat_eff_older_pVax * (1 - eff_red[er]))
+    temp_p <- pd_calc(efficacy[3], coverage[3], AR_y_u[,,p], mat_eff_older_pVax)
     er_p_older_cases[p, er] <- RSVcases(temp_p, babies = num_infants)
   }}
 
@@ -148,7 +148,7 @@ er_lp_older_cases <- matrix(NA, trials, length(eff_red))
 for (lp in 1:trials) {
   for(er in 1:length(eff_red)){
     temp_lp_older <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], 
-                        mat_eff_llAb, mat_eff_older_pVax, eff_red[er])
+                        mat_eff_llAb, mat_eff_older_pVax)
     er_lp_older_cases[lp, er] <- RSVcases(temp_lp_older, babies = num_infants)
   }}
 
@@ -156,7 +156,7 @@ er_mp_older_cases <- matrix(NA, trials, length(eff_red))
 for (mp in 1:trials) {
   for(er in 1:length(eff_red)){
     temp_mp_older <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp],
-                        mat_eff_mVax, mat_eff_older_pVax, eff_red[er])
+                        mat_eff_mVax, mat_eff_older_pVax)
     er_mp_older_cases[mp, er] <- RSVcases(temp_mp_older, babies = num_infants)
   }}
 
@@ -322,7 +322,7 @@ totalcost_intfhi_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs
 totalcost_intflo_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_llAb_pVax
 totalcost_intflo_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_mVax_pVax
 
-totalcost_pVax_older <- sum(pVax_older_admin * coverage[3] * num_infants * (cost_EPI + cost_prod)) + medcost_pVax_older
+totalcost_pVax_older <- sum(pVax_older_admin * coverage[3] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_pVax_older
 totalcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * coverage[3] * num_infants *  (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_llAb_pVax_older
 totalcost_joint_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * coverage[3] * num_infants *  (0.5*cost_EPI + 0.5*1.35 +cost_prod)) + medcost_joint_mVax_pVax_older
 
@@ -335,7 +335,7 @@ totalcost_pVax_u_SA <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + 
 totalcost_joint_llAb_pVax_u <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_llAb_pVax_u
 totalcost_joint_mVax_pVax_u <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_mVax_pVax_u
 
-totalcost_pVax_older_u <- sum(pVax_older_admin * coverage[3] * num_infants * (cost_EPI + cost_prod)) + medcost_pVax_u_older
+totalcost_pVax_older_u <- sum(pVax_older_admin * coverage[3] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_pVax_u_older
 totalcost_joint_llAb_pVax_older_u <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_llAb_pVax_u_older
 totalcost_joint_mVax_pVax_older_u <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_mVax_pVax_u_older
 
@@ -344,7 +344,7 @@ totalcost_er_pVax <-  sum(pVax_admin * coverage[1] * num_infants * costs[1]) + m
 totalcost_er_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_er_llAb_pVax
 totalcost_er_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_er_mVax_pVax
 
-totalcost_er_pVax_older <- sum(pVax_older_admin * coverage[1] * num_infants * (cost_EPI + cost_prod)) + medcost_er_pVax_older
+totalcost_er_pVax_older <- sum(pVax_older_admin * coverage[1] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_er_pVax_older
 totalcost_er_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * coverage[3] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_er_llAb_pVax_older
 totalcost_er_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * coverage[3] * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_er_mVax_pVax_older
 

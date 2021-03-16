@@ -89,7 +89,7 @@ for (i in 1:12){
 # create matrix for pVax duration of efficacy
 mat_eff_pVax <- empty_year_cohort
 for (i in 1:12){
-  endpoint <- min((i+15), 23)
+  endpoint <- min((i+15), 35)
   mat_eff_pVax[i,(i+4):endpoint] <-1
 }
 
@@ -102,7 +102,7 @@ for (i in 1:12){
 # create matrix for pVax duration of efficacy
 mat_eff_older_pVax <- empty_year_cohort
 for (i in 1:12){
-  endpoint_ol <- min((i+20), 23)
+  endpoint_ol <- min((i+20), 35)
   mat_eff_older_pVax[i,(i+9):endpoint_ol] <-1
 }
 
