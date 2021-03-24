@@ -144,9 +144,13 @@ legend("top", ncol =2, legend = c("status quo","llAb", "mVax", "pVax 10 & 14 wks
        lty = 4, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
-# two-way sensitivity plot
-m = matrix(runif(100),10,10)
-par(mar=c(0, 0, 0, 0))
-image(m, useRaster=TRUE, axes=FALSE)
+# two-way sensitivity plot 1
+# cost of adding EPI visit vs efficacy of pVax
+quartz("cost EPI vs efficacy pVax", 8, 8)
+par(mar = c(5.1, 4.1, 4.1, 2.1))
+par(xaxs="i", yaxs="i")
+image(x = c(eff_red[1]- 0.005, eff_red + 0.005)*100 , y = c(EPI_cost[1]- 0.05, EPI_cost + 0.05), z = t(figdata), col = c(UMBred, NA, NA, NA, UMByellow, NA, NA, UMBtan, NA, NA),
+      xlab="Efficacy in pediatric vaccine administered at 10 & 14 weeks (%)", ylab="Cost of adding a new immunization visit (USD)")
+quartz.save(file = "Figures/costEPI_effpVax", type = "pdf")
 
 ######

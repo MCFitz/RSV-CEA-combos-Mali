@@ -16,7 +16,8 @@ getmode <- function (x) {
   xtab <- table(x)
   modes <- xtab[max(xtab)==xtab]
   themodes <- as.numeric(names(modes))
-  themodes
+  tm <- ifelse(length(themodes) ==1, themodes, 10)
+  tm
 }
 
 # source all necessary scripts
@@ -119,7 +120,7 @@ for (mp in 1:trials) {
 cases_joint_mVax_pVax_older_u <- apply(pd_mVax_pVax_older_array, 3, RSVcases, babies = num_infants)
 
 # Calculating number of cases across pVax efficacy (for 10 & 14 wk doses) from 0 to 100% (due to interference)
-eff_red <- c(0.01, seq(0.05, 1, by = 0.01))
+eff_red <- seq(0.0, 1, by = 0.01)
 
 # pediatric vaccine
 er_p_cases <- matrix(NA, trials, length(eff_red))
@@ -622,39 +623,3 @@ ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_
 interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
 
 #####
-# for two-way sensitivity analysis figure
-# cost of adding new EPI visit vs. pVax vaccine efficacy at 10 & 14 wks.
-# to calculate NHBs, inputs needed are total costs and DALYs lost
-
-winner <- function (EPIcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
-  pVax_old_tcost <- sum(pVax_older_admin * cov_pVax_o* num_infants * (0.5* EPIcost + 0.5 * cost_nd + cost_prod)) +  medcost_er_pVax_older
-  llAb_pVax_old_tcost <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* EPIcost + 0.5 * cost_nd + cost_prod)) + medcost_er_llAb_pVax_older
-  mVax_pVax_old_tcost <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* EPIcost + 0.5 * cost_nd + cost_prod)) + medcost_er_mVax_pVax_older
-  NHB_pVax_o <- (DALYS_lost_er_no - DALYS_er_pVax_older) - (pVax_old_tcost - medcost_no_u) / WTP
-  NHB_llAb_pVax_o <- (DALYS_lost_er_no - DALYS_er_llAb_pVax_older) - (llAb_pVax_old_tcost - medcost_no_u) / WTP
-  NHB_mVax_pVax_o <- (DALYS_lost_er_no - DALYS_er_mVax_pVax_older) - (mVax_pVax_old_tcost - medcost_no_u) / WTP
-  NHBall <- array(c(NHB1, NHB2, NHB3, NHB4, NHB5, NHB6, NHB_pVax_o, NHB_llAb_pVax_o, NHB_mVax_pVax_o), dim = c(trials, length(eff_red), 9))
-  winners <- apply(NHBall, MARGIN = c(1,2), FUN = which.max)
-  wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
-  wintakeall
-}
-
-EPI_cost <- seq(0, 8, by = 0.20)
-
-figdata <- matrix(NA, nrow = 12, ncol = length(eff_red))
-for (epi in 1:12) {
-  figdata [epi,] <- winner(epi, WTP_5k, NHB_no_5k, NHB_l_5k, NHB_m_5k,  NHB_p_5k_er, NHB_lp_5k, NHB_mp_5k)
-}
-
-# rotate so x-axis = efficacy in pVax at younger ages from 0 to 100 percent
-# and the y-axis = cost of creating a new EPI visit for older infants receiving pVax
-par(mar = c(5.1, 4.1, 4.1, 2.1))
-par(xaxs="i", yaxs="i")
-rotate <- function(x) t(apply(x, 2, rev))
-image.plot(rotate(figdata), axes = TRUE, col = c(UMBred, UMByellow, UMBtan), legend.shrink = 0.5, legend.mar = 10.1,
-           xlab="Efficacy in pediatric vaccine administered at 10 & 14 weeks", ylab="Cost of adding a new immunization visit")
-
-# legend = c("status quo", "llAb", "mVax", "pVax 10 & 14 wks", "llAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks",
-#            "pVax 8 & 9 mos", "llAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos")
-
-
