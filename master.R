@@ -1,11 +1,11 @@
 # Master Script
-trials <- 1000
+trials <- 5000
 
 # load required packages
 library(abind)
 library(readr)
 library("triangle")
-library("fields")
+# library("fields")
 
 # generic functions for code
 rep.col<-function(x,n){
@@ -496,6 +496,12 @@ NHB_mp_older_5k <- rep.col(NHB_func(prep_joint_mVax_pVax_older, WTP_5k), length(
 
 DALYS_lost_er_no <- rep.col(DALYS_lost_no_u, length(eff_red))
 totalcost_er_no <- rep.col(totalcost_no_u, length(eff_red))
+
+# Calculate NHB for strategies in SA #4 at WTP  = 1 X GDP
+NHB_no_GDP <- NHB_func(prep_no, CET_Mali_GDP)
+NHB_m_GDP <- NHB_func(prep_mVax, CET_Mali_GDP)
+NHB_mp_GDP <- NHB_func(prep_joint_mVax_pVax, CET_Mali_GDP)
+NHB_mp_older_GDP <- NHB_func(prep_joint_mVax_pVax_older, CET_Mali_GDP)
 
 # reduction in efficacy of pVax driven by immaturity
 prep_p_5k <- array(c(DALYS_lost_er_no, DALYS_er_pVax, totalcost_er_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
