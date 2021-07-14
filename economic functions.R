@@ -63,7 +63,7 @@ NHB <- (DALY_lost_no - DALY_lost_int) - (total_cost - totalcost_no) / WTP
 NHB
 }
 
-# NHB function for 2-dimmensional inputs
+# NHB function for 2-dimensional inputs
 NHB_func_er <- function(inputs, WTP) {
   DALY_lost_no <- inputs[, ,1]
   DALY_lost_int <- inputs[, ,2]
@@ -75,8 +75,9 @@ NHB_func_er <- function(inputs, WTP) {
 
 # WTP
 CET_Mali_GDP <- 891
+# CET_Mali_GDP <- 10000
 GDP3 <- 3* CET_Mali_GDP
 WTP_5k <- 5000
-WTP_sp <- c(0.01, seq(10, 20*CET_Mali_GDP, by = 5))
+WTP_sp <- c(0.01, seq(25, 5* CET_Mali_GDP, by = 25))
 
 #####

@@ -13,6 +13,10 @@ UMBforest <- rgb(51, 70, 13, maxColorValue = 255)
 UMBsea <- rgb(180, 204, 149, maxColorValue = 255)
 UMBtan <- rgb(200, 177, 139, maxColorValue = 255)
 
+# make standard vector for colors
+UMB1 <- c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal,
+          UMBsea, UMBtan, UMBslate)
+
 # For figures on slides, make font larger
 # cex.lab = 1.5, cex.axis = 1.5
 
@@ -101,10 +105,10 @@ lines(WTP_sp, pO_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 3)
 lines(WTP_sp, pO_pVax_older, col = UMBsea, lty = 1, lwd = 3)
 lines(WTP_sp, pO_llAb_pVax_older, col = UMBtan, lty = 1, lwd = 3)
 lines(WTP_sp, pO_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 3)
-abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
 legend("topright", ncol = 2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
@@ -182,7 +186,7 @@ par(xaxs="i", yaxs="i")
 image(x = c(eff_red[1]- 0.005, eff_red + 0.005)*100 ,
       y = c(EPI_cost[1]- 0.05, EPI_cost + 0.05),
       z = t(figdata),
-      col = c(UMBred, NA, NA, NA, UMByellow, NA, NA, UMBtan, NA, NA),
+      col = c(UMB1, NA),
       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
       ylab="Cost of adding a new immunization visit (USD)")
 quartz.save(file = "Figures/costEPI_effpVax", type = "pdf")
@@ -195,8 +199,7 @@ par(xaxs="i", yaxs="i")
 image(x = c(eff_red[1]-0.005, eff_red + 0.005)*100,
       y = c(llAb_cost[1]- 0.125, llAb_cost + 0.125),
       z = t(SA_ller),
-      col =c(UMBred, UMBforest, UMBplum, UMBcharcoal, UMBsea, UMBslate, UMBblue,
-             UMByellow, UMBtan, NA),
+      col =c(UMB1, NA),
       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
       ylab="Price of long-acting antibody product (USD)")
 quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
@@ -209,7 +212,7 @@ par(xaxs="i", yaxs="i")
 image(x = c(pVax_cost[1] - 0.125, pVax_cost + 0.125),
       y = c(llAb_cost[1] - 0.125, llAb_cost + 0.125),
       z = t(SA_llpv),
-      col = c(UMBred, UMBforest, UMBcharcoal, UMBslate, UMBplum, UMBsea, UMBblue, UMByellow, UMBtan, NA),
+      col = c(UMB1, NA),
       xlab = "Price of pediatric vaccine product per dose (USD)",
       ylab = "Price of long-acting antibody product (USD)")
 quartz.save(file = "Figures/costllAb_costpVax", type = "pdf")
@@ -226,8 +229,7 @@ legend("topleft", legend =c("status quo","long-acting mAb",
                             "long acting mAb + pediatric vaccine 8 & 9 mos",
                             "maternal vaccine + pediatric vaccine 8 & 9 mos"),
        pch=15, pt.cex=3, cex = 1.5, bty='n',
-       col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal,
-               UMBsea, UMBtan, UMBslate))
+       col = UMB1)
 # mtext("Intervention strategy", at=0.25, cex = 2)
 quartz.save(file = "Figures/legend", type = "pdf")
 

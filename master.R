@@ -1,11 +1,10 @@
 # Master Script
-trials <- 5000
+trials <- 1000
 
 # load required packages
 library(abind)
 library(readr)
 library("triangle")
-# library("fields")
 
 # generic functions for code
 rep.col<-function(x,n){
@@ -172,23 +171,68 @@ for (mp in 1:trials) {
     er_mp_older_cases[mp, er] <- RSVcases(temp_mp_older, babies = num_infants)
   }}
 
-# Calculate number of deaths under status quo and each intervention
-deaths_no <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
-deaths_llAb <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_llAb)))
-deaths_mVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_mVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_mVax)))
-deaths_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax)))
+# Calculate number of inpatient cases for low-income countries from Shi (by narrow age-band )
+# inpat_no_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_llAb_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_mVax_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_pVax_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_llAb_pVax_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_mVax_pVax_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_pVax_older_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_llAb_pVax_older_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_mVax_pVax_older_u <- apply(inpat_func(p_inpatient_shi_li, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+
+# for LMICs from Shi (by narrow age-band)
+# inpat_no_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_llAb_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_mVax_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_pVax_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_llAb_pVax_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_mVax_pVax_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_pVax_older_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_llAb_pVax_older_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+# inpat_joint_mVax_pVax_older_u <- apply(inpat_func(p_inpatient_shi_lmic, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+
+# For UMICs from Shi (by narrow age-band)
+inpat_no_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_llAb_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_mVax_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_pVax_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_joint_llAb_pVax_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_joint_mVax_pVax_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_pVax_older_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_joint_llAb_pVax_older_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+inpat_joint_mVax_pVax_older_u <- apply(inpat_func(p_inpatient_shi_umic, pneum_func(p_pneum_u, rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights))* AR_age_weights)), MARGIN = 1, sum)
+
+# Calculate number of deaths under status quo and each intervention 
+
+# Using inpatient rates from Buchwald, not age-stratified
+# deaths_no <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_no)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
+# deaths_llAb <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_llAb)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_llAb)))
+# deaths_mVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_mVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_mVax)))
+# deaths_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax)))
+# deaths_joint_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax)))
+# deaths_joint_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax)))
+# deaths_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_older)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_older)))
+# deaths_joint_llAb_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax_older)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax_older)))
+# deaths_joint_mVax_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax_older)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax_older)))
+
+deaths_no <- mort_inpat_func(CFR_inpatient, inpat_no_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_no)))
+deaths_llAb <- mort_inpat_func(CFR_inpatient, inpat_llAb_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_llAb)))
+deaths_mVax <- mort_inpat_func(CFR_inpatient, inpat_mVax_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_mVax)))
+deaths_pVax <- mort_inpat_func(CFR_inpatient, inpat_pVax_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax)))
+deaths_joint_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_joint_llAb_pVax_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax)))
+deaths_joint_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_joint_mVax_pVax_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax)))
+deaths_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_pVax_older_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_older)))
+deaths_joint_llAb_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_joint_llAb_pVax_older_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax_older)))
+deaths_joint_mVax_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_joint_mVax_pVax_older_u, CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax_older)))
+
 deaths_pVax_intflo <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intflo)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intflo)))
 deaths_pVax_intfhi <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intfhi)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intfhi)))
-deaths_joint_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax)))
-deaths_joint_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax)))
 deaths_intfhi_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_llAb_pVax)))
 deaths_intfhi_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)))
 deaths_intflo_llAb_pVax <-mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
 deaths_intflo_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
-
-deaths_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_older)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_older)))
-deaths_joint_llAb_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax_older)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_llAb_pVax_older)))
-deaths_joint_mVax_pVax_older <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax_older)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_joint_mVax_pVax_older)))
 
 # Calculate number of deaths with uncertainty
 # Switch code block ON if using flat CFR (based on low-income country spline from Li et al. 2020)
@@ -206,7 +250,7 @@ deaths_joint_mVax_pVax_older_u <- mort_inpat_func(CFR_inpatient_u, inpat_func(p_
 
 # # # Calculate number of deaths with uncertainty and age-weighted CFRs
 # # # Switch code block ON to age-weight the CFRs (based on Lower-middle income country spline from Li et al. 2020)
-# deaths_no_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights)) * AR_age_weights)))
+# deaths_no_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights))* AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_no_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_llAb_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_llAb_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_mVax_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_mVax_u, length(AR_age_weights)) * AR_age_weights)))
 # deaths_pVax_u_age <- mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_pVax_u, length(AR_age_weights)) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, rep.col(cases_pVax_u, length(AR_age_weights)) * AR_age_weights)))
@@ -500,8 +544,6 @@ totalcost_er_no <- rep.col(totalcost_no_u, length(eff_red))
 # Calculate NHB for strategies in SA #4 at WTP  = 1 X GDP
 NHB_no_GDP <- NHB_func(prep_no, CET_Mali_GDP)
 NHB_m_GDP <- NHB_func(prep_mVax, CET_Mali_GDP)
-NHB_mp_GDP <- NHB_func(prep_joint_mVax_pVax, CET_Mali_GDP)
-NHB_mp_older_GDP <- NHB_func(prep_joint_mVax_pVax_older, CET_Mali_GDP)
 
 # reduction in efficacy of pVax driven by immaturity
 prep_p_5k <- array(c(DALYS_lost_er_no, DALYS_er_pVax, totalcost_er_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))

@@ -22,7 +22,7 @@ EPI_cost <- seq(0, 8, by = 0.10)
 figdata <- matrix(NA, nrow = length(EPI_cost), ncol = length(eff_red))
 for (epi in 1:length(EPI_cost)) {
   ec <- EPI_cost[epi]
-  figdata [epi,] <- winner(ec, WTP_5k, NHB_no_5k, NHB_l_5k, NHB_m_5k,  NHB_p_5k_er, NHB_lp_5k, NHB_mp_5k)
+  figdata [epi,] <- winner(ec, WTP_5k, NHB_no_5k, NHB_l_5k, NHB_m_5k, NHB_p_5k_er, NHB_lp_5k, NHB_mp_5k)
 }
 
 # for two-way sensitivity analysis figure 2
@@ -66,7 +66,7 @@ winner_ll_er <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
   NHB_llAb <- (DALYS_lost_er_no - DALYS_lost_llAb_u) - (llAb_tcost - medcost_no_u) / WTP
   NHB_llAb_pVax <- (DALYS_lost_er_no - DALYS_er_llAb_pVax) - (llAb_pVax_tcost - medcost_no_u) / WTP
   NHB_llAb_pVax_o <- (DALYS_lost_er_no - DALYS_er_llAb_pVax_older) - (llAb_pVax_o_tcost - medcost_no_u) / WTP
-  NHB_all <- array(c(NHB1, NHB2, NHB3, NHB4, NHB5, NHB6, NHB_llAb, NHB_llAb_pVax, NHB_llAb_pVax_o), dim = c(trials, length(eff_red), 9))
+  NHB_all <- array(c(NHB1, NHB_llAb, NHB2, NHB3, NHB_llAb_pVax, NHB4, NHB5, NHB_llAb_pVax_o, NHB6), dim = c(trials, length(eff_red), 9))
   winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
   wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
   wintakeall
@@ -85,20 +85,24 @@ for (ll in 1:length(llAb_cost)) {
 # for two-way sensitivity analysis figure 4
 # cost of llAb product vs. cost of pVax product per dose
 
-pVax_cost <- seq(0, 5, by = 0.25)
+pVax_cost <- seq(0, 10, by = 0.25)
 
-winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2, NHB3, NHB4) {
+winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_llAb_u
   pVax_tcost <- sum(pVax_admin *coverage[3]* num_infants * (pvcost + cost_nd)) + medcost_pVax_u
   pVax_o_tcost <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + pvcost)) + medcost_pVax_u_older
-  llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_joint_llAb_pVax_u
+  llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_llAb_pVax_u
   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + pvcost)) + medcost_joint_llAb_pVax_u_older
+  mVax_pVax_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_mVax_pVax_u
+  mVax_pVax_o_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + pvcost)) + medcost_joint_mVax_pVax_u_older
   NHB_llAb <- (DALYS_lost_no_u - DALYS_lost_llAb_u) - (llAb_tcost - medcost_no_u) / WTP
   NHB_pVax <- (DALYS_lost_no_u - DALYS_lost_pVax_u) - (pVax_tcost - medcost_no_u) / WTP
   NHB_pVax_o <- (DALYS_lost_no_u - DALYS_lost_pVax_older_u) - (pVax_o_tcost - medcost_no_u) / WTP
   NHB_llAb_pVax <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u) - (llAb_pVax_tcost - medcost_no_u) / WTP
   NHB_llAb_pVax_o <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u) - (llAb_pVax_o_tcost - medcost_no_u) / WTP
-  NHB_all <- array(c(NHB1, NHB2, NHB3, NHB4, NHB_pVax, NHB_pVax_o, NHB_llAb, NHB_llAb_pVax, NHB_llAb_pVax_o), dim = c(trials, length(llcost), 9))
+  NHB_mVax_pVax <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u) - (mVax_pVax_tcost - medcost_no_u) / WTP
+  NHB_mVax_pVax_o <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_older_u) - (mVax_pVax_o_tcost - medcost_no_u) / WTP
+  NHB_all <- array(c(NHB1, NHB_llAb, NHB2, NHB_pVax, NHB_llAb_pVax, NHB_mVax_pVax, NHB_pVax_o, NHB_llAb_pVax_o, NHB_mVax_pVax_o), dim = c(trials, length(llcost), 9))
   winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
   wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
   wintakeall
@@ -110,7 +114,7 @@ for (lp in 1:length(llAb_cost)) {
   for(pv in 1:length(pVax_cost)){
   llc <- llAb_cost[lp]
   pvc <- pVax_cost[pv]
-  SA_llpv [lp,pv] <- winner_lp(llc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_mp_GDP, NHB_mp_older_GDP)
+  SA_llpv [lp,pv] <- winner_lp(llc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
 }
 }
 
