@@ -3,6 +3,7 @@
 # functions for calculating the probability of disease and the number of cases while removing the babies who get sick in each cohort
 pd_calc <- function (Ve, cov, AR, ad) {
   mat_out <- AR* (1-ad) + AR* ad* cov* (1-Ve) + AR* ad* (1-cov)
+  mat_out
 }
 
 pd_joint <- function (Ve1, Ve2, cov1, cov2, AR, ad1, ad2, intf){
@@ -23,28 +24,37 @@ RSVcases <- function (pd, babies) {
 
 # calculate number of infants who develop RSV-LRTI (pneumonia)
 pneum_func <- function(prob_pneum, num_cases) {
-  prob_pneum * num_cases
+  num_pneum <- prob_pneum * num_cases
 }
 
 # calculate number of infants receiving inpatient care
 inpat_func <- function(p_inpat, num_pneum){
-  p_inpat* num_pneum * p_seek_care
+  num_inpat <- p_inpat* num_pneum * p_seek_care
 }
 
 # calculate number of intants receiving outpatient care
-outpat_func <- function(p_inpat, num_pneum){
-  ((1-p_inpat) * num_pneum)
+outpat_func <- function(num_pneum, num_hosp){
+  (num_pneum - num_hosp)
 }
 
 # calculate number of infants not receiving appropriate level of care
 # 53% of infants in LMIC with RSV-LRTI do not receive appropriate level of care
-nr_care_func <- function(p_inpat, num_pneum){
-  p_inpat* num_pneum * (1-p_seek_care)
+nr_care_func <- function(num_hosp){
+  num_hosp * (1-p_seek_care)
 }
+
+# nr_care_func <- function(p_inpat, num_pneum){
+#   p_inpat * num_pneum * (1-p_seek_care)
+# }
 
 # number of deaths
 mort_inpat_func <- function(CFR_inpat, num_inpat, CFR_nr, num_nr_care){
   (CFR_inpat * num_inpat) + (CFR_nr * num_nr_care)
+}
+
+# number of children who develop wheeze/asthma
+wheeze_func <-function(p_wz, num_pneum){
+  num_pneum * (1- U5_mort) * p_wz
 }
 
 #####

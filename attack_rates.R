@@ -1,6 +1,6 @@
 #########################################
 ## build AR matrix in R
-
+# ft <- 17  # 6 months follow-up time
 ft <- 47  # 3 years follow-up time
 empty_year_cohort <-  matrix (0, 12, ncol = ft) # extrapolate age-based attack rates out to 36 months,
 # for 6-24 months project linear decline starting with AR at 6mo. and ending with AR at 3mo.
@@ -28,14 +28,20 @@ age_AR <- age_dat$cases / (age_dat$follow_up*12)
 
 ### create AR matrices for birth cohorts followed for three years
 age_AR_y <- c(age_AR, seq(age_AR[6], age_AR[3], length = 18), seq(age_AR[3], mean(age_AR[1:2]), length  = 12))
-
+# AR_age_weights <- age_AR/ (sum(age_AR))
 AR_age_weights <- age_AR_y/ (sum(age_AR_y))
+
+# temp3 <- empty_year_cohort
+# for (a in 1:12) {
+#   temp3[a,] <- c(rep(0, times = a-1), age_AR, rep(0, times = 12-a))
+# }
 
 temp3 <- empty_year_cohort
 for (a in 1:12) {
   temp3[a,] <- c(rep(0, times = a-1), age_AR_y, rep(0, times = 12-a))
 }
 
+# cal_AR_y <- c(cal_AR, cal_AR[1:5])
 cal_AR_y <- c(cal_AR, cal_AR, cal_AR, cal_AR[1:11])
 temp4 <- matrix(rep(cal_AR_y, each = 12), 12, ft)
 
