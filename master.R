@@ -1,5 +1,5 @@
 # Master Script
-trials <- 1000
+trials <- 10
 
 # load required packages
 library(ggplot2)
@@ -45,6 +45,7 @@ costs <- c(4.35, 4.35, 4.35, NA, NA, NA, NA, NA, NA)
 cov_pVax_o <- 0.70
 
 # Calculate number of RSV cases under status quo and each intervention
+# NOTE: now these are vectors
 cases_no <- RSVcases(pd_calc(0, 0, AR_y_bc, empty_year_cohort), num_infants)
 cases_llAb <- RSVcases(pd_calc(efficacy[1], coverage[1], AR_y_bc, mat_eff_llAb), num_infants)
 cases_mVax <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax), num_infants)

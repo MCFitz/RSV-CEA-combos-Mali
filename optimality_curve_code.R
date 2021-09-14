@@ -3,6 +3,7 @@
 
 # Calculate number of RSV cases w/ uncertainty
 # New goal: to create a matrix of number of cases where row = trials, column = age in months from 1:36
+# NOTE to transpose all cases matrices
 cases_no_u <- apply(AR_y_u, 3, RSVcases, babies = num_infants)
 
 pd_llAb_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
@@ -60,7 +61,7 @@ for (mp in 1:trials) {
 }
 cases_joint_mVax_pVax_older_u <- apply(pd_mVax_pVax_older_array, 3, RSVcases, babies = num_infants)
 
-
+                             
 # hospitalizations with uncertainty by age
 inpat_no_u_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_no_u, length(AR_age_weights)))* AR_age_weights)))
 inpat_llAb_u_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_llAb_u, length(AR_age_weights)))* AR_age_weights)))

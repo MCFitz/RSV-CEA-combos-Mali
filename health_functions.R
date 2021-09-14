@@ -19,7 +19,11 @@ RSVcases <- function (pd, babies) {
     cases[,m] <- pd[,m]*bb
     bb <- bb - cases[,m]
   }
-  sum(cases)
+adj <- matrix(NA, nrow = 12, ncol = 36)
+for(i in 1:12){
+  adj[i,] <- cases[i ,i:(i+35)]
+}
+adj2 <- colSums(adj)
 }
 
 # calculate number of infants who develop RSV-LRTI (pneumonia)
