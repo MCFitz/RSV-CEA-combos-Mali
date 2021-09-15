@@ -1,5 +1,5 @@
 # Master Script
-trials <- 10
+trials <- 1000
 
 # load required packages
 library(ggplot2)
@@ -44,30 +44,44 @@ costs <- c(4.35, 4.35, 4.35, NA, NA, NA, NA, NA, NA)
 
 cov_pVax_o <- 0.70
 
-# Calculate number of RSV cases under status quo and each intervention
-# NOTE: now these are vectors
-cases_no <- RSVcases(pd_calc(0, 0, AR_y_bc, empty_year_cohort), num_infants)
-cases_llAb <- RSVcases(pd_calc(efficacy[1], coverage[1], AR_y_bc, mat_eff_llAb), num_infants)
-cases_mVax <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax), num_infants)
-cases_pVax <- RSVcases(pd_calc(efficacy[3], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
-cases_joint_llAb_pVax <-  RSVcases(pd_joint(efficacy[1], efficacy[4], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
-cases_joint_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[5], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
-cases_pVax_older <- RSVcases(pd_calc(efficacy[3], cov_pVax_o, AR_y_bc, mat_eff_older_pVax), num_infants)
-cases_joint_llAb_pVax_older  <-  RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], cov_pVax_o, AR_y_bc, mat_eff_llAb, mat_eff_older_pVax), num_infants)
-cases_joint_mVax_pVax_older  <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], cov_pVax_o, AR_y_bc, mat_eff_mVax, mat_eff_older_pVax), num_infants)
+# Calculate number of RSV cases by age under status quo and each intervention
+cases_no_age <- RSVcases(pd_calc(0, 0, AR_y_bc, empty_year_cohort), num_infants)
+cases_llAb_age <- RSVcases(pd_calc(efficacy[1], coverage[1], AR_y_bc, mat_eff_llAb), num_infants)
+cases_mVax_age <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax), num_infants)
+cases_pVax_age <- RSVcases(pd_calc(efficacy[3], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
+cases_joint_llAb_pVax_age <-  RSVcases(pd_joint(efficacy[1], efficacy[4], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
+cases_joint_mVax_pVax_age <- RSVcases(pd_joint(efficacy[2], efficacy[5], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
+cases_pVax_older_age <- RSVcases(pd_calc(efficacy[3], cov_pVax_o, AR_y_bc, mat_eff_older_pVax), num_infants)
+cases_joint_llAb_pVax_older_age  <-  RSVcases(pd_joint(efficacy[1], efficacy[3], coverage[1], cov_pVax_o, AR_y_bc, mat_eff_llAb, mat_eff_older_pVax), num_infants)
+cases_joint_mVax_pVax_older_age  <- RSVcases(pd_joint(efficacy[2], efficacy[3], coverage[2], cov_pVax_o, AR_y_bc, mat_eff_mVax, mat_eff_older_pVax), num_infants)
 
-cases_pVax_intflo <- RSVcases(pd_calc(efficacy[8], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
-cases_pVax_intfhi <- RSVcases(pd_calc(efficacy[6], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
-cases_intflo_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[8], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
-cases_intflo_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[9], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
-cases_intfhi_llAb_pVax <- RSVcases(pd_joint(efficacy[1], efficacy[6], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
-cases_intfhi_mVax_pVax <- RSVcases(pd_joint(efficacy[2], efficacy[7], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
+cases_pVax_intflo_age <- RSVcases(pd_calc(efficacy[8], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
+cases_pVax_intfhi_age <- RSVcases(pd_calc(efficacy[6], coverage[3], AR_y_bc, mat_eff_pVax), num_infants)
+cases_intflo_llAb_pVax_age <- RSVcases(pd_joint(efficacy[1], efficacy[8], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
+cases_intflo_mVax_pVax_age <- RSVcases(pd_joint(efficacy[2], efficacy[9], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
+cases_intfhi_llAb_pVax_age <- RSVcases(pd_joint(efficacy[1], efficacy[6], coverage[1], coverage[3], AR_y_bc, mat_eff_llAb, mat_eff_pVax), num_infants)
+cases_intfhi_mVax_pVax_age <- RSVcases(pd_joint(efficacy[2], efficacy[7], coverage[2], coverage[3], AR_y_bc, mat_eff_mVax, mat_eff_pVax), num_infants)
 
-# Cases by age in months
-cases_no_a <- cases_no * AR_age_weights
+# Sum the cases by age vectors to get total number of cases
+cases_no <- sum(cases_no_age)
+cases_llAb <- sum(cases_llAb_age)
+cases_mVax <- sum(cases_mVax_age)
+cases_pVax <- sum(cases_pVax_age)
+cases_joint_llAb_pVax <- sum(cases_joint_llAb_pVax_age)
+cases_joint_mVax_pVax <- sum(cases_joint_mVax_pVax_age)
+cases_pVax_older <- sum(cases_pVax_older_age)
+cases_joint_llAb_pVax_older <- sum(cases_joint_llAb_pVax_age)
+cases_joint_mVax_pVax_older <- sum(cases_joint_mVax_pVax_older_age)
+
+cases_pVax_intflo <- sum(cases_pVax_intflo_age)
+cases_pVax_intfhi <- sum(cases_pVax_intfhi_age)
+cases_intflo_llAb_pVax <- sum(cases_intflo_llAb_pVax_age)
+cases_intflo_mVax_pVax <- sum(cases_intflo_mVax_pVax_age)
+cases_intfhi_llAb_pVax <- sum(cases_intfhi_llAb_pVax_age)
+cases_intfhi_mVax_pVax <- sum(cases_intfhi_mVax_pVax_age)
 
 # RSV-LRTI by age in months
-pneum_no_a <- pneum_func(p_pneum, cases_no_a)
+pneum_no_a <- pneum_func(p_pneum, cases_no_age)
 pneum_no_a_bin <- c(pneum_no_a[1], mean(pneum_no_a[2:3]), mean(pneum_no_a[2:3]), rep(mean(pneum_no_a[4:6]), 3),
                     rep(mean(pneum_no_a[7:9]), 3), rep(mean(pneum_no_a[10:12]), 3),
                     rep(mean(pneum_no_a[13:24]), 12), rep(mean(pneum_no_a[25:36]), 12))
@@ -132,27 +146,27 @@ for (mp in 1:trials) {
     er_mp_older_cases[mp, er] <- RSVcases(temp_mp_older, babies = num_infants)
   }}
 
-## NOTE to self: this is where the disconnect begins. Need to input cases by month calculated above into below hosp calc
 # hospitalizations point estimate
-inpat_no_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_no, length(AR_age_weights)))* AR_age_weights)))
-inpat_llAb_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_llAb, length(AR_age_weights)))* AR_age_weights)))
-inpat_mVax_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_mVax, length(AR_age_weights)))* AR_age_weights)))
-inpat_pVax_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_pVax, length(AR_age_weights)))* AR_age_weights)))
-inpat_joint_llAb_pVax_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_joint_llAb_pVax, length(AR_age_weights)))* AR_age_weights)))
-inpat_joint_mVax_pVax_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_joint_mVax_pVax, length(AR_age_weights)))* AR_age_weights)))
-inpat_pVax_older_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_pVax_older, length(AR_age_weights)))* AR_age_weights)))
-inpat_joint_llAb_pVax_older_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_joint_llAb_pVax_older, length(AR_age_weights)))* AR_age_weights)))
-inpat_joint_mVax_pVax_older_age <- t(inpat_func(p_hosp_new, pneum_func(p_pneum, t(rep.col(cases_joint_mVax_pVax_older, length(AR_age_weights)))* AR_age_weights)))
+inpat_no_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_no_age))
+inpat_llAb_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_llAb_age))
+inpat_mVax_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_mVax_age))
+inpat_pVax_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_pVax_age))
+inpat_joint_llAb_pVax_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_joint_llAb_pVax_age))
+inpat_joint_mVax_pVax_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_joint_mVax_pVax_age))
+inpat_pVax_older_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_pVax_older_age))
+inpat_joint_llAb_pVax_older_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_joint_llAb_pVax_older_age))
+inpat_joint_mVax_pVax_older_age <- inpat_func(p_hosp_new, pneum_func(p_pneum, cases_joint_mVax_pVax_older_age))
 
-inpat_no <- apply(inpat_no_age, MARGIN = 1, sum)
-inpat_llAb <- apply(inpat_llAb_age, MARGIN = 1, sum)
-inpat_mVax <- apply(inpat_mVax_age, MARGIN = 1, sum)
-inpat_pVax <- apply(inpat_pVax_age, MARGIN = 1, sum)
-inpat_joint_llAb_pVax <- apply(inpat_joint_llAb_pVax_age, MARGIN = 1, sum)
-inpat_joint_mVax_pVax <- apply(inpat_joint_mVax_pVax_age, MARGIN = 1, sum)
-inpat_pVax_older <- apply(inpat_pVax_older_age, MARGIN = 1, sum)
-inpat_joint_llAb_pVax_older <- apply(inpat_joint_llAb_pVax_older_age, MARGIN = 1, sum)
-inpat_joint_mVax_pVax_older <- apply(inpat_joint_mVax_pVax_older_age, MARGIN = 1, sum)
+# sum the rows
+inpat_no <- sum(inpat_no_age)
+inpat_llAb <- sum(inpat_llAb_age)
+inpat_mVax <- sum(inpat_mVax_age)
+inpat_pVax <- sum(inpat_pVax_age)
+inpat_joint_llAb_pVax <- sum(inpat_joint_llAb_pVax_age)
+inpat_joint_mVax_pVax <- sum(inpat_joint_mVax_pVax_age)
+inpat_pVax_older <- sum(inpat_pVax_older_age)
+inpat_joint_llAb_pVax_older <- sum(inpat_joint_llAb_pVax_older_age)
+inpat_joint_mVax_pVax_older <- sum(inpat_joint_mVax_pVax_older_age)
 
 # deaths by age in months when using age-stratified inpatient rates
 # point estimates
@@ -186,21 +200,31 @@ deaths_joint_mVax_pVax_older <- sum(deaths_joint_mVax_pVax_older_age)
 # deaths_intflo_llAb_pVax <-mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
 # deaths_intflo_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
 
-### Health Outcomes by year
+### Health Outcomes by year [cases, hospitalizations, deaths]
 ## create lists of deaths by year (1 through 3), for all trials
 outcome_by_year_func <- function(outcomes_input){
   list(apply(outcomes_input[, 1:12], MARGIN = 1, sum), apply(outcomes_input[, 13:24], MARGIN = 1, sum), apply(outcomes_input[, 25:36], MARGIN = 1, sum))
 }
 
-hosp_year_no_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_no_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_llAb_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_llAb_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_mVax_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_mVax_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_pVax_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_pVax_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_joint_llAb_pVax_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_joint_llAb_pVax_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_joint_mVax_pVax_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_joint_mVax_pVax_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_pVax_older_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_pVax_older_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_joint_llAb_pVax_older_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights)))* AR_age_weights))))
-hosp_year_joint_mVax_pVax_older_u <- outcome_by_year_func(t(inpat_func(p_hosp_new, pneum_func(p_pneum_u, t(rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights)))* AR_age_weights))))
+cases_year_no_u <- outcome_by_year_func(cases_no_u_age)
+cases_year_llAb_u <- outcome_by_year_func(cases_llAb_u_age)
+cases_year_mVax_u <- outcome_by_year_func(cases_mVax_u_age)
+cases_year_pVax_u <- outcome_by_year_func(cases_pVax_u_age)
+cases_year_joint_llAb_pVax_u <- outcome_by_year_func(cases_joint_llAb_pVax_u_age)
+cases_year_joint_mVax_pVax_u <- outcome_by_year_func(cases_joint_mVax_pVax_u_age)
+cases_year_pVax_older_u <- outcome_by_year_func(cases_pVax_older_u_age)
+cases_year_joint_llAb_pVax_older_u <- outcome_by_year_func(cases_joint_llAb_pVax_older_u_age)
+cases_year_joint_mVax_pVax_older_u <- outcome_by_year_func(cases_joint_mVax_pVax_older_u_age)
+
+hosp_year_no_u <- outcome_by_year_func(inpat_no_u_age)
+hosp_year_llAb_u <- outcome_by_year_func(inpat_llAb_u_age)
+hosp_year_mVax_u <- outcome_by_year_func(inpat_mVax_u_age)
+hosp_year_pVax_u <- outcome_by_year_func(inpat_pVax_u_age)
+hosp_year_joint_llAb_pVax_u <- outcome_by_year_func(inpat_joint_llAb_pVax_u_age)
+hosp_year_joint_mVax_pVax_u <- outcome_by_year_func(inpat_joint_mVax_pVax_u_age)
+hosp_year_pVax_older_u <- outcome_by_year_func(inpat_pVax_older_u_age)
+hosp_year_joint_llAb_pVax_older_u <- outcome_by_year_func(inpat_joint_llAb_pVax_older_u_age)
+hosp_year_joint_mVax_pVax_older_u <- outcome_by_year_func(inpat_joint_mVax_pVax_older_u_age)
 
 deaths_year_no_u <- outcome_by_year_func(deaths_no_u_age)
 deaths_year_llAb_u <- outcome_by_year_func(deaths_llAb_u_age)
@@ -282,14 +306,14 @@ totalcost_no <- medcost_no
 totalcost_llAb <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + medcost_llAb
 totalcost_mVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + medcost_mVax
 totalcost_pVax <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax
-totalcost_pVax_intfhi <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax_intfhi
-totalcost_pVax_intflo <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax_intflo
+# totalcost_pVax_intfhi <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax_intfhi
+# totalcost_pVax_intflo <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax_intflo
 totalcost_joint_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_llAb_pVax
 totalcost_joint_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_mVax_pVax
-totalcost_intfhi_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intfhi_llAb_pVax
-totalcost_intfhi_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intfhi_mVax_pVax
-totalcost_intflo_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_llAb_pVax
-totalcost_intflo_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_mVax_pVax
+# totalcost_intfhi_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intfhi_llAb_pVax
+# totalcost_intfhi_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intfhi_mVax_pVax
+# totalcost_intflo_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_llAb_pVax
+# totalcost_intflo_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_mVax_pVax
 
 totalcost_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_pVax_older
 totalcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_llAb_pVax_older
