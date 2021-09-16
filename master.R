@@ -80,15 +80,24 @@ cases_intflo_mVax_pVax <- sum(cases_intflo_mVax_pVax_age)
 cases_intfhi_llAb_pVax <- sum(cases_intfhi_llAb_pVax_age)
 cases_intfhi_mVax_pVax <- sum(cases_intfhi_mVax_pVax_age)
 
-# RSV-LRTI by age in months
-pneum_no_a <- pneum_func(p_pneum, cases_no_age)
-pneum_no_a_bin <- c(pneum_no_a[1], mean(pneum_no_a[2:3]), mean(pneum_no_a[2:3]), rep(mean(pneum_no_a[4:6]), 3),
-                    rep(mean(pneum_no_a[7:9]), 3), rep(mean(pneum_no_a[10:12]), 3),
-                    rep(mean(pneum_no_a[13:24]), 12), rep(mean(pneum_no_a[25:36]), 12))
+# RSV-LRTI episiodesby age in months
+LRTI_no_age <- pneum_func(p_pneum, cases_no_age)
+LRTI_llAb_age <- pneum_func(p_pneum, cases_llAb_age)
+LRTI_mVax_age <- pneum_func(p_pneum, cases_mVax_age)
+LRTI_pVax_age <- pneum_func(p_pneum, cases_pVax_age)
+LRTI_joint_llAb_pVax_age <- pneum_func(p_pneum, cases_joint_llAb_pVax_age)
+LRTI_joint_mVax_pVax_age <- pneum_func(p_pneum, cases_joint_mVax_pVax_age)
+LRTI_pVax_older_age <- pneum_func(p_pneum, cases_pVax_older_age)
+LRTI_joint_llAb_pVax_older_age <- pneum_func(p_pneum, cases_joint_llAb_pVax_older_age)
+LRTI_joint_mVax_pVax_older_age <- pneum_func(p_pneum, cases_joint_mVax_pVax_older_age)
+
+LRTI_no_age_bin <- c(LRTI_no_age[1], mean(LRTI_no_age[2:3]), mean(LRTI_no_age[2:3]), rep(mean(LRTI_no_age[4:6]), 3),
+                    rep(mean(LRTI_no_age[7:9]), 3), rep(mean(LRTI_no_age[10:12]), 3),
+                    rep(mean(LRTI_no_age[13:24]), 12), rep(mean(LRTI_no_age[25:36]), 12))
 
 # Li Hosps by month
 Li_hosps <- p_inpatient_shi_li* mean(num_infants)
-rsv_lrti_hosps <- Li_hosps/pneum_no_a_bin
+rsv_lrti_hosps <- Li_hosps/LRTI_no_age_bin
 
 source("hospitalizations by age.R")
 source("optimality_curve_code.R")

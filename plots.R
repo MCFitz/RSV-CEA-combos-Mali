@@ -233,4 +233,39 @@ legend("topleft", legend =c("status quo","long-acting mAb",
 # mtext("Intervention strategy", at=0.25, cex = 2)
 quartz.save(file = "Figures/legend", type = "pdf")
 
+
+# 4 Panel Figure with Health Outcomes by month of age
+# [RSV cases, LRTI episodes, hospitalizations, deaths]
+
+require("RColorBrewer")
+HO_df <- data.frame(age = rep(rep(months, 6), 4),
+                    intervention = rep(c(rep("no intervention", length(months)),
+                                     rep("llAb", length(months)),
+                                     rep("mVax", length(months)),
+                                     rep("pVax", length(months)),
+                                     rep("llAb + pVax", length(months)),
+                                     rep("pVax older", length(months))), 4),
+                    metric = c(rep("RSV cases", length(months) * 6),
+                                                     rep("LRTI episodes", length(months) * 6),
+                                                     rep("Hospitalizations", length(months) * 6),
+                                                     rep("Deaths", length(months) * 6)),
+                    value = c(cases_no_age, cases_llAb_age, cases_mVax_age, cases_pVax_age, cases_joint_llAb_pVax_age, cases_pVax_older_age,
+                              LRTI_no_age, LRTI_llAb_age, LRTI_mVax_age, LRTI_pVax_age, LRTI_joint_llAb_pVax_age, LRTI_pVax_older_age,
+                              inpat_no_age, inpat_llAb_age, inpat_mVax_age, inpat_pVax_age, inpat_joint_llAb_pVax_age, inpat_pVax_older_age,
+                              deaths_no_age, deaths_llAb_age, deaths_mVax_age, deaths_pVax_age, deaths_joint_llAb_pVax_age, deaths_pVax_older_age))
+
+HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
+HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "llAb", "mVax", "pVax", "llAb + pVax", "pVax older"))
+
+quartz("Health Outcomes", 8, 8)
+ggplot(data = HO_df, aes(x = age, y = value, color = intervention)) +
+   geom_line(size = 1)+
+   facet_wrap(vars(metric), scales = "free" ) +
+   scale_colour_manual(values = brewer.pal(6, "Set2"))+
+   ylab("") +
+   xlab("Age in months")+
+   theme_bw()+
+   theme(legend.title= element_blank())
+quartz.save(file = "Figures/Health_Outcomes", type = "pdf")  
+
 ######
