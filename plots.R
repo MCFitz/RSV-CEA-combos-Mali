@@ -238,17 +238,20 @@ quartz.save(file = "Figures/legend", type = "pdf")
 # [RSV cases, LRTI episodes, hospitalizations, deaths]
 
 require("RColorBrewer")
-HO_df <- data.frame(age = rep(rep(months, 6), 4),
+ni <- 6 # number of interventions to include in the plot
+nm <- 4 # number of health metrics to include in the plot
+   
+HO_df <- data.frame(age = rep(rep(months, ni), nm),
                     intervention = rep(c(rep("no intervention", length(months)),
                                      rep("llAb", length(months)),
                                      rep("mVax", length(months)),
                                      rep("pVax", length(months)),
                                      rep("llAb + pVax", length(months)),
-                                     rep("pVax older", length(months))), 4),
-                    metric = c(rep("RSV cases", length(months) * 6),
-                                                     rep("LRTI episodes", length(months) * 6),
-                                                     rep("Hospitalizations", length(months) * 6),
-                                                     rep("Deaths", length(months) * 6)),
+                                     rep("pVax older", length(months))), nm),
+                    metric = c(rep("RSV cases", length(months) * ni),
+                                                     rep("LRTI episodes", length(months) * ni),
+                                                     rep("Hospitalizations", length(months) * ni),
+                                                     rep("Deaths", length(months) * ni)),
                     value = c(cases_no_age, cases_llAb_age, cases_mVax_age, cases_pVax_age, cases_joint_llAb_pVax_age, cases_pVax_older_age,
                               LRTI_no_age, LRTI_llAb_age, LRTI_mVax_age, LRTI_pVax_age, LRTI_joint_llAb_pVax_age, LRTI_pVax_older_age,
                               inpat_no_age, inpat_llAb_age, inpat_mVax_age, inpat_pVax_age, inpat_joint_llAb_pVax_age, inpat_pVax_older_age,
@@ -257,15 +260,27 @@ HO_df <- data.frame(age = rep(rep(months, 6), 4),
 HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
 HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "llAb", "mVax", "pVax", "llAb + pVax", "pVax older"))
 
-quartz("Health Outcomes", 8, 8)
+quartz("Health Outcomes", 12, 8)
 ggplot(data = HO_df, aes(x = age, y = value, color = intervention)) +
    geom_line(size = 1)+
    facet_wrap(vars(metric), scales = "free" ) +
-   scale_colour_manual(values = brewer.pal(6, "Set2"))+
+   scale_colour_manual(values = brewer.pal(ni, "Set2"))+
    ylab("") +
-   xlab("Age in months")+
+   xlab("Month of age")+
    theme_bw()+
    theme(legend.title= element_blank())
 quartz.save(file = "Figures/Health_Outcomes", type = "pdf")  
+
+# try a barplot instead of lineplot
+quartz("Health Outcomes Bar", 12, 8)
+ggplot(HO_df, aes(x=age, y=value, fill = intervention))+
+   geom_bar(position = 'dodge', stat='identity')+
+   facet_wrap(~metric, scales = "free")+
+   scale_colour_manual(values = brewer.pal(ni, "Set2"))+
+   ylab("") +
+   xlab("Month of age")+
+   theme_bw()+
+   theme(legend.title= element_blank())
+quartz.save(file = "Figures/Health_Outcomes_Bar", type = "pdf")
 
 ######

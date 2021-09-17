@@ -80,7 +80,7 @@ cases_intflo_mVax_pVax <- sum(cases_intflo_mVax_pVax_age)
 cases_intfhi_llAb_pVax <- sum(cases_intfhi_llAb_pVax_age)
 cases_intfhi_mVax_pVax <- sum(cases_intfhi_mVax_pVax_age)
 
-# RSV-LRTI episiodesby age in months
+# RSV-LRTI episiodes by age in months
 LRTI_no_age <- pneum_func(p_pneum, cases_no_age)
 LRTI_llAb_age <- pneum_func(p_pneum, cases_llAb_age)
 LRTI_mVax_age <- pneum_func(p_pneum, cases_mVax_age)
