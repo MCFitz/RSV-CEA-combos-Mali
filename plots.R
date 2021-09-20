@@ -260,27 +260,28 @@ HO_df <- data.frame(age = rep(rep(months, ni), nm),
 HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
 HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "llAb", "mVax", "pVax", "llAb + pVax", "pVax older"))
 
-quartz("Health Outcomes", 12, 8)
+quartz("Health Outcomes Linegraph", 12, 8)
 ggplot(data = HO_df, aes(x = age, y = value, color = intervention)) +
-   geom_line(size = 1)+
+   geom_line(size = 1) +
    facet_wrap(vars(metric), scales = "free" ) +
-   scale_colour_manual(values = brewer.pal(ni, "Set2"))+
+   scale_colour_manual(values = brewer.pal(ni, "Set2")) +
    ylab("") +
-   xlab("Month of age")+
-   theme_bw()+
+   xlab("Month of age") +
+   theme_bw() +
    theme(legend.title= element_blank())
-quartz.save(file = "Figures/Health_Outcomes", type = "pdf")  
+quartz.save(file = "Figures/Health_Outcomes_Linegraph", type = "pdf")  
 
-# try a barplot instead of lineplot
-quartz("Health Outcomes Bar", 12, 8)
-ggplot(HO_df, aes(x=age, y=value, fill = intervention))+
-   geom_bar(position = 'dodge', stat='identity')+
-   facet_wrap(~metric, scales = "free")+
-   scale_colour_manual(values = brewer.pal(ni, "Set2"))+
+# try a barplot instead of linegraph
+quartz("Health Outcomes Barplot", 12, 8)
+ggplot(HO_df, aes(x=age, y=value, fill = intervention)) +
+   geom_bar(position = 'dodge', stat='identity') +
+   scale_x_binned(breaks = seq(0,36, by = 6)) +
+   facet_wrap(~metric, scales = "free") +
+   scale_fill_manual(values = brewer.pal(ni, "Set2")) +
    ylab("") +
-   xlab("Month of age")+
-   theme_bw()+
+   xlab("Month of age") +
+   theme_bw() +
    theme(legend.title= element_blank())
-quartz.save(file = "Figures/Health_Outcomes_Bar", type = "pdf")
+quartz.save(file = "Figures/Health_Outcomes_Barplot", type = "pdf")
 
 ######
