@@ -1,6 +1,8 @@
 # Functions for calculating health outcomes
 
 # functions for calculating the probability of disease and the number of cases while removing the babies who get sick in each cohort
+# **** To do next: remove babies for all-cause mortality ******
+
 pd_calc <- function (Ve, cov, AR, ad) {
   mat_out <- AR* (1-ad) + AR* ad* cov* (1-Ve) + AR* ad* (1-cov)
   mat_out
@@ -11,13 +13,14 @@ pd_joint <- function (Ve1, Ve2, cov1, cov2, AR, ad1, ad2, intf){
   pd2 <- pd1* (1-ad2) + pd1* ad2* cov2* (1-Ve2) + pd1* ad2* (1-cov2)
 }
 
-RSVcases <- function (pd, babies) {
+
+RSVcases <- function (pd, babies, mort) {
   lim <- dim(pd)[2]
   cases <- matrix(0, nrow = dim(pd)[1], ncol = lim)
   bb <- babies
   for (m in 1:lim) {
-    cases[,m] <- pd[,m]*bb
-    bb <- bb - cases[,m]
+    cases[,m] <- pd[,m] * bb
+    bb <- bb - cases[,m] - (bb * mort[,m])
   }
 adj <- matrix(NA, nrow = 12, ncol = 36)
 for(i in 1:12){
@@ -49,10 +52,6 @@ outpat_func <- function(num_pneum, num_hosp){
 nr_care_func <- function(num_hosp){
   num_nr_care<- num_hosp * (1-p_seek_care)
 }
-
-# nr_care_func <- function(p_inpat, num_pneum){
-#   p_inpat * num_pneum * (1-p_seek_care)
-# }
 
 # number of deaths
 mort_inpat_func <- function(CFR_inpat, num_inpat, CFR_nr, num_nr_care){

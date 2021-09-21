@@ -2,62 +2,62 @@
 # Code to produce plot for probability each intervention is optimal by WTP
 
 # Calculate number of RSV cases w/ uncertainty
-cases_no_u_age <- t(apply(AR_y_u, 3, RSVcases, babies = num_infants))
+cases_no_u_age <- t(apply(AR_y_u, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_llAb_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (ll in 1:trials) {
   pd_llAb_array[,,ll] <- pd_calc(efficacy[1], coverage[1], AR_y_u[,,ll], mat_eff_llAb)
 } 
-cases_llAb_u_age <- t(apply(pd_llAb_array, 3, RSVcases, babies = num_infants))
+cases_llAb_u_age <- t(apply(pd_llAb_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_mVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (m in 1:trials) {
   pd_mVax_array[,,m] <- pd_calc(efficacy[2], coverage[2], AR_y_u[,,m], mat_eff_mVax)
 } 
-cases_mVax_u_age <- t(apply(pd_mVax_array, 3, RSVcases, babies = num_infants))
+cases_mVax_u_age <- t(apply(pd_mVax_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (p in 1:trials) {
   pd_pVax_array[,,p] <- pd_calc(efficacy[3], coverage[3], AR_y_u[,,p], mat_eff_pVax)
 } 
-cases_pVax_u_age <- t(apply(pd_pVax_array, 3, RSVcases, babies = num_infants))
+cases_pVax_u_age <- t(apply(pd_pVax_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 # scenario analysis when efficacy reduction occurs only when pVax is in combo
 pd_pVax_array_SA <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (p in 1:trials) {
   pd_pVax_array_SA[,,p] <- pd_calc(efficacy[3], coverage[3], AR_y_u[,,p], mat_eff_pVax)
 } 
-cases_pVax_u_SA_age <- t(apply(pd_pVax_array, 3, RSVcases, babies = num_infants))
+cases_pVax_u_SA_age <- t(apply(pd_pVax_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_llAb_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (lp in 1:trials) {
   pd_llAb_pVax_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], coverage[3], AR_y_u[,,lp], mat_eff_llAb, mat_eff_pVax)
 }
-cases_joint_llAb_pVax_u_age <- t(apply(pd_llAb_pVax_array, 3, RSVcases, babies = num_infants))
+cases_joint_llAb_pVax_u_age <- t(apply(pd_llAb_pVax_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_mVax_pVax_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (mp in 1:trials) {
   pd_mVax_pVax_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], coverage[3], AR_y_u[,,mp], mat_eff_mVax, mat_eff_pVax)
 }
-cases_joint_mVax_pVax_u_age <- t(apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants))
+cases_joint_mVax_pVax_u_age <- t(apply(pd_mVax_pVax_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_pVax_older_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (p in 1:trials) {
   pd_pVax_older_array[,,p] <- pd_calc(efficacy[3], cov_pVax_o, AR_y_u[,,p], mat_eff_older_pVax)
 } 
-cases_pVax_older_u_age <- t(apply(pd_pVax_older_array, 3, RSVcases, babies = num_infants))
+cases_pVax_older_u_age <- t(apply(pd_pVax_older_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_llAb_pVax_older_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (lp in 1:trials) {
   pd_llAb_pVax_older_array[,,lp] <- pd_joint(efficacy[1], efficacy[3], coverage[1], cov_pVax_o, AR_y_u[,,lp], mat_eff_llAb, mat_eff_older_pVax)
 }
-cases_joint_llAb_pVax_older_u_age <- t(apply(pd_llAb_pVax_older_array, 3, RSVcases, babies = num_infants))
+cases_joint_llAb_pVax_older_u_age <- t(apply(pd_llAb_pVax_older_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 pd_mVax_pVax_older_array <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (mp in 1:trials) {
   pd_mVax_pVax_older_array[,,mp] <- pd_joint(efficacy[2], efficacy[3], coverage[2], cov_pVax_o, AR_y_u[,,mp], mat_eff_mVax, mat_eff_older_pVax)
 }
-cases_joint_mVax_pVax_older_u_age <- t(apply(pd_mVax_pVax_older_array, 3, RSVcases, babies = num_infants))
+cases_joint_mVax_pVax_older_u_age <- t(apply(pd_mVax_pVax_older_array, 3, RSVcases, babies = num_infants, mort = mort_mat))
 
 # sum the rows to get total number of cases by trial simulation
 cases_no_u <- rowSums(cases_no_u_age)

@@ -5,8 +5,19 @@ p_pneum_u <- rbeta(trials, 43, 110 + ILI_positivity*839)
 p_pneum <- 43/(110+839*(110/379))
 
 p_wheeze <- 0.0646
-U5_mort <- 101/1000
-  
+
+# mortality rates by month, World Bank, Mali, 2019
+# https://data.worldbank.org/indicator/SP.DYN.IMRT.IN?locations=ML
+U1_mort <- 60.2/12/1000
+U5_mort <- (94- 60.2)/48/1000
+
+mort_vec <- c(rep(U1_mort, 12), rep(U5_mort, 24))
+
+mort_mat <- empty_year_cohort
+for (m in 1:12) {
+  mort_mat[m,] <- c(rep(0, times = m-1), mort_vec, rep(0, times = 12-m))
+}
+
 p_seek_care <- 0.47
 p_inpatient_u <- rbeta(trials, 13, 30)
 p_inpatient <- 13/43
