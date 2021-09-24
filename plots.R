@@ -260,9 +260,11 @@ HO_df <- data.frame(age = rep(rep(months, ni), nm),
 HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
 HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "llAb", "mVax", "pVax", "llAb + pVax", "pVax older"))
 
+## NOTE: play around with geom for line, and make sure barplot xbins give sums
 quartz("Health Outcomes Linegraph", 12, 8)
 ggplot(data = HO_df, aes(x = age, y = value, color = intervention)) +
-   geom_line(size = 1) +
+   geom_point(size = 1) +
+   scale_x_binned(breaks = seq(0, 36, by = 3)) +
    facet_wrap(vars(metric), scales = "free" ) +
    scale_colour_manual(values = brewer.pal(ni, "Set2")) +
    ylab("") +
@@ -275,7 +277,7 @@ quartz.save(file = "Figures/Health_Outcomes_Linegraph", type = "pdf")
 quartz("Health Outcomes Barplot", 12, 8)
 ggplot(HO_df, aes(x=age, y=value, fill = intervention)) +
    geom_bar(position = 'dodge', stat='identity') +
-   scale_x_binned(breaks = seq(0,36, by = 6)) +
+   scale_x_binned(breaks = seq(0,36, by = 3)) +
    facet_wrap(~metric, scales = "free") +
    scale_fill_manual(values = brewer.pal(ni, "Set2")) +
    ylab("") +

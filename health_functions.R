@@ -1,7 +1,8 @@
 # Functions for calculating health outcomes
 
-# functions for calculating the probability of disease and the number of cases while removing the babies who get sick in each cohort
-# **** To do next: remove babies for all-cause mortality ******
+# functions for calculating the probability of disease and the number of cases,
+# while removing the babies who die due to all-cause mortality and the babies
+# who get sick from RSV in each cohort
 
 pd_calc <- function (Ve, cov, AR, ad) {
   mat_out <- AR* (1-ad) + AR* ad* cov* (1-Ve) + AR* ad* (1-cov)
@@ -27,12 +28,25 @@ for(i in 1:12){
   adj[i,] <- cases[i ,i:(i+35)]
 }
 adj2 <- colSums(adj)
+list(cases, adj2)
 }
 
 # calculate number of infants who develop RSV-LRTI (pneumonia)
 pneum_func <- function(prob_pneum, num_cases) {
   num_pneum <- prob_pneum * num_cases
   num_pneum
+}
+
+# number of infants who develop RSV-LRTI (pneumonia) under scenario where
+# prevention products don't prevent disease, but do prevent RSV-LRTI
+LRTI_func <-  function (Ve, cov, ad, prob_pneum, cases) {
+  LRTI_out <- cases * cov * ad * (1-Ve) * prob_pneum + cases * (1-cov * ad) * prob_pneum
+  LRTI_out
+}
+
+LRTI_func_joint <- function (Ve1, Ve2, cov1, cov2, ad1, ad2, prob_pneum, cases){
+  LRTI1 <- cases * cov1 * ad1 * (1-Ve1) * prob_pneum + cases * (1-cov1 * ad1) * prob_pneum
+  LRTI2 <- LRTI1 * cov2 * ad2 * (1-Ve2) * prob_pneum + LRTI1 * (1-cov2 * ad2) * prob_pneum
 }
 
 # calculate number of infants receiving inpatient care
