@@ -54,13 +54,16 @@ pneum_func <- function(prob_pneum, num_cases) {
 # number of infants who develop RSV-LRTI (pneumonia) under scenario where
 # prevention products don't prevent disease, but do prevent RSV-LRTI
 LRTI_func <-  function (Ve, cov, ad, prob_pneum, cases) {
-  LRTI_out <- cases * (1-ad) * prob_pneum + cases * cov * ad * (1-Ve) * prob_pneum + cases * (1-cov * ad) * prob_pneum
+  LRTI_out <- cases * (1-ad) * prob_pneum + cases * cov * ad * (1-Ve) * prob_pneum + cases * (1-cov) * ad * prob_pneum
   LRTI_out
 }
+# prob of LRTI when intervention is NOT acting +
+# prob of LRTI when intervention IS acting and babies ARE covered +
+# prob of LRTI when intervention IS acting and babies ARE NOT covered
 
 LRTI_func_joint <- function (Ve1, Ve2, cov1, cov2, ad1, ad2, prob_pneum, cases){
-  LRTI1 <- cases * (1-ad1) * prob_pneum + cases * cov1 * ad1 * (1-Ve1) * prob_pneum + cases * (1-cov1 * ad1) * prob_pneum
-  LRTI2 <- LRTI1 * (1-ad2) * prob_pneum + LRTI1 * cov2 * ad2 * (1-Ve2) * prob_pneum + LRTI1 * (1-cov2 * ad2) * prob_pneum
+  LRTI1 <- cases * (1-ad1) * prob_pneum + cases * cov1 * ad1 * (1-Ve1) * prob_pneum + cases * (1-cov1) * ad1 * prob_pneum
+  LRTI2 <- LRTI1 * (1-ad2) + LRTI1 * cov2 * ad2 * (1-Ve2) + LRTI1 * (1-cov2) * ad2
   LRTI2
 }
 

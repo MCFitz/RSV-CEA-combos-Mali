@@ -232,12 +232,12 @@ legend("topleft", legend =c("status quo","long-acting mAb",
        col = UMB1)
 # mtext("Intervention strategy", at=0.25, cex = 2)
 quartz.save(file = "Figures/legend", type = "pdf")
+###
 
-
+####
 # 4 Panel Figure with Health Outcomes by month of age
 # [RSV cases, LRTI episodes, hospitalizations, deaths]
 
-require("RColorBrewer")
 ni <- 6 # number of interventions to include in the plot
 nm <- 4 # number of health metrics to include in the plot
    
@@ -260,26 +260,11 @@ HO_df <- data.frame(age = rep(rep(months, ni), nm),
 HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
 HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "llAb", "mVax", "pVax", "llAb + pVax", "pVax older"))
 
-
-# quartz("Health Outcomes Linegraph", 12, 8)
-# ggplot(data = HO_df, aes(x = age, y = value, color = intervention)) +
-#    geom_point(size = 1) +
-#    scale_x_binned(breaks = seq(0, 36, by = 6)) +
-#    facet_wrap(vars(metric), scales = "free" ) +
-#    scale_colour_manual(values = brewer.pal(ni, "Set2")) +
-#    ylab("") +
-#    xlab("Month of age") +
-#    theme_bw() +
-#    theme(legend.title= element_blank())
-# quartz.save(file = "Figures/Health_Outcomes_Linegraph", type = "pdf")  
-
-# try a barplot instead of linegraph
-
-###
 temp_HO <- HO_df %>% mutate(bin = floor((age-1) / 6) + 1) %>% 
    group_by(bin, intervention, metric) %>% 
    summarise(tot = sum(value))
 
+###
 quartz("Health Outcomes Barplot", 12, 8)
 ggplot(temp_HO, aes(x=bin, y=tot, fill = intervention)) +
    geom_bar(position = 'dodge', stat = 'identity') +

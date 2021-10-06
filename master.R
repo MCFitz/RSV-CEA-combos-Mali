@@ -3,10 +3,12 @@ trials <- 1000
 
 # load required packages
 library(ggplot2)
+library(dplyr)
 library(abind)
 library(readr)
 library("triangle")
 library("mgcv")
+require("RColorBrewer")
 
 # generic functions for code
 rep.col<-function(x,n){
