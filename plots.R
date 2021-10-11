@@ -258,7 +258,7 @@ HO_df <- data.frame(age = rep(rep(months, ni), nm),
                               deaths_no_age, deaths_llAb_age, deaths_mVax_age, deaths_pVax_age, deaths_joint_llAb_pVax_age, deaths_pVax_older_age))
 
 HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
-HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "llAb", "mVax", "pVax", "llAb + pVax", "pVax older"))
+HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "pVax older", "mVax", "pVax", "llAb", "llAb + pVax"))
 
 temp_HO <- HO_df %>% mutate(bin = floor((age-1) / 6) + 1) %>% 
    group_by(bin, intervention, metric) %>% 
@@ -268,9 +268,8 @@ temp_HO <- HO_df %>% mutate(bin = floor((age-1) / 6) + 1) %>%
 quartz("Health Outcomes Barplot", 12, 8)
 ggplot(temp_HO, aes(x = bin, y = tot, fill = intervention)) +
    geom_bar(position = 'dodge', stat = 'identity') +
-   scale_x_continuous(breaks = seq(1, 6, by = 1), labels = c("<6", "6-<12", "12-<18", "18-<24", "24-<30", "30-36")) +
+   scale_x_continuous(breaks = seq(1, 6, by = 1), labels = c("<6", "6-<12", "12-<18", "18-<24", "24-<30", "30-<36")) +
    xlab(NULL) +
-   # scale_x_binned(breaks = seq(0,36, by = 6)) +
    facet_wrap(~metric, scales = "free") +
    scale_fill_manual(values = brewer.pal(ni, "Set2")) +
    ylab("") +
