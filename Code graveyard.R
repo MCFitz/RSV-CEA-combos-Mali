@@ -151,3 +151,34 @@
 # deaths_joint_llAb_pVax_older_u_age <- t(mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, t(rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights))) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, t(rep.col(cases_joint_llAb_pVax_older_u, length(AR_age_weights))) * AR_age_weights))))
 # deaths_joint_mVax_pVax_older_u_age <-t(mort_inpat_func(CFR_sub, inpat_func(p_inpatient_u, pneum_func(p_pneum_u, t(rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights))) * AR_age_weights)), CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, t(rep.col(cases_joint_mVax_pVax_older_u, length(AR_age_weights))) * AR_age_weights))))
 
+
+### old CE plot
+# quartz("CE plane", 8, 8)
+# par(xaxs="i", yaxs="i")
+# plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = UMBblue, bty = "n", pch = 19, cex = 1.5, xlim = c(0,2500), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
+#        "Incremental cost compared to status quo (USD)")
+# points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = UMBforest, pch = 19, cex =1.5)
+# points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = UMBplum, pch = 19, cex = 1.5)
+# # points(DALYS_lost_no - DALYS_lost_pVax_intflo, totalcost_pVax_intflo - totalcost_no, col = UMBplum, pch = 17, cex = 1.5)
+# # points(DALYS_lost_no - DALYS_lost_pVax_intfhi, totalcost_pVax_intfhi - totalcost_no, col = UMBplum, pch = 15, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = UMByellow, pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = UMBcharcoal, pch = 19, cex = 1.5)
+# # points(DALYS_lost_no - DALYS_lost_intfhi_llAb_pVax, totalcost_intfhi_llAb_pVax - totalcost_no, col = UMByellow, pch =15, cex = 1.5)
+# # points(DALYS_lost_no - DALYS_lost_intfhi_mVax_pVax, totalcost_intfhi_mVax_pVax - totalcost_no, col = UMBcharcoal, pch =15, cex = 1.5)
+# # points(DALYS_lost_no - DALYS_lost_intflo_llAb_pVax, totalcost_intflo_llAb_pVax - totalcost_no, col = UMByellow, pch =17, cex = 1.5)
+# # points(DALYS_lost_no - DALYS_lost_intflo_mVax_pVax, totalcost_intflo_mVax_pVax - totalcost_no, col = UMBcharcoal, pch =17, cex = 1.5)
+# segments(0, 0, x1 = DALYS_lost_no - DALYS_lost_pVax, y1 = totalcost_pVax- totalcost_no,
+#          col = par("fg"), lty = par("lty"), lwd = 2)
+# segments(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, x1 = DALYS_lost_no -DALYS_lost_joint_llAb_pVax, y1 = totalcost_joint_llAb_pVax - totalcost_no,
+#          col = par("fg"), lty = par("lty"), lwd = 2)
+# segments(0, 0, x1 = DALYS_lost_no - DALYS_lost_pVax_intflo, y1 = totalcost_pVax_intflo- totalcost_no,
+#          col = par("fg"), lty = 2, lwd = 2)
+# segments(DALYS_lost_no - DALYS_lost_pVax_intflo, totalcost_pVax_intflo- totalcost_no, x1 = DALYS_lost_no - DALYS_lost_intflo_llAb_pVax, y1 = totalcost_intflo_llAb_pVax- totalcost_no,
+#          col = par("fg"), lty = 2, lwd = 2)
+# segments(0, 0, x1 = DALYS_lost_no - DALYS_lost_llAb, y1 = totalcost_llAb- totalcost_no,
+#          col = par("fg"), lty = 3, lwd = 2)
+# segments(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, x1 = DALYS_lost_no - DALYS_lost_intfhi_llAb_pVax, y1 = totalcost_intfhi_llAb_pVax- totalcost_no,
+#          col = par("fg"), lty = 3, lwd = 2)
+# legend("bottomright", legend = c("mAb", "mVax", "pVax 70% efficacy", "pVax 50% efficacy", "pVax 30% efficacy", "mAb + pVax 70% efficacy", "mAb + pVax 50% efficacy", "mAb + pVax 30% efficacy", "mVax + pVax 70% efficacy", "mVax + pVax 50% efficacy", "mVax + pVax 30% efficacy"),
+#        bty = "n", pch = c(19,19,19,17,15,19,17,15,19,17,15), col = c(UMBblue, UMBforest, UMBplum, UMBplum, UMBplum, UMByellow, UMByellow, UMByellow, UMBcharcoal, UMBcharcoal, UMBcharcoal))
+# quartz.save(file = "Figures/CE_plane.pdf", type = "pdf")

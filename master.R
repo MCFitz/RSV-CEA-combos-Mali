@@ -358,111 +358,111 @@ NHB_no_GDP <- NHB_func(prep_no, CET_Mali_GDP)
 NHB_m_GDP <- NHB_func(prep_mVax, CET_Mali_GDP)
 
 # reduction in efficacy of pVax driven by immaturity
-prep_p_5k <- array(c(DALYS_lost_er_no, DALYS_er_pVax, totalcost_er_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
-prep_lp_5k <- array(c(DALYS_lost_er_no, DALYS_er_llAb_pVax, totalcost_er_llAb_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
-prep_mp_5k <- array(c(DALYS_lost_er_no, DALYS_er_mVax_pVax, totalcost_er_mVax_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
-
-NHB_p_5k_er <- NHB_func_er(prep_p_5k, WTP_5k)
-NHB_lp_5k <- NHB_func_er(prep_lp_5k, WTP_5k)
-NHB_mp_5k <- NHB_func_er(prep_mp_5k, WTP_5k)
-
-compare_NHB_5k <- array(c(NHB_no_5k, NHB_l_5k, NHB_m_5k, NHB_p_5k, NHB_lp_5k, NHB_mp_5k, NHB_p_older_5k, NHB_lp_older_5k, NHB_mp_older_5k), dim = c(trials, length(eff_red), 9))
-win_NHB_5k <- apply(compare_NHB_5k, MARGIN = c(1,2), which.max)
-
-pO_no_5k <- rep(0, length(eff_red))
-for(no in 1: length(eff_red)){
-  pO_no_5k[no] <- sum(win_NHB_5k[,no] == 1)/trials
-}
-
-pO_llAb_5k <- rep(0, length(eff_red))
-for(Ol in 1: length(eff_red)){
-  pO_llAb_5k[Ol] <- sum(win_NHB_5k[,Ol] == 2)/trials
-}
-
-pO_mVax_5k <- rep(0, length(eff_red))
-for(Om in 1: length(eff_red)){
-  pO_mVax_5k[Om] <- sum(win_NHB_5k[,Om] == 3)/trials
-}
-
-pO_pVax_5k <- rep(0, length(eff_red))
-for(Op in 1: length(eff_red)){
-  pO_pVax_5k[Op] <- sum(win_NHB_5k[,Op] == 4)/trials
-}
-
-pO_llAb_pVax_5k <- rep(0, length(eff_red))
-for(lp in 1: length(eff_red)){
-  pO_llAb_pVax_5k[lp] <- sum(win_NHB_5k[,lp] == 5)/trials
-}
-
-pO_mVax_pVax_5k <- rep(0, length(eff_red))
-for(Omp in 1: length(eff_red)){
-  pO_mVax_pVax_5k[Omp] <- sum(win_NHB_5k[,Omp] == 6)/trials
-}
-
-pO_pVax_older_5k <- rep(0, length(eff_red))
-for(Opo in 1: length(eff_red)){
-  pO_pVax_older_5k[Opo] <- sum(win_NHB_5k[,Opo] == 7)/trials
-}
-
-pO_llAb_pVax_older_5k <- rep(0, length(eff_red))
-for(zp in 1: length(eff_red)){
-  pO_llAb_pVax_older_5k[zp] <- sum(win_NHB_5k[,zp] == 8)/trials
-}
-
-pO_mVax_pVax_older_5k <- rep(0, length(eff_red))
-for(Ompo in 1: length(eff_red)){
-  pO_mVax_pVax_older_5k[Ompo] <- sum(win_NHB_5k[,Ompo] == 9)/trials
-}
-
-##
-# When efficacy reduction is driven by infant immaturity
-compare_NHB_5k_ser <- array(c(NHB_no_5k, NHB_l_5k, NHB_m_5k, NHB_p_5k_er, NHB_lp_5k, NHB_mp_5k, NHB_p_older_5k, NHB_lp_older_5k, NHB_mp_older_5k), dim = c(trials, length(eff_red), 9))
-win_NHB_5k_ser <- apply(compare_NHB_5k_ser, MARGIN = c(1,2), which.max)
-
-pO_no_5k_ser <- rep(0, length(eff_red))
-for(no in 1: length(eff_red)){
-  pO_no_5k_ser[no] <- sum(win_NHB_5k_ser[,no] == 1)/trials
-}
-
-pO_llAb_5k_ser <- rep(0, length(eff_red))
-for(Ol in 1: length(eff_red)){
-  pO_llAb_5k_ser[Ol] <- sum(win_NHB_5k_ser[,Ol] == 2)/trials
-}
-
-pO_mVax_5k_ser <- rep(0, length(eff_red))
-for(Om in 1: length(eff_red)){
-  pO_mVax_5k_ser[Om] <- sum(win_NHB_5k_ser[,Om] == 3)/trials
-}
-
-pO_pVax_5k_ser <- rep(0, length(eff_red))
-for(Op in 1: length(eff_red)){
-  pO_pVax_5k_ser[Op] <- sum(win_NHB_5k_ser[,Op] == 4)/trials
-}
-
-pO_llAb_pVax_5k_ser <- rep(0, length(eff_red))
-for(Olp in 1: length(eff_red)){
-  pO_llAb_pVax_5k_ser[Olp] <- sum(win_NHB_5k_ser[,Olp] == 5)/trials
-}
-
-pO_mVax_pVax_5k_ser <- rep(0, length(eff_red))
-for(Omp in 1: length(eff_red)){
-  pO_mVax_pVax_5k_ser[Omp] <- sum(win_NHB_5k_ser[,Omp] == 6)/trials
-}
-
-pO_pVax_older_5k_ser <- rep(0, length(eff_red))
-for(Opo in 1: length(eff_red)){
-  pO_pVax_older_5k_ser[Opo] <- sum(win_NHB_5k_ser[,Opo] == 7)/trials
-}
-
-pO_llAb_pVax_older_5k_ser <- rep(0, length(eff_red))
-for(Olpo in 1: length(eff_red)){
-  pO_llAb_pVax_older_5k_ser[Olpo] <- sum(win_NHB_5k_ser[,Olpo] == 8)/trials
-}
-
-pO_mVax_pVax_older_5k_ser <- rep(0, length(eff_red))
-for(Ompo in 1: length(eff_red)){
-  pO_mVax_pVax_older_5k_ser[Ompo] <- sum(win_NHB_5k_ser[,Ompo] == 9)/trials
-}
+# prep_p_5k <- array(c(DALYS_lost_er_no, DALYS_er_pVax, totalcost_er_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
+# prep_lp_5k <- array(c(DALYS_lost_er_no, DALYS_er_llAb_pVax, totalcost_er_llAb_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
+# prep_mp_5k <- array(c(DALYS_lost_er_no, DALYS_er_mVax_pVax, totalcost_er_mVax_pVax, totalcost_er_no), dim = c(trials, length(eff_red), 4))
+# 
+# NHB_p_5k_er <- NHB_func_er(prep_p_5k, WTP_5k)
+# NHB_lp_5k <- NHB_func_er(prep_lp_5k, WTP_5k)
+# NHB_mp_5k <- NHB_func_er(prep_mp_5k, WTP_5k)
+# 
+# compare_NHB_5k <- array(c(NHB_no_5k, NHB_l_5k, NHB_m_5k, NHB_p_5k, NHB_lp_5k, NHB_mp_5k, NHB_p_older_5k, NHB_lp_older_5k, NHB_mp_older_5k), dim = c(trials, length(eff_red), 9))
+# win_NHB_5k <- apply(compare_NHB_5k, MARGIN = c(1,2), which.max)
+# 
+# pO_no_5k <- rep(0, length(eff_red))
+# for(no in 1: length(eff_red)){
+#   pO_no_5k[no] <- sum(win_NHB_5k[,no] == 1)/trials
+# }
+# 
+# pO_llAb_5k <- rep(0, length(eff_red))
+# for(Ol in 1: length(eff_red)){
+#   pO_llAb_5k[Ol] <- sum(win_NHB_5k[,Ol] == 2)/trials
+# }
+# 
+# pO_mVax_5k <- rep(0, length(eff_red))
+# for(Om in 1: length(eff_red)){
+#   pO_mVax_5k[Om] <- sum(win_NHB_5k[,Om] == 3)/trials
+# }
+# 
+# pO_pVax_5k <- rep(0, length(eff_red))
+# for(Op in 1: length(eff_red)){
+#   pO_pVax_5k[Op] <- sum(win_NHB_5k[,Op] == 4)/trials
+# }
+# 
+# pO_llAb_pVax_5k <- rep(0, length(eff_red))
+# for(lp in 1: length(eff_red)){
+#   pO_llAb_pVax_5k[lp] <- sum(win_NHB_5k[,lp] == 5)/trials
+# }
+# 
+# pO_mVax_pVax_5k <- rep(0, length(eff_red))
+# for(Omp in 1: length(eff_red)){
+#   pO_mVax_pVax_5k[Omp] <- sum(win_NHB_5k[,Omp] == 6)/trials
+# }
+# 
+# pO_pVax_older_5k <- rep(0, length(eff_red))
+# for(Opo in 1: length(eff_red)){
+#   pO_pVax_older_5k[Opo] <- sum(win_NHB_5k[,Opo] == 7)/trials
+# }
+# 
+# pO_llAb_pVax_older_5k <- rep(0, length(eff_red))
+# for(zp in 1: length(eff_red)){
+#   pO_llAb_pVax_older_5k[zp] <- sum(win_NHB_5k[,zp] == 8)/trials
+# }
+# 
+# pO_mVax_pVax_older_5k <- rep(0, length(eff_red))
+# for(Ompo in 1: length(eff_red)){
+#   pO_mVax_pVax_older_5k[Ompo] <- sum(win_NHB_5k[,Ompo] == 9)/trials
+# }
+# 
+# ##
+# # When efficacy reduction is driven by infant immaturity
+# compare_NHB_5k_ser <- array(c(NHB_no_5k, NHB_l_5k, NHB_m_5k, NHB_p_5k_er, NHB_lp_5k, NHB_mp_5k, NHB_p_older_5k, NHB_lp_older_5k, NHB_mp_older_5k), dim = c(trials, length(eff_red), 9))
+# win_NHB_5k_ser <- apply(compare_NHB_5k_ser, MARGIN = c(1,2), which.max)
+# 
+# pO_no_5k_ser <- rep(0, length(eff_red))
+# for(no in 1: length(eff_red)){
+#   pO_no_5k_ser[no] <- sum(win_NHB_5k_ser[,no] == 1)/trials
+# }
+# 
+# pO_llAb_5k_ser <- rep(0, length(eff_red))
+# for(Ol in 1: length(eff_red)){
+#   pO_llAb_5k_ser[Ol] <- sum(win_NHB_5k_ser[,Ol] == 2)/trials
+# }
+# 
+# pO_mVax_5k_ser <- rep(0, length(eff_red))
+# for(Om in 1: length(eff_red)){
+#   pO_mVax_5k_ser[Om] <- sum(win_NHB_5k_ser[,Om] == 3)/trials
+# }
+# 
+# pO_pVax_5k_ser <- rep(0, length(eff_red))
+# for(Op in 1: length(eff_red)){
+#   pO_pVax_5k_ser[Op] <- sum(win_NHB_5k_ser[,Op] == 4)/trials
+# }
+# 
+# pO_llAb_pVax_5k_ser <- rep(0, length(eff_red))
+# for(Olp in 1: length(eff_red)){
+#   pO_llAb_pVax_5k_ser[Olp] <- sum(win_NHB_5k_ser[,Olp] == 5)/trials
+# }
+# 
+# pO_mVax_pVax_5k_ser <- rep(0, length(eff_red))
+# for(Omp in 1: length(eff_red)){
+#   pO_mVax_pVax_5k_ser[Omp] <- sum(win_NHB_5k_ser[,Omp] == 6)/trials
+# }
+# 
+# pO_pVax_older_5k_ser <- rep(0, length(eff_red))
+# for(Opo in 1: length(eff_red)){
+#   pO_pVax_older_5k_ser[Opo] <- sum(win_NHB_5k_ser[,Opo] == 7)/trials
+# }
+# 
+# pO_llAb_pVax_older_5k_ser <- rep(0, length(eff_red))
+# for(Olpo in 1: length(eff_red)){
+#   pO_llAb_pVax_older_5k_ser[Olpo] <- sum(win_NHB_5k_ser[,Olpo] == 8)/trials
+# }
+# 
+# pO_mVax_pVax_older_5k_ser <- rep(0, length(eff_red))
+# for(Ompo in 1: length(eff_red)){
+#   pO_mVax_pVax_older_5k_ser[Ompo] <- sum(win_NHB_5k_ser[,Ompo] == 9)/trials
+# }
 
 ####
 additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no,
