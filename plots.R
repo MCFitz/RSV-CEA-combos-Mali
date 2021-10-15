@@ -227,7 +227,7 @@ quartz.save(file = "Figures/legend", type = "pdf")
 ####
 # 4 Panel Figure with Health Outcomes by month of age
 # [RSV cases, LRTI episodes, hospitalizations, deaths]
-
+  
 ni <- 6 # number of interventions to include in the plot
 nm <- 4 # number of health metrics to include in the plot
    
@@ -269,6 +269,17 @@ ggplot(temp_HO, aes(x = bin, y = tot, fill = intervention)) +
 quartz.save(file = "Figures/Health_Outcomes_Barplot", type = "pdf")
 ###
 
-
+# quartz("Health Outcomes Barplot, Secondary Analysis", 12, 8)
+# ggplot(temp_HO, aes(x = bin, y = tot, fill = intervention)) +
+#    geom_bar(position = 'dodge', stat = 'identity') +
+#    scale_x_continuous(breaks = seq(1, 6, by = 1), labels = c("<6", "6-<12", "12-<18", "18-<24", "24-<30", "30-<36")) +
+#    xlab(NULL) +
+#    facet_wrap(~metric, scales = "free") +
+#    scale_fill_manual(values = brewer.pal(ni, "Set2")) +
+#    ylab("") +
+#    xlab("Month of age") +
+#    theme_bw() +
+#    theme(legend.title = element_blank())
+# quartz.save(file = "Figures/RSV_prevented_Health_Outcomes_Barplot", type = "pdf")
 
 ######
