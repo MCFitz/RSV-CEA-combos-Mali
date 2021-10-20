@@ -28,6 +28,15 @@ CI_func <- function(param) {
   c(quantile(param, probs = 0.05), quantile(param, probs = 0.95))
 }
 
+# collapsing birth cohort structure to age by months structure
+adj_func <- function(bic_mat){
+  adj <- matrix(NA, nrow = 12, ncol = 36)
+  for(i in 1:12){
+    adj[i,] <- bic_mat[i ,i:(i+35)]
+  }
+  adj2 <- colSums(adj)
+}
+
 # source all necessary scripts
 source("attack_rates.R")
 source("health_functions.R")
@@ -104,58 +113,60 @@ rsv_lrti_hosps <- Li_hosps/LRTI_no_age_bin
 source("hospitalizations by age.R")
 source("optimality_curve_code.R")
 
-# Calculating number of cases across pVax efficacy (for 10 & 14 wk doses) from 0 to 100% (due to interference)
+# Calculating number of LRTI episodes across pVax efficacy (for 10 & 14 wk doses) from 0 to 100% (due to interference)
 eff_red <- seq(0.0, 1, by = 0.01)
-# 
-# # pediatric vaccine
-# er_p_cases <- matrix(NA, trials, length(eff_red))
-# for (p in 1:trials) {
-#   for(er in 1:length(eff_red)){
-#     temp_p <- pd_calc(eff_red[er], coverage[3], AR_y_u[,,p], mat_eff_pVax)
-#     er_p_cases[p, er] <- RSVcases(temp_p, babies = num_infants, mort_mat)
-#   }}
-# 
-# # long-acting Ab plus pediatric vaccine
-# er_lp_cases <- matrix(NA, trials, length(eff_red))
-# for (lp in 1:trials) {
-#   for(er in 1:length(eff_red)){
-#     temp_lp <- pd_joint(efficacy[3], eff_red[er], coverage[1], coverage[3], AR_y_u[,,lp], 
-#                      mat_eff_llAb, mat_eff_pVax)
-#     er_lp_cases[lp, er] <- RSVcases(temp_lp, babies = num_infants, mort_mat)
-# }}
-# 
-# # maternal vaccine plus pediatric vaccine
-# er_mp_cases <- matrix(NA, trials, length(eff_red))
-# for (mp in 1:trials) {
-#   for(er in 1:length(eff_red)){
-#     temp_mp <- pd_joint(efficacy[3], eff_red[er], coverage[2], coverage[3], AR_y_u[,,mp],
-#                         mat_eff_mVax, mat_eff_pVax)
-# er_mp_cases[mp, er] <- RSVcases(temp_mp, babies = num_infants, mort_mat)
-#   }}
-# 
-# # pediatric vaccine admin to older infants
-# er_p_older_cases <- matrix(NA, trials, length(eff_red))
-# for (p in 1:trials) {
-#   for(er in 1:length(eff_red)){
-#     temp_p <- pd_calc(efficacy[3], cov_pVax_o, AR_y_u[,,p], mat_eff_older_pVax)
-#     er_p_older_cases[p, er] <- RSVcases(temp_p, babies = num_infants, mort_mat)
-#   }}
-# # long-acting Ab plus pediatric vaccine admin to older infants
-# er_lp_older_cases <- matrix(NA, trials, length(eff_red))
-# for (lp in 1:trials) {
-#   for(er in 1:length(eff_red)){
-#     temp_lp_older <- pd_joint(efficacy[1], efficacy[3], coverage[1], cov_pVax_o, AR_y_u[,,lp], 
-#                         mat_eff_llAb, mat_eff_older_pVax)
-#     er_lp_older_cases[lp, er] <- RSVcases(temp_lp_older, babies = num_infants, mort_mat)
-#   }}
-# # maternal vaccine plus pediatric vaccine admin to older infants
-# er_mp_older_cases <- matrix(NA, trials, length(eff_red))
-# for (mp in 1:trials) {
-#   for(er in 1:length(eff_red)){
-#     temp_mp_older <- pd_joint(efficacy[2], efficacy[3], coverage[2], cov_pVax_o, AR_y_u[,,mp],
-#                         mat_eff_mVax, mat_eff_older_pVax)
-#     er_mp_older_cases[mp, er] <- RSVcases(temp_mp_older, babies = num_infants, mort_mat)
-#   }}
+
+# pediatric vaccine
+er_p_LRTI <- matrix(NA, trials, length(eff_red))
+for (p in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_p <- LRTI_func(eff_red[er], coverage[3], mat_eff_pVax, p_pneum_u[p], cases_no_u_bic[,,p])
+    er_p_LRTI[p, er] <- sum(temp_p)
+  }}
+
+# long-acting Ab plus pediatric vaccine
+er_lp_LRTI <- matrix(NA, trials, length(eff_red))
+for (lp in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_lp <- LRTI_func_joint(efficacy[1], eff_red[er], coverage[1], coverage[3],
+                               mat_eff_llAb, mat_eff_pVax, p_pneum_u[lp], cases_no_u_bic[,,lp])
+    er_lp_LRTI[lp, er] <- sum(temp_lp)
+  }}
+
+# maternal vaccine plus pediatric vaccine
+er_mp_LRTI <- matrix(NA, trials, length(eff_red))
+for (mp in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_mp <- LRTI_func_joint(efficacy[2], eff_red[er], coverage[2], coverage[3],
+                               mat_eff_mVax, mat_eff_pVax, p_pneum_u[mp], cases_no_u_bic[,,mp])
+er_mp_LRTI[mp, er] <- sum(temp_mp)
+  }}
+
+# pediatric vaccine admin to older infants
+er_p_older_LRTI <- matrix(NA, trials, length(eff_red))
+for (p in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_p <- LRTI_func(efficacy[3], cov_pVax_o, mat_eff_older_pVax, p_pneum_u[p], cases_no_u_bic[,,p])
+    er_p_older_LRTI[p, er] <- sum(temp_p)
+  }}
+
+# long-acting Ab plus pediatric vaccine admin to older infants
+er_lp_older_LRTI <- matrix(NA, trials, length(eff_red))
+for (lp in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_lp_older <- LRTI_func_joint(efficacy[1], efficacy[3], coverage[1], cov_pVax_o,
+                                     mat_eff_llAb, mat_eff_older_pVax, p_pneum_u[lp], cases_no_u_bic[,,lp])
+    er_lp_older_LRTI[lp, er] <- sum(temp_lp_older)
+  }}
+
+# maternal vaccine plus pediatric vaccine admin to older infants
+er_mp_older_LRTI <- matrix(NA, trials, length(eff_red))
+for (mp in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_mp_older <- LRTI_func_joint(efficacy[2], efficacy[3], coverage[2], cov_pVax_o,
+                                     mat_eff_mVax, mat_eff_older_pVax, p_pneum_u[mp], cases_no_u_bic[,,mp])
+    er_mp_older_LRTI[mp, er] <- sum(temp_mp_older)
+  }}
 
 source("LRTI_prevention_scenario.R")
 # hospitalizations point estimate
@@ -203,50 +214,6 @@ deaths_joint_mVax_pVax <- sum(deaths_joint_mVax_pVax_age)
 deaths_pVax_older <- sum(deaths_pVax_older_age)
 deaths_joint_llAb_pVax_older <- sum(deaths_joint_llAb_pVax_older_age)
 deaths_joint_mVax_pVax_older <- sum(deaths_joint_mVax_pVax_older_age)
-
-# NOTE: these are for the CE plane figure, needs to be updated
-# deaths_pVax_intflo <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intflo)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intflo)))
-# deaths_pVax_intfhi <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intfhi)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intfhi)))
-# deaths_intfhi_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_llAb_pVax)))
-# deaths_intfhi_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)))
-# deaths_intflo_llAb_pVax <-mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
-# deaths_intflo_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
-
-### Health Outcomes by year [cases, hospitalizations, deaths]
-## create lists of deaths by year (1 through 3), for all trials
-outcome_by_year_func <- function(outcomes_input){
-  list(apply(outcomes_input[, 1:12], MARGIN = 1, sum), apply(outcomes_input[, 13:24], MARGIN = 1, sum), apply(outcomes_input[, 25:36], MARGIN = 1, sum))
-}
-
-cases_year_no_u <- outcome_by_year_func(cases_no_u_age)
-cases_year_llAb_u <- outcome_by_year_func(cases_llAb_u_age)
-cases_year_mVax_u <- outcome_by_year_func(cases_mVax_u_age)
-cases_year_pVax_u <- outcome_by_year_func(cases_pVax_u_age)
-cases_year_joint_llAb_pVax_u <- outcome_by_year_func(cases_joint_llAb_pVax_u_age)
-cases_year_joint_mVax_pVax_u <- outcome_by_year_func(cases_joint_mVax_pVax_u_age)
-cases_year_pVax_older_u <- outcome_by_year_func(cases_pVax_older_u_age)
-cases_year_joint_llAb_pVax_older_u <- outcome_by_year_func(cases_joint_llAb_pVax_older_u_age)
-cases_year_joint_mVax_pVax_older_u <- outcome_by_year_func(cases_joint_mVax_pVax_older_u_age)
-
-hosp_year_no_u <- outcome_by_year_func(inpat_no_u_age)
-hosp_year_llAb_u <- outcome_by_year_func(inpat_llAb_u_age)
-hosp_year_mVax_u <- outcome_by_year_func(inpat_mVax_u_age)
-hosp_year_pVax_u <- outcome_by_year_func(inpat_pVax_u_age)
-hosp_year_joint_llAb_pVax_u <- outcome_by_year_func(inpat_joint_llAb_pVax_u_age)
-hosp_year_joint_mVax_pVax_u <- outcome_by_year_func(inpat_joint_mVax_pVax_u_age)
-hosp_year_pVax_older_u <- outcome_by_year_func(inpat_pVax_older_u_age)
-hosp_year_joint_llAb_pVax_older_u <- outcome_by_year_func(inpat_joint_llAb_pVax_older_u_age)
-hosp_year_joint_mVax_pVax_older_u <- outcome_by_year_func(inpat_joint_mVax_pVax_older_u_age)
-
-deaths_year_no_u <- outcome_by_year_func(deaths_no_u_age)
-deaths_year_llAb_u <- outcome_by_year_func(deaths_llAb_u_age)
-deaths_year_mVax_u <- outcome_by_year_func(deaths_mVax_u_age)
-deaths_year_pVax_u <- outcome_by_year_func(deaths_pVax_u_age)
-deaths_year_joint_llAb_pVax_u <- outcome_by_year_func(deaths_joint_llAb_pVax_u_age)
-deaths_year_joint_mVax_pVax_u <- outcome_by_year_func(deaths_joint_mVax_pVax_u_age)
-deaths_year_pVax_older_u <-outcome_by_year_func(deaths_pVax_older_u_age)
-deaths_year_joint_llAb_pVax_older_u <- outcome_by_year_func(deaths_joint_llAb_pVax_older_u_age)
-deaths_year_joint_mVax_pVax_older_u <- outcome_by_year_func(deaths_joint_mVax_pVax_older_u_age)
 
 # Calculate number of deaths across pVax efficacy from 0 to 100%
 # deaths_no_u_age <- t(mort_inpat_func(CFR_sub, inpat_no_u, CFR_nr_care_u, nr_care_func(p_inpatient_u, pneum_func(p_pneum_u, t(rep.col(cases_no_u, length(AR_age_weights))) * AR_age_weights))))
@@ -326,7 +293,6 @@ totalcost_joint_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[
 # totalcost_intfhi_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intfhi_mVax_pVax
 # totalcost_intflo_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_llAb_pVax
 # totalcost_intflo_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_intflo_mVax_pVax
-
 totalcost_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_pVax_older
 totalcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_llAb_pVax_older
 totalcost_joint_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*1.35 +cost_prod)) + medcost_joint_mVax_pVax_older
@@ -465,23 +431,23 @@ NHB_m_GDP <- NHB_func(prep_mVax, CET_Mali_GDP)
 # }
 
 ####
-additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no,
-                     totalcost_intfhi_llAb_pVax - totalcost_no, totalcost_intfhi_mVax_pVax - totalcost_no, totalcost_intflo_llAb_pVax- totalcost_no, totalcost_intflo_mVax_pVax- totalcost_no)
-deaths_averted <- c(deaths_no - deaths_llAb, deaths_no - deaths_mVax, deaths_no - deaths_pVax, deaths_no - deaths_joint_llAb_pVax, deaths_no - deaths_joint_mVax_pVax,
-                    deaths_no - deaths_intfhi_llAb_pVax, deaths_no - deaths_intfhi_mVax_pVax, deaths_no - deaths_intflo_llAb_pVax, deaths_no - deaths_intflo_mVax_pVax)
-DALYs_averted <- c(DALYS_lost_no - DALYS_lost_llAb, DALYS_lost_no - DALYS_lost_mVax, DALYS_lost_no - DALYS_lost_pVax, DALYS_lost_no - DALYS_lost_joint_llAb_pVax, DALYS_lost_no - DALYS_lost_joint_mVax_pVax,
-                   DALYS_lost_no - DALYS_lost_intfhi_llAb_pVax, DALYS_lost_no - DALYS_lost_intfhi_mVax_pVax, DALYS_lost_no - DALYS_lost_intflo_llAb_pVax, DALYS_lost_no - DALYS_lost_intflo_mVax_pVax)
-
-# All ICERs compared to status quo:
-ICERs_base <- additional_cost/DALYs_averted
-# Calculate ICER moving from pVax to mVax + pVax:
-ICER_mVax_pVax <- (totalcost_joint_mVax_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_mVax_pVax)
-# Calculate ICER moving from pVax to llAb + pVax:
-ICER_llAb_pVax <- (totalcost_joint_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_llAb_pVax)
-# Calculate ICER moving from pVax to llAb + pVax with 20% interference
-ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_intflo_llAb_pVax)
-
-interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
+# additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no,
+#                      totalcost_intfhi_llAb_pVax - totalcost_no, totalcost_intfhi_mVax_pVax - totalcost_no, totalcost_intflo_llAb_pVax- totalcost_no, totalcost_intflo_mVax_pVax- totalcost_no)
+# deaths_averted <- c(deaths_no - deaths_llAb, deaths_no - deaths_mVax, deaths_no - deaths_pVax, deaths_no - deaths_joint_llAb_pVax, deaths_no - deaths_joint_mVax_pVax,
+#                     deaths_no - deaths_intfhi_llAb_pVax, deaths_no - deaths_intfhi_mVax_pVax, deaths_no - deaths_intflo_llAb_pVax, deaths_no - deaths_intflo_mVax_pVax)
+# DALYs_averted <- c(DALYS_lost_no - DALYS_lost_llAb, DALYS_lost_no - DALYS_lost_mVax, DALYS_lost_no - DALYS_lost_pVax, DALYS_lost_no - DALYS_lost_joint_llAb_pVax, DALYS_lost_no - DALYS_lost_joint_mVax_pVax,
+#                    DALYS_lost_no - DALYS_lost_intfhi_llAb_pVax, DALYS_lost_no - DALYS_lost_intfhi_mVax_pVax, DALYS_lost_no - DALYS_lost_intflo_llAb_pVax, DALYS_lost_no - DALYS_lost_intflo_mVax_pVax)
+# 
+# # All ICERs compared to status quo:
+# ICERs_base <- additional_cost/DALYs_averted
+# # Calculate ICER moving from pVax to mVax + pVax:
+# ICER_mVax_pVax <- (totalcost_joint_mVax_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_mVax_pVax)
+# # Calculate ICER moving from pVax to llAb + pVax:
+# ICER_llAb_pVax <- (totalcost_joint_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_joint_llAb_pVax)
+# # Calculate ICER moving from pVax to llAb + pVax with 20% interference
+# # ICER_intflo_llAb_pVax <- (totalcost_intflo_llAb_pVax - totalcost_pVax) / (DALYS_lost_pVax - DALYS_lost_intflo_llAb_pVax)
+# 
+# interventions <- data.frame(int_names, efficacy, duration, coverage, additional_cost, deaths_averted, DALYs_averted, ICERs_base)
 
 # output 
 strategies <- c( "llAb", "mVax", "pVax 10 & 14 wk", "llAb + pVax 10 and 14 wk", "mVax + pVax 10 & 14 wk", "pVax 8 & 9 months", "llAb + pVax 8 & 9 months", "mVax + pVax 8 & 9 months")

@@ -227,6 +227,8 @@ quartz.save(file = "Figures/legend", type = "pdf")
 ####
 # 4 Panel Figure with Health Outcomes by month of age
 # [RSV cases, LRTI episodes, hospitalizations, deaths]
+# rep(cases_no_age, ni)
+# cases_no_age, cases_llAb_age, cases_mVax_age, cases_pVax_age, cases_joint_llAb_pVax_age, cases_pVax_older_age
   
 ni <- 6 # number of interventions to include in the plot
 nm <- 4 # number of health metrics to include in the plot

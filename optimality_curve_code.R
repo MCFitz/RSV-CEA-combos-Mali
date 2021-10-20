@@ -229,6 +229,60 @@ totalcost_pVax_older_u <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5
 totalcost_joint_llAb_pVax_older_u <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_llAb_pVax_u_older
 totalcost_joint_mVax_pVax_older_u <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_mVax_pVax_u_older
 
+# Calculate total intervention costs across change in price of the product
+# pspan
+# generate a matrix where rows = trials, columns = costs
+cprod <- seq(.01, 3, by = 0.01)
+
+tcost_no_pspan <- rep.col(medcost_no_u, length(cprod))
+
+tcost_llAb_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for (l in 1:length(cprod)) {
+  tcost_llAb_pspan[,l] <- sum(llAb_admin * coverage[1] * num_infants * cprod[l]) + medcost_llAb_u
+}
+
+tcost_mVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for (m in 1:length(cprod)) {
+  tcost_mVax_pspan[,m] <- sum(mVax_admin * coverage[2] * num_infants * cprod[m]) + medcost_mVax_u
+}
+
+tcost_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for (p in 1:length(cprod)) {
+  tcost_pVax_pspan[,p] <- sum(pVax_admin * coverage[3] * num_infants * cprod[p]) + medcost_pVax_u
+}
+
+tcost_llAb_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(lp in 1:length(cprod)) {
+  tcost_llAb_pVax_pspan[,lp] <- sum(llAb_admin * coverage[1] * num_infants * cprod[lp]) +
+    sum(pVax_admin * coverage[3] * num_infants * cprod[lp]) + medcost_joint_llAb_pVax_u
+}
+
+tcost_mVax_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(mp in 1:length(cprod)) {
+  tcost_mVax_pVax_pspan[,mp] <- sum(mVax_admin * coverage[2] * num_infants * cprod[mp]) +
+    sum(pVax_admin * coverage[3] * num_infants * cprod[mp]) + medcost_joint_mVax_pVax_u
+}
+
+tcost_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(po in 1:length(cprod)){
+  tcost_pVax_older_pspan[,po] <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cprod[po])) + medcost_pVax_u_older
+}
+
+tcost_llAb_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(lpo in 1:length(cprod)) {
+  tcost_llAb_pVax_older_pspan[,lpo] <- sum(llAb_admin * coverage[1] * num_infants * cprod[lpo]) +
+    sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cprod[lpo])) +
+    medcost_joint_llAb_pVax_u_older
+}
+
+tcost_mVax_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(mpo in 1:length(cprod)){
+  tcost_mVax_pVax_older_pspan[,mpo] <- sum(mVax_admin * coverage[2] * num_infants * cprod[mpo]) +
+    sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cprod[mpo])) +
+    medcost_joint_mVax_pVax_u_older
+}
+  
+
 # calculate probability of being cost-effective across WTP
 
 prep_llAb <- cbind(DALYS_lost_no_u, DALYS_lost_llAb_u, totalcost_llAb_u, totalcost_no_u)
@@ -247,7 +301,7 @@ for (m in 1: length(WTP_sp)){
   pce_mVax[m] <- sum(NHB_m[,m] >0)/trials
 }
 
-prep_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_pVax_u_SA, totalcost_pVax_u_SA, totalcost_no_u)
+prep_pVax <- cbind(DALYS_lost_no_u, DALYS_lost_pVax_u, totalcost_pVax_u, totalcost_no_u)
 pce_pVax <- rep(0, length(WTP_sp))
 NHB_p <- matrix(0, trials, length(WTP_sp))
 for (p in 1: length(WTP_sp)){

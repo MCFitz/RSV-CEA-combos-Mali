@@ -19,14 +19,6 @@ LRTI_joint_llAb_pVax_older_bic <- LRTI_func_joint(efficacy[1], efficacy[3], cove
 LRTI_joint_mVax_pVax_older_bic <- LRTI_func_joint(efficacy[2], efficacy[3], coverage[2], cov_pVax_o, mat_eff_mVax, mat_eff_older_pVax, p_pneum, cases_no_bic)
 
 # return a vector of RSV-LRTI episodes by age
-adj_func <- function(bic_mat){
-  adj <- matrix(NA, nrow = 12, ncol = 36)
-for(i in 1:12){
-  adj[i,] <- bic_mat[i ,i:(i+35)]
-}
-adj2 <- colSums(adj)
-}
-
 LRTI_no_age <- adj_func(LRTI_no_bic)
 LRTI_llAb_age <- adj_func(LRTI_llAb_bic)
 LRTI_mVax_age <- adj_func(LRTI_mVax_bic)

@@ -182,3 +182,49 @@
 # legend("bottomright", legend = c("mAb", "mVax", "pVax 70% efficacy", "pVax 50% efficacy", "pVax 30% efficacy", "mAb + pVax 70% efficacy", "mAb + pVax 50% efficacy", "mAb + pVax 30% efficacy", "mVax + pVax 70% efficacy", "mVax + pVax 50% efficacy", "mVax + pVax 30% efficacy"),
 #        bty = "n", pch = c(19,19,19,17,15,19,17,15,19,17,15), col = c(UMBblue, UMBforest, UMBplum, UMBplum, UMBplum, UMByellow, UMByellow, UMByellow, UMBcharcoal, UMBcharcoal, UMBcharcoal))
 # quartz.save(file = "Figures/CE_plane.pdf", type = "pdf")
+
+
+# ### Health Outcomes by year [cases, hospitalizations, deaths]
+# ## create lists of deaths by year (1 through 3), for all trials
+# outcome_by_year_func <- function(outcomes_input){
+#   list(apply(outcomes_input[, 1:12], MARGIN = 1, sum), apply(outcomes_input[, 13:24], MARGIN = 1, sum), apply(outcomes_input[, 25:36], MARGIN = 1, sum))
+# }
+# 
+# cases_year_no_u <- outcome_by_year_func(cases_no_u_age)
+# cases_year_llAb_u <- outcome_by_year_func(cases_llAb_u_age)
+# cases_year_mVax_u <- outcome_by_year_func(cases_mVax_u_age)
+# cases_year_pVax_u <- outcome_by_year_func(cases_pVax_u_age)
+# cases_year_joint_llAb_pVax_u <- outcome_by_year_func(cases_joint_llAb_pVax_u_age)
+# cases_year_joint_mVax_pVax_u <- outcome_by_year_func(cases_joint_mVax_pVax_u_age)
+# cases_year_pVax_older_u <- outcome_by_year_func(cases_pVax_older_u_age)
+# cases_year_joint_llAb_pVax_older_u <- outcome_by_year_func(cases_joint_llAb_pVax_older_u_age)
+# cases_year_joint_mVax_pVax_older_u <- outcome_by_year_func(cases_joint_mVax_pVax_older_u_age)
+# 
+# hosp_year_no_u <- outcome_by_year_func(inpat_no_u_age)
+# hosp_year_llAb_u <- outcome_by_year_func(inpat_llAb_u_age)
+# hosp_year_mVax_u <- outcome_by_year_func(inpat_mVax_u_age)
+# hosp_year_pVax_u <- outcome_by_year_func(inpat_pVax_u_age)
+# hosp_year_joint_llAb_pVax_u <- outcome_by_year_func(inpat_joint_llAb_pVax_u_age)
+# hosp_year_joint_mVax_pVax_u <- outcome_by_year_func(inpat_joint_mVax_pVax_u_age)
+# hosp_year_pVax_older_u <- outcome_by_year_func(inpat_pVax_older_u_age)
+# hosp_year_joint_llAb_pVax_older_u <- outcome_by_year_func(inpat_joint_llAb_pVax_older_u_age)
+# hosp_year_joint_mVax_pVax_older_u <- outcome_by_year_func(inpat_joint_mVax_pVax_older_u_age)
+# 
+# deaths_year_no_u <- outcome_by_year_func(deaths_no_u_age)
+# deaths_year_llAb_u <- outcome_by_year_func(deaths_llAb_u_age)
+# deaths_year_mVax_u <- outcome_by_year_func(deaths_mVax_u_age)
+# deaths_year_pVax_u <- outcome_by_year_func(deaths_pVax_u_age)
+# deaths_year_joint_llAb_pVax_u <- outcome_by_year_func(deaths_joint_llAb_pVax_u_age)
+# deaths_year_joint_mVax_pVax_u <- outcome_by_year_func(deaths_joint_mVax_pVax_u_age)
+# deaths_year_pVax_older_u <-outcome_by_year_func(deaths_pVax_older_u_age)
+# deaths_year_joint_llAb_pVax_older_u <- outcome_by_year_func(deaths_joint_llAb_pVax_older_u_age)
+# deaths_year_joint_mVax_pVax_older_u <- outcome_by_year_func(deaths_joint_mVax_pVax_older_u_age)
+
+# NOTE: these are for the CE plane figure, needs to be updated
+# deaths_pVax_intflo <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intflo)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intflo)))
+# deaths_pVax_intfhi <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intfhi)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_pVax_intfhi)))
+# deaths_intfhi_llAb_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_llAb_pVax)))
+# deaths_intfhi_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intfhi_mVax_pVax)))
+# deaths_intflo_llAb_pVax <-mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax )), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_llAb_pVax)))
+# deaths_intflo_mVax_pVax <- mort_inpat_func(CFR_inpatient, inpat_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)), CFR_nr_care, nr_care_func(p_inpatient, pneum_func(p_pneum, cases_intflo_mVax_pVax)))
+
