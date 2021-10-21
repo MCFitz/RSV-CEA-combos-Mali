@@ -103,6 +103,28 @@ legend("topright", ncol = 2, legend = c("status quo","mAb", "mVax", "pVax 10 & 1
        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
 
+# plot probability optimal across product cost
+
+quartz("pOptimal by product cost", 10, 8)
+par(xaxs="i", yaxs="i")
+plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0,3), bty = "l",
+     type = "l", lwd = 3, col = UMBplum,
+     xlab = "Product cost (USD)",
+     ylab = "Probability optimal")
+lines(cprod, pO_no_pspan, col = UMBred, lty = 1, lwd = 3)
+lines(cprod, pO_llAb_pspan, col = UMBblue, lty = 1, lwd = 3)
+lines(cprod, pO_mVax_pspan, col = UMBforest, lty = 1, lwd = 3)
+lines(cprod, pO_llAb_pVax_pspan, col = UMByellow, lty = 1, lwd = 3)
+lines(cprod, pO_mVax_pVax_pspan, col = UMBcharcoal, lty = 1, lwd = 3)
+lines(cprod, pO_pVax_older_pspan, col = UMBsea, lty = 1, lwd = 3)
+lines(cprod, pO_llAb_pVax_older_pspan, col = UMBtan, lty = 1, lwd = 3)
+lines(cprod, pO_mVax_pVax_older_pspan, col = UMBslate, lty = 1, lwd = 3)
+legend("topright", ncol = 2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+       lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
+
+
+
 ##
 # quartz("SuppFig3", 10, 8)
 # par(xaxs="i", yaxs="i")

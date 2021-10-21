@@ -281,7 +281,114 @@ for(mpo in 1:length(cprod)){
     sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cprod[mpo])) +
     medcost_joint_mVax_pVax_u_older
 }
-  
+
+# calculate NHB across changing product cost from $0-3 and WTP = 1XGDP
+
+NHB_no_pspan <- matrix(NA, trials, length(cprod))
+for(no in 1:length(cprod)){
+  NHB_no_pspan[,no] <- (DALYS_lost_no_u - DALYS_lost_no_u) -
+    (tcost_no_pspan[,no] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_llAb_pspan <- matrix(NA, trials, length(cprod))
+for(l in 1:length(cprod)){
+  NHB_llAb_pspan[,l] <- (DALYS_lost_no_u - DALYS_lost_llAb_u) -
+    (tcost_llAb_pspan[,l] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_mVax_pspan <- matrix(NA, trials, length(cprod))
+for(m in 1:length(cprod)){
+  NHB_mVax_pspan[,m] <- (DALYS_lost_no_u - DALYS_lost_mVax_u) -
+    (tcost_mVax_pspan[,m] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_pVax_pspan <- matrix(NA, trials, length(cprod))
+for(p in 1:length(cprod)){
+  NHB_pVax_pspan[,p] <- (DALYS_lost_no_u - DALYS_lost_pVax_u) -
+    (tcost_pVax_pspan[,p] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_llAb_pVax_pspan <- matrix(NA, trials, length(cprod))
+for(lp in 1:length(cprod)){
+  NHB_llAb_pVax_pspan[,lp] <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u) -
+    (tcost_llAb_pVax_pspan[,lp] - tcost_no_pspan[,lp]) / CET_Mali_GDP
+}
+
+NHB_mVax_pVax_pspan <- matrix(NA, trials, length(cprod))
+for(mp in 1:length(cprod)){
+  NHB_mVax_pVax_pspan[,mp] <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u) -
+    (tcost_mVax_pVax_pspan[,mp] - tcost_no_pspan[,mp]) / CET_Mali_GDP
+}
+
+NHB_pVax_older_pspan <- matrix(NA, trials, length(cprod))
+for(po in 1:length(cprod)){
+  NHB_pVax_older_pspan[,po] <- (DALYS_lost_no_u - DALYS_lost_pVax_older_u) -
+    (tcost_pVax_older_pspan[,po] - tcost_no_pspan[,po]) / CET_Mali_GDP
+}
+
+NHB_llAb_pVax_older_pspan <- matrix(NA, trials, length(cprod))
+for(lpo in 1:length(cprod)){
+  NHB_llAb_pVax_older_pspan[,lpo] <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u) -
+    (tcost_llAb_pVax_older_pspan[,lpo] - tcost_no_pspan[,lpo]) / CET_Mali_GDP
+}
+
+NHB_mVax_pVax_older_pspan <- matrix(NA, trials, length(cprod))
+for(mpo in 1:length(cprod)){
+  NHB_mVax_pVax_older_pspan[,mpo] <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_older_u) -
+    (tcost_mVax_pVax_older_pspan[,mpo] - tcost_no_pspan[,mpo]) / CET_Mali_GDP
+}
+
+# compare NHB across all strategies
+compare_NHB_pspan <- array(c(NHB_no_pspan, NHB_llAb_pspan, NHB_mVax_pspan,
+                             NHB_pVax_pspan, NHB_llAb_pVax_pspan, NHB_mVax_pVax_pspan,
+                             NHB_pVax_older_pspan, NHB_llAb_pVax_older_pspan,
+                             NHB_mVax_pVax_older_pspan), dim = c(trials, length(cprod), 9))
+win_NHB_pspan <- apply(compare_NHB_pspan, MARGIN = c(1,2), which.max)
+
+pO_no_pspan <- rep(0, length(cprod))
+for(no in 1: length(cprod)){
+  pO_no_pspan[no] <- sum(win_NHB_pspan[,no] == 1)/trials
+}
+
+pO_llAb_pspan <- rep(0, length(cprod))
+for(Ol in 1: length(cprod)){
+  pO_llAb_pspan[Ol] <- sum(win_NHB_pspan[,Ol] == 2)/trials
+}
+
+pO_mVax_pspan <- rep(0, length(cprod))
+for(Om in 1: length(cprod)){
+  pO_mVax_pspan[Om] <- sum(win_NHB_pspan[,Om] == 3)/trials
+}
+
+pO_pVax_pspan <- rep(0, length(cprod))
+for(Op in 1: length(cprod)){
+  pO_pVax_pspan[Op] <- sum(win_NHB_pspan[,Op] == 4)/trials
+}
+
+pO_llAb_pVax_pspan <- rep(0, length(cprod))
+for(Olp in 1: length(cprod)){
+  pO_llAb_pVax_pspan[Olp] <- sum(win_NHB_pspan[,Olp] == 5)/trials
+}
+
+pO_mVax_pVax_pspan <- rep(0, length(cprod))
+for(Omp in 1: length(cprod)){
+  pO_mVax_pVax_pspan[Omp] <- sum(win_NHB_pspan[,Omp] == 6)/trials
+}
+
+pO_pVax_older_pspan <- rep(0, length(cprod))
+for(Opo in 1: length(cprod)){
+  pO_pVax_older_pspan[Opo] <- sum(win_NHB_pspan[,Opo] == 7)/trials
+}
+
+pO_llAb_pVax_older_pspan <- rep(0, length(cprod))
+for(Olpo in 1: length(cprod)){
+  pO_llAb_pVax_older_pspan[Olpo] <- sum(win_NHB_pspan[,Olpo] == 8)/trials
+}
+
+pO_mVax_pVax_older_pspan <- rep(0, length(cprod))
+for(Ompo in 1: length(cprod)){
+  pO_mVax_pVax_older_pspan[Ompo] <- sum(win_NHB_pspan[,Ompo] == 9)/trials
+}
 
 # calculate probability of being cost-effective across WTP
 
