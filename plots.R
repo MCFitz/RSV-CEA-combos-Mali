@@ -107,7 +107,7 @@ quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
 
 quartz("pOptimal by product cost", 10, 8)
 par(xaxs="i", yaxs="i")
-plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0,3), bty = "l",
+plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0,max(cprod)), bty = "l",
      type = "l", lwd = 3, col = UMBplum,
      xlab = "Product cost (USD)",
      ylab = "Probability optimal")
@@ -119,7 +119,11 @@ lines(cprod, pO_mVax_pVax_pspan, col = UMBcharcoal, lty = 1, lwd = 3)
 lines(cprod, pO_pVax_older_pspan, col = UMBsea, lty = 1, lwd = 3)
 lines(cprod, pO_llAb_pVax_older_pspan, col = UMBtan, lty = 1, lwd = 3)
 lines(cprod, pO_mVax_pVax_older_pspan, col = UMBslate, lty = 1, lwd = 3)
-legend("topright", ncol = 2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+abline(v = 1.03, lty = 3, lwd = 2)
+abline( v = 1.50, lty = 3, lwd = 2)
+text(1.03, 0.95, labels = "Penta", srt = 45, cex = 0.80)
+text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
 
@@ -221,8 +225,8 @@ quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
 quartz("cost of llAb vs cost pVax", 8, 8)
 par(mar = c(5.1, 4.1, 4.1, 2.1))
 par(xaxs="i", yaxs="i")
-image(x = c(pVax_cost[1] - 0.125, pVax_cost + 0.125),
-      y = c(llAb_cost[1] - 0.125, llAb_cost + 0.125),
+image(x = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),
+      y = c(llAb_cost[1] - 0.025, llAb_cost + 0.025),
       z = t(SA_llpv),
       col = c(UMB1, NA),
       xlab = "Price of pediatric vaccine product per dose (USD)",

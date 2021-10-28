@@ -70,7 +70,6 @@ NHB_func_er <- function(inputs, WTP) {
 
 # WTP
 CET_Mali_GDP <- 891
-# CET_Mali_GDP <- 10000
 GDP3 <- 3* CET_Mali_GDP
 WTP_5k <- 5000
 WTP_sp <- c(0.01, seq(25, 10000, by = 25))

@@ -73,7 +73,7 @@ inpat_func <- function(p_inpat, num_pneum){
   num_inpat
 }
 
-# calculate number of intants receiving outpatient care
+# calculate number of infants receiving outpatient care
 outpat_func <- function(num_pneum, num_hosp){
   num_outpat <- (num_pneum - num_hosp)
   num_outpat
@@ -82,7 +82,8 @@ outpat_func <- function(num_pneum, num_hosp){
 # calculate number of infants not receiving appropriate level of care
 # 53% of infants in LMIC with RSV-LRTI do not receive appropriate level of care
 nr_care_func <- function(num_hosp){
-  num_nr_care<- num_hosp * (1-p_seek_care)
+  num_nr_care <- num_hosp * (1-p_seek_care)
+  num_nr_care
 }
 
 # number of deaths

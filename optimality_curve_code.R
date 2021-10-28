@@ -232,7 +232,7 @@ totalcost_joint_mVax_pVax_older_u <- sum(mVax_admin * coverage[2] * num_infants 
 # Calculate total intervention costs across change in price of the product
 # pspan
 # generate a matrix where rows = trials, columns = costs
-cprod <- seq(.01, 3, by = 0.01)
+cprod <- seq(.01, 4, by = 0.01)
 
 tcost_no_pspan <- rep.col(medcost_no_u, length(cprod))
 
@@ -338,11 +338,12 @@ for(mpo in 1:length(cprod)){
     (tcost_mVax_pVax_older_pspan[,mpo] - tcost_no_pspan[,mpo]) / CET_Mali_GDP
 }
 
-# compare NHB across all strategies
+# compare NHB across changing product cost from $0-3 for all strategies
 compare_NHB_pspan <- array(c(NHB_no_pspan, NHB_llAb_pspan, NHB_mVax_pspan,
                              NHB_pVax_pspan, NHB_llAb_pVax_pspan, NHB_mVax_pVax_pspan,
                              NHB_pVax_older_pspan, NHB_llAb_pVax_older_pspan,
                              NHB_mVax_pVax_older_pspan), dim = c(trials, length(cprod), 9))
+
 win_NHB_pspan <- apply(compare_NHB_pspan, MARGIN = c(1,2), which.max)
 
 pO_no_pspan <- rep(0, length(cprod))

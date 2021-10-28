@@ -51,7 +51,7 @@ efficacy <- c(0.70, 0.70, 0.70, 0.70, 0.70, 0.30, 0.30, 0.50, 0.50)
 duration <- c(5, 4, 12, NA, NA, NA, NA, NA, NA)
 # intf <- c(NA, NA, NA, 0, 0, 0.25, 0.25, 0.50, 0.50) # 25% and 50% interference
 coverage <- c(0.830, 0.433, 0.77, NA, NA, NA, NA, NA, NA)
-costs <- c(4.35, 4.35, 4.35, NA, NA, NA, NA, NA, NA)
+costs <- c(cost_prod + 1.35, cost_prod + 1.35, cost_prod + 1.35, NA, NA, NA, NA, NA, NA)
 
 cov_pVax_o <- 0.70
 
@@ -117,6 +117,22 @@ source("optimality_curve_code.R")
 eff_red <- seq(0.0, 1, by = 0.01)
 
 # pediatric vaccine
+DALYS_lost_er_p <- matrix(NA, trials, length(eff_red))
+for (p in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_LRTI_p <- LRTI_func(eff_red[er], coverage[3], mat_eff_pVax, p_pneum_u[p], cases_no_u_bic[,,p]) # number of LRTI episodes
+    temp_adj_LRTI_p <- adj_func(temp_LRTI_p)
+    temp_inpat_p <- inpat_func(p_hosp_new, temp_adj_LRTI_p) # number of inpatient episodes
+    temp_outpat_p <- outpat_func(temp_adj_LRTI_p, temp_inpat_p) # number of outpatient episodes
+    temp_nrcare_p <- nr_care_func(temp_inpat_p) # number not receiving care
+    temp_death_p <- mort_inpat_func(CFR_by_age_u[p,], temp_inpat_p, CFR_nr_care_u[p,], temp_nrcare_p) # number of deaths
+    temp_YLL_p <- YLL_func(temp_death_p) # YLL
+    temp_YLD_p <- YLD_func(temp_inpat_p, temp_death_p, di_yrs_u[p], dw_LRTI_severe_u[p], temp_adj_LRTI_p, dw_LRTI_mod_u[p]) # YLD
+    DALYS_lost_er_p[p, er] <- sum(temp_YLD_p + temp_YLL_p) # DALYs lost
+    temp_medcost_p <- medcost_func(cost_hosp_u[p], temp_inpat_p, cost_outpatient_u[p], temp_outpat_p) # medcosts
+  }}
+
+
 er_p_LRTI <- matrix(NA, trials, length(eff_red))
 for (p in 1:trials) {
   for(er in 1:length(eff_red)){
@@ -167,6 +183,7 @@ for (mp in 1:trials) {
                                      mat_eff_mVax, mat_eff_older_pVax, p_pneum_u[mp], cases_no_u_bic[,,mp])
     er_mp_older_LRTI[mp, er] <- sum(temp_mp_older)
   }}
+
 
 source("LRTI_prevention_scenario.R")
 # hospitalizations point estimate
