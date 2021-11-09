@@ -38,9 +38,9 @@ ggplot(df_hosp_lo, aes(x = months_new, y = hosp_lo)) +
   x_new <- seq(0, max(x), length.out = length(y))
   y_pred <- predict(gam_y, data.frame(x = x_new)) * prop_h
   
-  par(mfrow = c(2,2))
-  gam.check(gam_y)
-  summary(gam_y)
+  # par(mfrow = c(2,2))
+  # gam.check(gam_y)
+  # summary(gam_y)
   
 p_hosp_new <- as.vector(y_pred)
 

@@ -24,7 +24,7 @@ UMB1 <- c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal,
 # CE plane, Plot cost per DALYs averted 
 quartz("CE plane", 8, 8)
 par(xaxs="i", yaxs="i")
-plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = UMBblue, bty = "n", pch = 19, cex = 1.5, xlim = c(0,2500), ylim = c(0,8000000), xlab = "DALYs averted", ylab = 
+plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = UMBblue, bty = "n", pch = 19, cex = 1.5, xlim = c(0,2500), ylim = c(0,5000000), xlab = "DALYs averted", ylab = 
        "Incremental cost compared to status quo (USD)")
 points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = UMBforest, pch = 19, cex =1.5)
 points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = UMBplum, pch = 19, cex = 1.5)
@@ -43,7 +43,7 @@ legend("bottomright", legend = c("mAb", "mVax", "pVax", "mAb + pVax", "mVax + pV
 quartz.save(file = "Figures/CE_plane.pdf", type = "pdf")
 
 # # plot cost per DALYs averted with uncertainty
-# plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,6000), ylim = c(0,7000000), xlab = "DALYs averted", ylab = 
+# plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,6000), ylim = c(0,7000000), xlab = "DALYs averted", ylab =
 #        "Added cost (USD)")
 # points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "blue", pch = 15)
 # points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "blue", pch = 17)
@@ -95,19 +95,19 @@ lines(WTP_sp, pO_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 3)
 lines(WTP_sp, pO_pVax_older, col = UMBsea, lty = 1, lwd = 3)
 lines(WTP_sp, pO_llAb_pVax_older, col = UMBtan, lty = 1, lwd = 3)
 lines(WTP_sp, pO_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 3)
-# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
 legend("topright", ncol = 2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
-       lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+       lty = 1, lwd = 3, bty = "n", col = UMB1)
 quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
 
-# plot probability optimal across product cost
 
+# plot probability optimal across product cost
 quartz("pOptimal by product cost", 10, 8)
 par(xaxs="i", yaxs="i")
-plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0,max(cprod)), bty = "l",
+plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0, max(cprod)), bty = "l",
      type = "l", lwd = 3, col = UMBplum,
      xlab = "Product cost (USD)",
      ylab = "Probability optimal")
@@ -119,14 +119,13 @@ lines(cprod, pO_mVax_pVax_pspan, col = UMBcharcoal, lty = 1, lwd = 3)
 lines(cprod, pO_pVax_older_pspan, col = UMBsea, lty = 1, lwd = 3)
 lines(cprod, pO_llAb_pVax_older_pspan, col = UMBtan, lty = 1, lwd = 3)
 lines(cprod, pO_mVax_pVax_older_pspan, col = UMBslate, lty = 1, lwd = 3)
-abline(v = 1.03, lty = 3, lwd = 2)
-abline( v = 1.50, lty = 3, lwd = 2)
+abline(v = 1.03, col = UMBgray, lty = 3, lwd = 2)
+abline(v = 1.50, col = UMBgray, lty = 3, lwd = 2)
 text(1.03, 0.95, labels = "Penta", srt = 45, cex = 0.80)
 text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
 legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
-       lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+       lty = 1, lwd = 3, bty = "n", col = UMB1)
 quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
-
 
 
 ##
@@ -153,44 +152,49 @@ quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
 # quartz.save(file = "Figures/SuppFig3.pdf", type = "pdf")
 ##
 
-#plot probability optimal across increasing pVax efficacy
+# plot probability optimal across increasing pVax efficacy
 # when efficacy reduction is based on immune immaturity
 quartz("efficacy reduction, immaturity", 10, 8)
 par(xaxs="i", yaxs="i")
-plot(eff_red*100, pO_pVax_5k_ser, ylim = c(0, 1), xlim = c(0,100), bty = "l",
+plot(eff_red*100, pO_pVax_ser, ylim = c(0, 1), xlim = c(0,100), bty = "l",
      type = "l", col = UMBplum, lty = 1, lwd = 3,
      xlab = "Pediatric vaccine efficacy when administered at 10 & 14 weeks (%)",
      ylab = "Probability optimal")
-lines(eff_red*100, pO_no_5k_ser, col = UMBred, lty = 1, lwd = 3)
-lines(eff_red*100, pO_llAb_5k_ser, col = UMBblue, lty = 1, lwd = 3)
-lines(eff_red*100, pO_mVax_5k_ser, col = UMBforest, lty = 1, lwd = 3)
-lines(eff_red*100, pO_llAb_pVax_5k_ser, col = UMByellow, lty = 1, lwd = 3)
-lines(eff_red*100, pO_mVax_pVax_5k_ser, col = UMBcharcoal, lty = 1, lwd = 3)
-lines(eff_red*100, pO_pVax_older_5k_ser, col = UMBsea, lty = 1, lwd = 3)
-lines(eff_red*100, pO_llAb_pVax_older_5k_ser, col = UMBtan, lty = 1, lwd = 3)
-lines(eff_red*100, pO_mVax_pVax_older_5k_ser, col = UMBslate, lty = 1, lwd = 3)
-legend("top", ncol =2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
-       lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+lines(eff_red*100, pO_no_ser, col = UMBred, lty = 1, lwd = 3)
+lines(eff_red*100, pO_llAb_ser, col = UMBblue, lty = 1, lwd = 3)
+lines(eff_red*100, pO_mVax_ser, col = UMBforest, lty = 1, lwd = 3)
+lines(eff_red*100, pO_llAb_pVax_ser, col = UMByellow, lty = 1, lwd = 3)
+lines(eff_red*100, pO_mVax_pVax_ser, col = UMBcharcoal, lty = 1, lwd = 3)
+lines(eff_red*100, pO_pVax_older_ser, col = UMBsea, lty = 1, lwd = 3)
+lines(eff_red*100, pO_llAb_pVax_older_ser, col = UMBtan, lty = 1, lwd = 3)
+lines(eff_red*100, pO_mVax_pVax_older_ser, col = UMBslate, lty = 1, lwd = 3)
+abline(v = 70, col = UMBgray, lty = 3, lwd = 2)
+text(70, 0.92, labels = "70% efficacy", srt = 45, cex = 0.80)
+legend("left", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+       lty = 1, lwd = 3, bty = "n", col = UMB1)
 quartz.save(file = "Figures/efficacy_reduction_immaturity.pdf", type = "pdf")
+
 
 # plot probability optimal across increasing pVax efficacy 
 # when efficacy reduction is based on interference
-quartz("efficacy reduction, interference", 8, 8)
+quartz("efficacy reduction, interference", 10, 8)
 par(xaxs="i", yaxs="i")
-plot(eff_red, pO_pVax_5k, ylim = c(0, 1), xlim = c(0,1), bty = "l",
+plot(eff_red*100, pO_pVax_er, ylim = c(0, 1), xlim = c(0,100), bty = "l",
      type = "l", lty = 4, lwd = 3, col = UMBplum,
-     xlab = "Pediatric vaccine efficacy when administered at 10 & 14 weeks as part of a combination strategy",
+     xlab = "Pediatric vaccine efficacy when administered at 10 & 14 weeks as part of a combination strategy (%)",
      ylab = "Probability optimal")
-lines(eff_red, pO_no_5k, col = UMBred, lty = 4, lwd = 3)
-lines(eff_red, pO_llAb_5k, col = UMBblue, lty = 4, lwd = 3)
-lines(eff_red, pO_mVax_5k, col = UMBforest, lty = 4, lwd = 3)
-lines(eff_red, pO_llAb_pVax_5k, col = UMByellow, lty = 4, lwd = 3)
-lines(eff_red, pO_mVax_pVax_5k, col = UMBcharcoal, lty = 4, lwd =3)
-lines(eff_red, pO_pVax_older_5k, col = UMBsea, lty = 4, lwd = 3)
-lines(eff_red, pO_llAb_pVax_older_5k, col = UMBtan, lty = 4, lwd = 3)
-lines(eff_red, pO_mVax_pVax_older_5k, col = UMBslate, lty = 4, lwd =3)
-legend("top", ncol =2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
-       lty = 4, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+lines(eff_red*100, pO_no_er, col = UMBred, lty = 4, lwd = 3)
+lines(eff_red*100, pO_llAb_er, col = UMBblue, lty = 4, lwd = 3)
+lines(eff_red*100, pO_mVax_er, col = UMBforest, lty = 4, lwd = 3)
+lines(eff_red*100, pO_llAb_pVax_er, col = UMByellow, lty = 4, lwd = 3)
+lines(eff_red*100, pO_mVax_pVax_er, col = UMBcharcoal, lty = 4, lwd =3)
+lines(eff_red*100, pO_pVax_older_er, col = UMBsea, lty = 4, lwd = 3)
+lines(eff_red*100, pO_llAb_pVax_older_er, col = UMBtan, lty = 4, lwd = 3)
+lines(eff_red*100, pO_mVax_pVax_older_er, col = UMBslate, lty = 4, lwd =3)
+abline(v = 70, col = UMBgray, lty = 3, lwd = 2)
+text(70, 0.92, labels = "70% efficacy", srt = 45, cex = 0.80)
+legend("left", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+       lty = 4, lwd = 3, bty = "n", col = UMB1)
 quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
 # Figure 3

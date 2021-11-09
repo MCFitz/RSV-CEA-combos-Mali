@@ -64,7 +64,7 @@ NHB_func_er <- function(inputs, WTP) {
   DALY_lost_int <- inputs[, ,2]
   total_cost <- inputs[, ,3]
   total_cost_no <- inputs[, ,4]
-  NHB_er <- (DALY_lost_no - DALY_lost_int) - (total_cost - totalcost_no) / WTP
+  NHB_er <- (DALY_lost_no - DALY_lost_int) - (total_cost - total_cost_no) / WTP
   NHB_er
 }  
 
