@@ -156,167 +156,6 @@ totalcost_pVax_older_u <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5
 totalcost_joint_llAb_pVax_older_u <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cost_prod)) + medcost_joint_llAb_pVax_u_older
 totalcost_joint_mVax_pVax_older_u <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cost_prod)) + medcost_joint_mVax_pVax_u_older
 
-# Calculate total intervention costs across change in price of the product
-# pspan
-# generate a matrix where rows = trials, columns = costs
-cprod <- seq(.01, 4, by = 0.01)
-
-tcost_no_pspan <- rep.col(medcost_no_u, length(cprod))
-
-tcost_llAb_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for (l in 1:length(cprod)) {
-  tcost_llAb_pspan[,l] <- sum(llAb_admin * coverage[1] * num_infants * cprod[l]) + medcost_llAb_u
-}
-
-tcost_mVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for (m in 1:length(cprod)) {
-  tcost_mVax_pspan[,m] <- sum(mVax_admin * coverage[2] * num_infants * cprod[m]) + medcost_mVax_u
-}
-
-tcost_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for (p in 1:length(cprod)) {
-  tcost_pVax_pspan[,p] <- sum(pVax_admin * coverage[3] * num_infants * cprod[p]) + medcost_pVax_u
-}
-
-tcost_llAb_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for(lp in 1:length(cprod)) {
-  tcost_llAb_pVax_pspan[,lp] <- sum(llAb_admin * coverage[1] * num_infants * cprod[lp]) +
-    sum(pVax_admin * coverage[3] * num_infants * cprod[lp]) + medcost_joint_llAb_pVax_u
-}
-
-tcost_mVax_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for(mp in 1:length(cprod)) {
-  tcost_mVax_pVax_pspan[,mp] <- sum(mVax_admin * coverage[2] * num_infants * cprod[mp]) +
-    sum(pVax_admin * coverage[3] * num_infants * cprod[mp]) + medcost_joint_mVax_pVax_u
-}
-
-tcost_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for(po in 1:length(cprod)){
-  tcost_pVax_older_pspan[,po] <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cprod[po])) + medcost_pVax_u_older
-}
-
-tcost_llAb_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for(lpo in 1:length(cprod)) {
-  tcost_llAb_pVax_older_pspan[,lpo] <- sum(llAb_admin * coverage[1] * num_infants * cprod[lpo]) +
-    sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cprod[lpo])) +
-    medcost_joint_llAb_pVax_u_older
-}
-
-tcost_mVax_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
-for(mpo in 1:length(cprod)){
-  tcost_mVax_pVax_older_pspan[,mpo] <- sum(mVax_admin * coverage[2] * num_infants * cprod[mpo]) +
-    sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cprod[mpo])) +
-    medcost_joint_mVax_pVax_u_older
-}
-
-# calculate NHB across changing product cost from $0-3 and WTP = 1XGDP
-NHB_no_pspan <- matrix(NA, trials, length(cprod))
-for(no in 1:length(cprod)){
-  NHB_no_pspan[,no] <- (DALYS_lost_no_u - DALYS_lost_no_u) -
-    (tcost_no_pspan[,no] - tcost_no_pspan[,no]) / CET_Mali_GDP
-}
-
-NHB_llAb_pspan <- matrix(NA, trials, length(cprod))
-for(l in 1:length(cprod)){
-  NHB_llAb_pspan[,l] <- (DALYS_lost_no_u - DALYS_lost_llAb_u) -
-    (tcost_llAb_pspan[,l] - tcost_no_pspan[,no]) / CET_Mali_GDP
-}
-
-NHB_mVax_pspan <- matrix(NA, trials, length(cprod))
-for(m in 1:length(cprod)){
-  NHB_mVax_pspan[,m] <- (DALYS_lost_no_u - DALYS_lost_mVax_u) -
-    (tcost_mVax_pspan[,m] - tcost_no_pspan[,no]) / CET_Mali_GDP
-}
-
-NHB_pVax_pspan <- matrix(NA, trials, length(cprod))
-for(p in 1:length(cprod)){
-  NHB_pVax_pspan[,p] <- (DALYS_lost_no_u - DALYS_lost_pVax_u) -
-    (tcost_pVax_pspan[,p] - tcost_no_pspan[,no]) / CET_Mali_GDP
-}
-
-NHB_llAb_pVax_pspan <- matrix(NA, trials, length(cprod))
-for(lp in 1:length(cprod)){
-  NHB_llAb_pVax_pspan[,lp] <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u) -
-    (tcost_llAb_pVax_pspan[,lp] - tcost_no_pspan[,lp]) / CET_Mali_GDP
-}
-
-NHB_mVax_pVax_pspan <- matrix(NA, trials, length(cprod))
-for(mp in 1:length(cprod)){
-  NHB_mVax_pVax_pspan[,mp] <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u) -
-    (tcost_mVax_pVax_pspan[,mp] - tcost_no_pspan[,mp]) / CET_Mali_GDP
-}
-
-NHB_pVax_older_pspan <- matrix(NA, trials, length(cprod))
-for(po in 1:length(cprod)){
-  NHB_pVax_older_pspan[,po] <- (DALYS_lost_no_u - DALYS_lost_pVax_older_u) -
-    (tcost_pVax_older_pspan[,po] - tcost_no_pspan[,po]) / CET_Mali_GDP
-}
-
-NHB_llAb_pVax_older_pspan <- matrix(NA, trials, length(cprod))
-for(lpo in 1:length(cprod)){
-  NHB_llAb_pVax_older_pspan[,lpo] <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u) -
-    (tcost_llAb_pVax_older_pspan[,lpo] - tcost_no_pspan[,lpo]) / CET_Mali_GDP
-}
-
-NHB_mVax_pVax_older_pspan <- matrix(NA, trials, length(cprod))
-for(mpo in 1:length(cprod)){
-  NHB_mVax_pVax_older_pspan[,mpo] <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_older_u) -
-    (tcost_mVax_pVax_older_pspan[,mpo] - tcost_no_pspan[,mpo]) / CET_Mali_GDP
-}
-
-# compare NHB across changing product cost from $0-3 for all strategies
-compare_NHB_pspan <- array(c(NHB_no_pspan, NHB_llAb_pspan, NHB_mVax_pspan,
-                             NHB_pVax_pspan, NHB_llAb_pVax_pspan, NHB_mVax_pVax_pspan,
-                             NHB_pVax_older_pspan, NHB_llAb_pVax_older_pspan,
-                             NHB_mVax_pVax_older_pspan), dim = c(trials, length(cprod), 9))
-
-win_NHB_pspan <- apply(compare_NHB_pspan, MARGIN = c(1,2), which.max)
-
-pO_no_pspan <- rep(0, length(cprod))
-for(no in 1: length(cprod)){
-  pO_no_pspan[no] <- sum(win_NHB_pspan[,no] == 1)/trials
-}
-
-pO_llAb_pspan <- rep(0, length(cprod))
-for(Ol in 1: length(cprod)){
-  pO_llAb_pspan[Ol] <- sum(win_NHB_pspan[,Ol] == 2)/trials
-}
-
-pO_mVax_pspan <- rep(0, length(cprod))
-for(Om in 1: length(cprod)){
-  pO_mVax_pspan[Om] <- sum(win_NHB_pspan[,Om] == 3)/trials
-}
-
-pO_pVax_pspan <- rep(0, length(cprod))
-for(Op in 1: length(cprod)){
-  pO_pVax_pspan[Op] <- sum(win_NHB_pspan[,Op] == 4)/trials
-}
-
-pO_llAb_pVax_pspan <- rep(0, length(cprod))
-for(Olp in 1: length(cprod)){
-  pO_llAb_pVax_pspan[Olp] <- sum(win_NHB_pspan[,Olp] == 5)/trials
-}
-
-pO_mVax_pVax_pspan <- rep(0, length(cprod))
-for(Omp in 1: length(cprod)){
-  pO_mVax_pVax_pspan[Omp] <- sum(win_NHB_pspan[,Omp] == 6)/trials
-}
-
-pO_pVax_older_pspan <- rep(0, length(cprod))
-for(Opo in 1: length(cprod)){
-  pO_pVax_older_pspan[Opo] <- sum(win_NHB_pspan[,Opo] == 7)/trials
-}
-
-pO_llAb_pVax_older_pspan <- rep(0, length(cprod))
-for(Olpo in 1: length(cprod)){
-  pO_llAb_pVax_older_pspan[Olpo] <- sum(win_NHB_pspan[,Olpo] == 8)/trials
-}
-
-pO_mVax_pVax_older_pspan <- rep(0, length(cprod))
-for(Ompo in 1: length(cprod)){
-  pO_mVax_pVax_older_pspan[Ompo] <- sum(win_NHB_pspan[,Ompo] == 9)/trials
-}
-
 # calculate probability of being cost-effective across WTP
 prep_llAb <- cbind(DALYS_lost_no_u, DALYS_lost_llAb_u, totalcost_llAb_u, totalcost_no_u)
 pce_llAb <- rep(0, length(WTP_sp))
@@ -439,4 +278,266 @@ for(Ompo in 1: length(WTP_sp)){
   pO_mVax_pVax_older[Ompo] <- sum(win_NHB[,Ompo] == 9)/trials
 }
 
+# Calculate total intervention costs across change in price of the product
+# pspan
+# generate a matrix where rows = trials, columns = costs
+cprod <- seq(.01, 4, by = 0.01)
+
+tcost_no_pspan <- rep.col(medcost_no_u, length(cprod))
+
+tcost_llAb_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for (l in 1:length(cprod)) {
+  tcost_llAb_pspan[,l] <- sum(llAb_admin * coverage[1] * num_infants * (cprod[l] + cost_nd)) + medcost_llAb_u
+}
+
+tcost_mVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for (m in 1:length(cprod)) {
+  tcost_mVax_pspan[,m] <- sum(mVax_admin * coverage[2] * num_infants * (cprod[m] + cost_nd)) + medcost_mVax_u
+}
+
+tcost_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for (p in 1:length(cprod)) {
+  tcost_pVax_pspan[,p] <- sum(pVax_admin * coverage[3] * num_infants * (cprod[p] + cost_nd)) + medcost_pVax_u
+}
+
+tcost_llAb_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(lp in 1:length(cprod)) {
+  tcost_llAb_pVax_pspan[,lp] <- sum(llAb_admin * coverage[1] * num_infants * (cprod[lp] + cost_nd)) +
+    sum(pVax_admin * coverage[3] * num_infants * (cprod[lp] + cost_nd)) + medcost_joint_llAb_pVax_u
+}
+
+tcost_mVax_pVax_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(mp in 1:length(cprod)) {
+  tcost_mVax_pVax_pspan[,mp] <- sum(mVax_admin * coverage[2] * num_infants * (cprod[mp] + cost_nd)) +
+    sum(pVax_admin * coverage[3] * num_infants * (cprod[mp] + cost_nd)) + medcost_joint_mVax_pVax_u
+}
+
+tcost_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(po in 1:length(cprod)){
+  tcost_pVax_older_pspan[,po] <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cprod[po])) + medcost_pVax_u_older
+}
+
+tcost_llAb_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(lpo in 1:length(cprod)) {
+  tcost_llAb_pVax_older_pspan[,lpo] <- sum(llAb_admin * coverage[1] * num_infants * (cprod[lpo] + cost_nd)) +
+    sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cprod[lpo])) +
+    medcost_joint_llAb_pVax_u_older
+}
+
+tcost_mVax_pVax_older_pspan <- matrix(data = NA, nrow = trials, ncol = length(cprod))
+for(mpo in 1:length(cprod)){
+  tcost_mVax_pVax_older_pspan[,mpo] <- sum(mVax_admin * coverage[2] * num_infants * (cprod[mpo] + cost_nd)) +
+    sum(pVax_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + cprod[mpo])) +
+    medcost_joint_mVax_pVax_u_older
+}
+
+# calculate NHB across changing product cost from $0-3 and WTP = 1XGDP
+NHB_no_pspan <- matrix(NA, trials, length(cprod))
+for(no in 1:length(cprod)){
+  NHB_no_pspan[,no] <- (DALYS_lost_no_u - DALYS_lost_no_u) -
+    (tcost_no_pspan[,no] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_llAb_pspan <- matrix(NA, trials, length(cprod))
+for(l in 1:length(cprod)){
+  NHB_llAb_pspan[,l] <- (DALYS_lost_no_u - DALYS_lost_llAb_u) -
+    (tcost_llAb_pspan[,l] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_mVax_pspan <- matrix(NA, trials, length(cprod))
+for(m in 1:length(cprod)){
+  NHB_mVax_pspan[,m] <- (DALYS_lost_no_u - DALYS_lost_mVax_u) -
+    (tcost_mVax_pspan[,m] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_pVax_pspan <- matrix(NA, trials, length(cprod))
+for(p in 1:length(cprod)){
+  NHB_pVax_pspan[,p] <- (DALYS_lost_no_u - DALYS_lost_pVax_u) -
+    (tcost_pVax_pspan[,p] - tcost_no_pspan[,no]) / CET_Mali_GDP
+}
+
+NHB_llAb_pVax_pspan <- matrix(NA, trials, length(cprod))
+for(lp in 1:length(cprod)){
+  NHB_llAb_pVax_pspan[,lp] <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u) -
+    (tcost_llAb_pVax_pspan[,lp] - tcost_no_pspan[,lp]) / CET_Mali_GDP
+}
+
+NHB_mVax_pVax_pspan <- matrix(NA, trials, length(cprod))
+for(mp in 1:length(cprod)){
+  NHB_mVax_pVax_pspan[,mp] <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u) -
+    (tcost_mVax_pVax_pspan[,mp] - tcost_no_pspan[,mp]) / CET_Mali_GDP
+}
+
+NHB_pVax_older_pspan <- matrix(NA, trials, length(cprod))
+for(po in 1:length(cprod)){
+  NHB_pVax_older_pspan[,po] <- (DALYS_lost_no_u - DALYS_lost_pVax_older_u) -
+    (tcost_pVax_older_pspan[,po] - tcost_no_pspan[,po]) / CET_Mali_GDP
+}
+
+NHB_llAb_pVax_older_pspan <- matrix(NA, trials, length(cprod))
+for(lpo in 1:length(cprod)){
+  NHB_llAb_pVax_older_pspan[,lpo] <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u) -
+    (tcost_llAb_pVax_older_pspan[,lpo] - tcost_no_pspan[,lpo]) / CET_Mali_GDP
+}
+
+NHB_mVax_pVax_older_pspan <- matrix(NA, trials, length(cprod))
+for(mpo in 1:length(cprod)){
+  NHB_mVax_pVax_older_pspan[,mpo] <- (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_older_u) -
+    (tcost_mVax_pVax_older_pspan[,mpo] - tcost_no_pspan[,mpo]) / CET_Mali_GDP
+}
+
+# compare NHB across changing product cost from $0-3 for all strategies
+compare_NHB_pspan <- array(c(NHB_no_pspan, NHB_llAb_pspan, NHB_mVax_pspan,
+                             NHB_pVax_pspan, NHB_llAb_pVax_pspan, NHB_mVax_pVax_pspan,
+                             NHB_pVax_older_pspan, NHB_llAb_pVax_older_pspan,
+                             NHB_mVax_pVax_older_pspan), dim = c(trials, length(cprod), 9))
+
+win_NHB_pspan <- apply(compare_NHB_pspan, MARGIN = c(1,2), which.max)
+
+pO_no_pspan <- rep(0, length(cprod))
+for(no in 1: length(cprod)){
+  pO_no_pspan[no] <- sum(win_NHB_pspan[,no] == 1)/trials
+}
+
+pO_llAb_pspan <- rep(0, length(cprod))
+for(Ol in 1: length(cprod)){
+  pO_llAb_pspan[Ol] <- sum(win_NHB_pspan[,Ol] == 2)/trials
+}
+
+pO_mVax_pspan <- rep(0, length(cprod))
+for(Om in 1: length(cprod)){
+  pO_mVax_pspan[Om] <- sum(win_NHB_pspan[,Om] == 3)/trials
+}
+
+pO_pVax_pspan <- rep(0, length(cprod))
+for(Op in 1: length(cprod)){
+  pO_pVax_pspan[Op] <- sum(win_NHB_pspan[,Op] == 4)/trials
+}
+
+pO_llAb_pVax_pspan <- rep(0, length(cprod))
+for(Olp in 1: length(cprod)){
+  pO_llAb_pVax_pspan[Olp] <- sum(win_NHB_pspan[,Olp] == 5)/trials
+}
+
+pO_mVax_pVax_pspan <- rep(0, length(cprod))
+for(Omp in 1: length(cprod)){
+  pO_mVax_pVax_pspan[Omp] <- sum(win_NHB_pspan[,Omp] == 6)/trials
+}
+
+pO_pVax_older_pspan <- rep(0, length(cprod))
+for(Opo in 1: length(cprod)){
+  pO_pVax_older_pspan[Opo] <- sum(win_NHB_pspan[,Opo] == 7)/trials
+}
+
+pO_llAb_pVax_older_pspan <- rep(0, length(cprod))
+for(Olpo in 1: length(cprod)){
+  pO_llAb_pVax_older_pspan[Olpo] <- sum(win_NHB_pspan[,Olpo] == 8)/trials
+}
+
+pO_mVax_pVax_older_pspan <- rep(0, length(cprod))
+for(Ompo in 1: length(cprod)){
+  pO_mVax_pVax_older_pspan[Ompo] <- sum(win_NHB_pspan[,Ompo] == 9)/trials
+}
 ######
+
+additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no)
+deaths_averted <- c(deaths_no - deaths_llAb, deaths_no - deaths_mVax, deaths_no - deaths_pVax, deaths_no - deaths_joint_llAb_pVax, deaths_no - deaths_joint_mVax_pVax)
+DALYs_averted <- c(DALYS_lost_no - DALYS_lost_llAb, DALYS_lost_no - DALYS_lost_mVax, DALYS_lost_no - DALYS_lost_pVax, DALYS_lost_no - DALYS_lost_joint_llAb_pVax, DALYS_lost_no - DALYS_lost_joint_mVax_pVax)
+
+# All ICERs compared to status quo:
+ICERs_base <- additional_cost/DALYs_averted
+
+
+ICER_llAb_u <- (totalcost_llAb_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_llAb_u)
+ICER_mVax_u <- (totalcost_mVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_mVax_u)
+ICER_pVax_u <- (totalcost_pVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_pVax_u)
+ICER_joint_llAb_pVax_u <- (totalcost_joint_llAb_pVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u)
+ICER_joint_mVax_pVax_u <- (totalcost_joint_mVax_pVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u)
+ICER_pVax_older_u <- (totalcost_pVax_older_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_pVax_older_u)
+ICER_joint_llAb_pVax_older_u <- (totalcost_joint_llAb_pVax_older_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u)
+ICER_joint_mVax_pVax_older_u <- (totalcost_joint_mVax_pVax_older_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_older_u)
+
+par(mfrow =c(2,4))
+hist(ICER_llAb_u)
+abline(v=ICERs_base[1], col = "red")
+hist(ICER_mVax_u)
+abline(v=ICERs_base[2], col = "red")
+hist(ICER_pVax_u)
+abline(v=ICERs_base[3], col = "red")
+hist(ICER_joint_llAb_pVax_u)
+abline(v=ICERs_base[4], col = "red")
+hist(ICER_joint_mVax_pVax_u)
+abline(v=ICERs_base[5], col = "red")
+hist(ICER_pVax_older_u)
+abline(v=ICERs_base[6], col = "red")
+hist(ICER_joint_llAb_pVax_older_u)
+abline(v=ICERs_base[7], col = "red")
+hist(ICER_joint_mVax_pVax_older_u)
+abline(v=ICERs_base[8], col = "red")
+
+par(mfrow = c(1,1))
+plot(cut(ICER_llAb_u, breaks = c(-170000, seq(0, 10000, by = 1000))))
+
+par(mfrow =c(3,3))
+hist(DALYS_lost_no_u)
+abline(v = DALYS_lost_no, col = "red")
+hist(DALYS_lost_llAb_u)
+abline(v=DALYS_lost_llAb, col = "red")
+hist(DALYS_lost_mVax_u)
+abline(v=DALYS_lost_mVax, col = "red")
+hist(DALYS_lost_pVax_u)
+abline(v=DALYS_lost_pVax, col = "red")
+hist(DALYS_lost_joint_llAb_pVax_u)
+abline(v=DALYS_lost_joint_llAb_pVax, col = "red")
+hist(DALYS_lost_joint_mVax_pVax_u)
+abline(v=DALYS_lost_joint_mVax_pVax, col = "red")
+hist(DALYS_lost_pVax_older_u)
+abline(v=DALYS_lost_pVax_older, col = "red")
+hist(DALYS_lost_joint_llAb_pVax_older_u)
+abline(v=DALYS_lost_joint_llAb_pVax_older, col = "red")
+hist(DALYS_lost_joint_mVax_pVax_older_u)
+abline(v=DALYS_lost_joint_mVax_pVax_older, col = "red")
+
+
+par(mfrow =c(3,3))
+hist(totalcost_no_u)
+abline(v = totalcost_no, col = "red")
+hist(totalcost_llAb_u)
+abline(v=totalcost_llAb, col = "red")
+hist(totalcost_mVax_u)
+abline(v=totalcost_mVax, col = "red")
+hist(totalcost_pVax_u)
+abline(v=totalcost_pVax, col = "red")
+hist(totalcost_joint_llAb_pVax_u)
+abline(v=totalcost_joint_llAb_pVax, col = "red")
+hist(totalcost_joint_mVax_pVax_u)
+abline(v=totalcost_joint_mVax_pVax, col = "red")
+hist(totalcost_pVax_older_u)
+abline(v=totalcost_pVax_older, col = "red")
+hist(totalcost_joint_llAb_pVax_older_u)
+abline(v=totalcost_joint_llAb_pVax_older, col = "red")
+hist(totalcost_joint_mVax_pVax_older_u)
+abline(v=totalcost_joint_mVax_pVax_older, col = "red")
+
+###
+# Diagnostic: checking which ICERs are <0 and why
+test_set <- which(ICER_llAb_u < 0)
+test_ICERs <- ICER_llAb_u[test_set]
+test_DALYs <- DALYS_lost_llAb_u[test_set]
+test_totalcosts <- totalcost_llAb_u[test_set]
+test_DALYS_no <- DALYS_lost_no_u[test_set]
+test_totalcosts_no <- totalcost_no_u[test_set]
+test_ICER_llAb_u <- (totalcost_llAb_u[149] - totalcost_no_u[149]) / (DALYS_lost_no_u[149] - DALYS_lost_llAb_u[149])
+# Note: when DALYs averted are negative, then the ICER is also negative. 
+# Becomes extreme when DALYs averted are negative but close to zero.
+# If DALYs averted were even more negtive (indicating worse outcomes), then the negative ICER would not be as extreme
+
+#########
+# pspan_func <- function(admin, cov, babies, medcost, DALYS, cp){
+#   tc <- sum(admin * cov * babies * cp) + medcost
+#   NHB <- (DALYS_lost_no_u - DALYS) - (tc - totalcost_no_u) / CET_Mali_GDP
+# }
+# 
+# for(x in 1:length(cprod)) {
+# NHB_llAb_pspan_new <- pspan_func(llAb_admin, coverage[1], num_infants, medcost_llAb_u, DALYS_lost_llAb_u, cprod[x])
+# }

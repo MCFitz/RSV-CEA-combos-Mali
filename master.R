@@ -55,6 +55,7 @@ costs <- c(cost_prod + 1.35, cost_prod + 1.35, cost_prod + 1.35, NA, NA, NA, NA,
 cov_pVax_o <- 0.70
 
 # Calculate number of RSV cases by age under status quo and each intervention
+# here we assume the interventions are preventing RSV cases
 cases_no_age <- RSVcases(pd_calc(0, 0, AR_y_bc, empty_year_cohort), num_infants, mort_mat)
 cases_llAb_age <- RSVcases(pd_calc(efficacy[1], coverage[1], AR_y_bc, mat_eff_llAb), num_infants, mort_mat)
 cases_mVax_age <- RSVcases(pd_calc(efficacy[2], coverage[2], AR_y_bc, mat_eff_mVax), num_infants, mort_mat)
@@ -438,9 +439,19 @@ for(Ompo in 1: length(eff_red)){
 ####
 
 ####
-additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no, totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no, totalcost_joint_mVax_pVax - totalcost_no)
-deaths_averted <- c(deaths_no - deaths_llAb, deaths_no - deaths_mVax, deaths_no - deaths_pVax, deaths_no - deaths_joint_llAb_pVax, deaths_no - deaths_joint_mVax_pVax)
-DALYs_averted <- c(DALYS_lost_no - DALYS_lost_llAb, DALYS_lost_no - DALYS_lost_mVax, DALYS_lost_no - DALYS_lost_pVax, DALYS_lost_no - DALYS_lost_joint_llAb_pVax, DALYS_lost_no - DALYS_lost_joint_mVax_pVax)
+additional_cost <- c(totalcost_llAb - totalcost_no, totalcost_mVax - totalcost_no,
+                     totalcost_pVax- totalcost_no, totalcost_joint_llAb_pVax - totalcost_no,
+                     totalcost_joint_mVax_pVax - totalcost_no, totalcost_pVax_older - totalcost_no,
+                     totalcost_joint_llAb_pVax_older - totalcost_no,
+                     totalcost_joint_mVax_pVax_older - totalcost_no)
+deaths_averted <- c(deaths_no - deaths_llAb, deaths_no - deaths_mVax,
+                    deaths_no - deaths_pVax, deaths_no - deaths_joint_llAb_pVax,
+                    deaths_no - deaths_joint_mVax_pVax, deaths_no - deaths_pVax_older,
+                    deaths_no - deaths_joint_llAb_pVax_older, deaths_no - deaths_joint_mVax_pVax_older)
+DALYs_averted <- c(DALYS_lost_no - DALYS_lost_llAb, DALYS_lost_no - DALYS_lost_mVax,
+                   DALYS_lost_no - DALYS_lost_pVax, DALYS_lost_no - DALYS_lost_joint_llAb_pVax,
+                   DALYS_lost_no - DALYS_lost_joint_mVax_pVax, DALYS_lost_no - DALYS_lost_pVax_older,
+                   DALYS_lost_no - DALYS_lost_joint_llAb_pVax_older, DALYS_lost_no - DALYS_lost_joint_mVax_pVax_older)
 
 # All ICERs compared to status quo:
 ICERs_base <- additional_cost/DALYs_averted
@@ -452,6 +463,8 @@ ICERs_base <- additional_cost/DALYs_averted
 
 # output 
 strategies <- c( "llAb", "mVax", "pVax 10 & 14 wk", "llAb + pVax 10 and 14 wk", "mVax + pVax 10 & 14 wk", "pVax 8 & 9 months", "llAb + pVax 8 & 9 months", "mVax + pVax 8 & 9 months")
+
+ICERS_output <- tibble(strategies, ICERs_base)
 
 # incremental cost to society
 ics_func <- function(cost_sq, cost_int){
