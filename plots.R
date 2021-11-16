@@ -55,8 +55,39 @@ points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "gol
 points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "goldenrod", pch = 17)
 points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = "goldenrod", pch = 18)
 points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = "goldenrod", pch = 10)
-legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no intf"),
+legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
        pch = c(19,15,17,18,10), col = c("blue","red", "green", "orange", "purple"))
+
+# plot CE plane with clouds
+# light up bottom 10% of prob LRTI given RSV in yellow
+par(mfrow=c(1,1))
+plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(-1000,6000), ylim = c(0,4000000), xlab = "DALYs averted", ylab =
+        "Added cost (USD)")
+points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_llAb_u[dec_pneum_set_l], totalcost_llAb_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "cadetblue1", pch = 19)
+points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_llAb_u[dec_pneum_set_u], totalcost_llAb_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkblue", pch = 19)
+points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "red", pch = 15)
+points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_mVax_u[dec_pneum_set_l], totalcost_mVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "indianred1", pch = 15)
+points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_mVax_u[dec_pneum_set_u], totalcost_mVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkred", pch = 15)
+points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "yellowgreen", pch = 17)
+points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_pVax_u[dec_pneum_set_l], totalcost_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "green", pch = 17)
+points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_pVax_u[dec_pneum_set_u], totalcost_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkgreen", pch = 17)
+points(DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u - totalcost_no_u, col ="coral", pch = 18)
+points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_joint_llAb_pVax_u[dec_pneum_set_l], totalcost_joint_llAb_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "orange", pch =18)
+points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_joint_llAb_pVax_u[dec_pneum_set_u], totalcost_joint_llAb_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkorange3", pch =18)
+points(DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u, totalcost_joint_mVax_pVax_u - totalcost_no_u, col = "purple", pch = 10)
+points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_joint_mVax_pVax_u[dec_pneum_set_l], totalcost_joint_mVax_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "mediumorchid1", pch = 10)
+points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_joint_mVax_pVax_u[dec_pneum_set_u], totalcost_joint_mVax_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkorchid4", pch = 10)
+points(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "goldenrod", pch = 19)
+points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "goldenrod", pch = 15)
+points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "goldenrod", pch = 17)
+points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = "goldenrod", pch = 18)
+points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = "goldenrod", pch = 10)
+legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
+       pch = c(19,15,17,18,10), col = c("blue","red", "green", "orange", "purple"))
+
+
+
+
 
 # # plot probability cost-effective across WTP values
 # quartz("pCE by WTP", 8, 8)
@@ -315,4 +346,50 @@ quartz.save(file = "Figures/Health_Outcomes_Barplot", type = "pdf")
 #    theme(legend.title = element_blank())
 # quartz.save(file = "Figures/RSV_prevented_Health_Outcomes_Barplot", type = "pdf")
 
+###
+# Input Params Histogram Panel Plots
+# do ARs and CFRs by age separately
+# need to add uncertainty for probability inpatient (by age)
+param_names <- c("probability LRTI given RSV", "cost outpatient care", "cost inpatient care")
+params_df <- data.frame(id = rep(param_names, each = trials),
+                        value = c(p_pneum_u, cost_outpatient_u, cost_hosp_u),
+                        pe = c(rep(p_pneum, trials), rep(cost_outpatient, trials), rep(cost_hosp, trials)))
+quartz("Input Parameter Histograms", 12, 8)
+ggplot(params_df, aes(value)) + geom_histogram(color = "black", fill = "grey", bins = 15) +
+   facet_wrap(~id, scales = "free") +
+   geom_vline(params_df, mapping = aes(xintercept= pe), color="red") +
+   theme_bw()
+quartz.save(file ="Figures/Input_Parameter_Histograms.pdf", type = "pdf")
+
+AR_age_df <- data.frame(month = rep(1:36, each = trials),
+                         value = c(AR_age_y_u[,1], AR_age_y_u[,2], AR_age_y_u[,3], AR_age_y_u[,4], AR_age_y_u[,5], AR_age_y_u[,6],
+                                   AR_age_y_u[,7], AR_age_y_u[,8], AR_age_y_u[,9], AR_age_y_u[,10], AR_age_y_u[,11], AR_age_y_u[,12],
+                                   AR_age_y_u[,13], AR_age_y_u[,14], AR_age_y_u[,15], AR_age_y_u[,16], AR_age_y_u[,17], AR_age_y_u[,18],
+                                   AR_age_y_u[,19], AR_age_y_u[,20], AR_age_y_u[,21], AR_age_y_u[,22], AR_age_y_u[,23], AR_age_y_u[,24],
+                                   AR_age_y_u[,25], AR_age_y_u[,26], AR_age_y_u[,27], AR_age_y_u[,28], AR_age_y_u[,29], AR_age_y_u[,30],
+                                   AR_age_y_u[,31], AR_age_y_u[,32], AR_age_y_u[,33], AR_age_y_u[,34], AR_age_y_u[,35], AR_age_y_u[,36]),
+                         pe = rep(age_AR_y, each = trials))
+quartz("Attack Rates by Month of Age Histograms", 12, 8)
+ggplot(AR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", bins = 15) +
+   facet_wrap(~month, scales = "free") +
+   geom_vline(AR_age_df, mapping = aes(xintercept= pe), color="red") +
+   theme_bw()
+quartz.save(file ="Figures/Attack_Rates_by_Month_of_Age_Histograms.pdf", type = pdf)
+
+CFR_age_df <- data.frame(month = rep(1:36, each = trials),
+                        value = c(CFR_age_mat_3y[,1], CFR_age_mat_3y[,2], CFR_age_mat_3y[,3], CFR_age_mat_3y[,4], CFR_age_mat_3y[,5], CFR_age_mat_3y[,6],
+                                  CFR_age_mat_3y[,7], CFR_age_mat_3y[,8], CFR_age_mat_3y[,9], CFR_age_mat_3y[,10], CFR_age_mat_3y[,11], CFR_age_mat_3y[,12],
+                                  CFR_age_mat_3y[,13], CFR_age_mat_3y[,14], CFR_age_mat_3y[,15], CFR_age_mat_3y[,16], CFR_age_mat_3y[,17], CFR_age_mat_3y[,18],
+                                  CFR_age_mat_3y[,19], CFR_age_mat_3y[,20], CFR_age_mat_3y[,21], CFR_age_mat_3y[,22], CFR_age_mat_3y[,23], CFR_age_mat_3y[,24],
+                                  CFR_age_mat_3y[,25], CFR_age_mat_3y[,26], CFR_age_mat_3y[,27], CFR_age_mat_3y[,28], CFR_age_mat_3y[,29], CFR_age_mat_3y[,30],
+                                  CFR_age_mat_3y[,31], CFR_age_mat_3y[,32], CFR_age_mat_3y[,33], CFR_age_mat_3y[,34], CFR_age_mat_3y[,35], CFR_age_mat_3y[,36]),
+                        pe = rep(CFR_by_age, each = trials))
+quartz("Case Fatality Rate by Month of Age", 12, 8)
+ggplot(CFR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", bins = 15) +
+   facet_wrap(~month, scales = "free") +
+   geom_vline(CFR_age_df, mapping = aes(xintercept= pe), color="red") +
+   theme_bw()
+quartz.save(file = "Figures/Case_Fatality_Rates_by_Month_of_Age.pdf", type = pdf)
+
 ######
+

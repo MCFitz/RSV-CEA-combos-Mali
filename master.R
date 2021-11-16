@@ -1,5 +1,6 @@
 # Master Script
 trials <- 1000
+set.seed(281992)
 
 # load required packages
 library(ggplot2)
@@ -466,6 +467,91 @@ strategies <- c( "llAb", "mVax", "pVax 10 & 14 wk", "llAb + pVax 10 and 14 wk", 
 
 ICERS_output <- tibble(strategies, ICERs_base)
 
+# All ICERs compared to status quo:
+ICER_llAb_u <- (totalcost_llAb_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_llAb_u)
+ICER_mVax_u <- (totalcost_mVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_mVax_u)
+ICER_pVax_u <- (totalcost_pVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_pVax_u)
+ICER_joint_llAb_pVax_u <- (totalcost_joint_llAb_pVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u)
+ICER_joint_mVax_pVax_u <- (totalcost_joint_mVax_pVax_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u)
+ICER_pVax_older_u <- (totalcost_pVax_older_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_pVax_older_u)
+ICER_joint_llAb_pVax_older_u <- (totalcost_joint_llAb_pVax_older_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u)
+ICER_joint_mVax_pVax_older_u <- (totalcost_joint_mVax_pVax_older_u - totalcost_no_u) / (DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_older_u)
+
+par(mfrow =c(2,4))
+hist(ICER_llAb_u)
+abline(v=ICERs_base[1], col = "red")
+hist(ICER_mVax_u)
+abline(v=ICERs_base[2], col = "red")
+hist(ICER_pVax_u)
+abline(v=ICERs_base[3], col = "red")
+hist(ICER_joint_llAb_pVax_u)
+abline(v=ICERs_base[4], col = "red")
+hist(ICER_joint_mVax_pVax_u)
+abline(v=ICERs_base[5], col = "red")
+hist(ICER_pVax_older_u)
+abline(v=ICERs_base[6], col = "red")
+hist(ICER_joint_llAb_pVax_older_u)
+abline(v=ICERs_base[7], col = "red")
+hist(ICER_joint_mVax_pVax_older_u)
+abline(v=ICERs_base[8], col = "red")
+
+par(mfrow = c(1,1))
+plot(cut(ICER_llAb_u, breaks = c(-170000, seq(0, 10000, by = 1000))))
+
+par(mfrow =c(3,3))
+hist(DALYS_lost_no_u)
+abline(v = DALYS_lost_no, col = "red")
+hist(DALYS_lost_llAb_u)
+abline(v=DALYS_lost_llAb, col = "red")
+hist(DALYS_lost_mVax_u)
+abline(v=DALYS_lost_mVax, col = "red")
+hist(DALYS_lost_pVax_u)
+abline(v=DALYS_lost_pVax, col = "red")
+hist(DALYS_lost_joint_llAb_pVax_u)
+abline(v=DALYS_lost_joint_llAb_pVax, col = "red")
+hist(DALYS_lost_joint_mVax_pVax_u)
+abline(v=DALYS_lost_joint_mVax_pVax, col = "red")
+hist(DALYS_lost_pVax_older_u)
+abline(v=DALYS_lost_pVax_older, col = "red")
+hist(DALYS_lost_joint_llAb_pVax_older_u)
+abline(v=DALYS_lost_joint_llAb_pVax_older, col = "red")
+hist(DALYS_lost_joint_mVax_pVax_older_u)
+abline(v=DALYS_lost_joint_mVax_pVax_older, col = "red")
+
+
+par(mfrow =c(3,3))
+hist(totalcost_no_u)
+abline(v = totalcost_no, col = "red")
+hist(totalcost_llAb_u)
+abline(v=totalcost_llAb, col = "red")
+hist(totalcost_mVax_u)
+abline(v=totalcost_mVax, col = "red")
+hist(totalcost_pVax_u)
+abline(v=totalcost_pVax, col = "red")
+hist(totalcost_joint_llAb_pVax_u)
+abline(v=totalcost_joint_llAb_pVax, col = "red")
+hist(totalcost_joint_mVax_pVax_u)
+abline(v=totalcost_joint_mVax_pVax, col = "red")
+hist(totalcost_pVax_older_u)
+abline(v=totalcost_pVax_older, col = "red")
+hist(totalcost_joint_llAb_pVax_older_u)
+abline(v=totalcost_joint_llAb_pVax_older, col = "red")
+hist(totalcost_joint_mVax_pVax_older_u)
+abline(v=totalcost_joint_mVax_pVax_older, col = "red")
+
+###
+# Diagnostic: checking which ICERs are <0 and why
+test_set <- which(ICER_llAb_u < 0)
+test_ICERs <- ICER_llAb_u[test_set]
+test_DALYs <- DALYS_lost_llAb_u[test_set]
+test_totalcosts <- totalcost_llAb_u[test_set]
+test_DALYS_no <- DALYS_lost_no_u[test_set]
+test_totalcosts_no <- totalcost_no_u[test_set]
+test_ICER_llAb_u <- (totalcost_llAb_u[149] - totalcost_no_u[149]) / (DALYS_lost_no_u[149] - DALYS_lost_llAb_u[149])
+# Note: when DALYs averted are negative, then the ICER is also negative. 
+# Becomes extreme when DALYs averted are negative but close to zero.
+# If DALYs averted were even more negtive (indicating worse outcomes), then the negative ICER would not be as extreme
+
 # incremental cost to society
 ics_func <- function(cost_sq, cost_int){
   cost_int - cost_sq
@@ -511,3 +597,21 @@ gvcosts <- c(govcost_llAb, govcost_mVax, govcost_pVax, govcost_joint_llAb_pVax,
              govcost_joint_llAb_pVax_older, govcost_joint_mVax_pVax_older)
 
 output <- data.frame(strategies, gvcosts, dnrcosts, ics_vec)
+
+####
+# Find lower and upper 10% of all inputs
+dec_func <- function(vec){
+  quantile(vec, c(0.10, 0.90))
+}
+
+dec_p_pneum <- dec_func(p_pneum_u)
+dec_pneum_set_l <- which(p_pneum_u <= dec_p_pneum[1]) # ask which trials are in the bottom 10%
+dec_pneum_set_u <- which(p_pneum_u >= dec_p_pneum[2]) # ask which trials are in the top 10%
+
+dec_cost_outpat <- dec_func(cost_outpatient_u)
+dec_c_outpat_set_l <- which(cost_outpatient_u <= dec_cost_outpat[1])
+dec_c_outpat_set_u <- which(cost_outpatient_u >= dec_cost_outpat[2])
+
+dec_cost_hosp <- dec_func(cost_hosp_u)
+dec_c_hosp_l <- which(cost_hosp_u <= dec_cost_hosp[1])
+dec_c_hosp_u <- which(cost_hosp_u >= dec_cost_hosp[2])
