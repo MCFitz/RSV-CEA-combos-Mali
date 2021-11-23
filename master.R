@@ -615,3 +615,20 @@ dec_c_outpat_set_u <- which(cost_outpatient_u >= dec_cost_outpat[2])
 dec_cost_hosp <- dec_func(cost_hosp_u)
 dec_c_hosp_l <- which(cost_hosp_u <= dec_cost_hosp[1])
 dec_c_hosp_u <- which(cost_hosp_u >= dec_cost_hosp[2])
+
+# Follow calcs for DALYs among upper test set for p_pneum
+ts_LRTI_no <- LRTI_no_u[dec_pneum_set_u]
+ts_LRTI_llAb <- LRTI_llAb_u[dec_pneum_set_u]
+# this checks out, there are fewer cases of pneumonia among intervention group when p_pneum is high
+
+ts_inpat_no <- inpat_no_u[dec_pneum_set_u]
+ts_inpat_llAb <- inpat_llAb_u[dec_pneum_set_u]
+# generally, there are fewer hospitalizations among intervention group when p_pneum is high, OK
+
+ts_death_no <- deaths_no_u[dec_pneum_set_u]
+ts_death_llAb <- deaths_llAb_u[dec_pneum_set_u]
+# roughly 2-3 fewer deaths on average in the intervention group compared to status quo when p_pneum is high
+
+ts_DALYS_no <- DALYS_lost_no_u[dec_pneum_set_u]
+ts_DALYS_llAb <- DALYS_lost_llAb_u[dec_pneum_set_u]
+new_ts <- which((ts_DALYS_no - ts_DALYS_llAb) < 0) # these are all the trials where LRTI given RSV is higher among the intervention group than the status quo

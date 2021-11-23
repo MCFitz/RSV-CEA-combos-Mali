@@ -59,7 +59,7 @@ legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + 
        pch = c(19,15,17,18,10), col = c("blue","red", "green", "orange", "purple"))
 
 # plot CE plane with clouds
-# light up bottom 10% of prob LRTI given RSV in yellow
+# show how top and bottom 10% of prob LRTI given RSV influences ICERs
 par(mfrow=c(1,1))
 plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(-1000,6000), ylim = c(0,4000000), xlab = "DALYs averted", ylab =
         "Added cost (USD)")
@@ -350,10 +350,12 @@ quartz.save(file = "Figures/Health_Outcomes_Barplot", type = "pdf")
 # Input Params Histogram Panel Plots
 # do ARs and CFRs by age separately
 # need to add uncertainty for probability inpatient (by age)
-param_names <- c("probability LRTI given RSV", "cost outpatient care", "cost inpatient care")
+param_names <- c("probability LRTI given RSV", "cost outpatient care", "cost inpatient care",
+                 "duration of illness (years)", "disability weight LRTI severe", "disability weight LRTI moderate")
 params_df <- data.frame(id = rep(param_names, each = trials),
-                        value = c(p_pneum_u, cost_outpatient_u, cost_hosp_u),
-                        pe = c(rep(p_pneum, trials), rep(cost_outpatient, trials), rep(cost_hosp, trials)))
+                        value = c(p_pneum_u, cost_outpatient_u, cost_hosp_u, di_yrs_u, dw_LRTI_severe_u, dw_LRTI_mod_u),
+                        pe = c(rep(p_pneum, trials), rep(cost_outpatient, trials),
+                               rep(cost_hosp, trials), rep(di_yrs, trials), rep(dw_LRTI_severe, trials), rep(dw_LRTI_mod, trials)))
 quartz("Input Parameter Histograms", 12, 8)
 ggplot(params_df, aes(value)) + geom_histogram(color = "black", fill = "grey", bins = 15) +
    facet_wrap(~id, scales = "free") +
@@ -392,4 +394,28 @@ ggplot(CFR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", 
 quartz.save(file = "Figures/Case_Fatality_Rates_by_Month_of_Age.pdf", type = pdf)
 
 ######
+# looking at ARs
+# trial 34
+par(mfrow=c(1,2))
+plot(1:47, AR_y_u[1,,34], type ="l", ylim = c(0, max(AR_y_u[,,34])))
+for (x in 2:12){
+   lines(1:47, AR_y_u[x,,34], col = x)
+}
+# base case
+plot(1:47, AR_y_bc[1,], type ="l", ylim = c(0, max(AR_y_u[,,34])))
+for (x in 2:12){
+   lines(1:47, AR_y_bc[x,], col = x)
+}
+legend("topright", col = 1:12, legend = 1:12, lty = 1)
 
+# raw calendar month ARs
+plot(1:47, cal_AR_y, type = "l")
+
+par(mfrow=c(1,1))
+plot(1:36, adj_func(AR_y_bc), type = "l")
+lines(1:36, adj_func(AR_y_u[,,34]), type = "l", col = "red")
+
+
+plot(1:36, AR_age_y_u[34,], type = "l")
+lines(1:36, age_AR_y, col = "red")
+lines(1:36, AR_age_y_u[185,], col = "blue")
