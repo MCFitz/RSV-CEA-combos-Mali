@@ -14,7 +14,12 @@ cases_no_u <- rowSums(cases_no_u_age)
 
 # LRTI with uncertainty by age
 
-LRTI_no_u_bic <- LRTI_func(0, 0, 1, p_pneum_u, cases_no_u_bic)
+#LRTI_no_u_bic <- LRTI_func(0, 0, 1, p_pneum_u, cases_no_u_bic)
+LRTI_no_u_bic <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
+for (y in 1: trials){
+  LRTI_no_u_bic[,,y] <- LRTI_func(0, 0, 1, p_pneum_u[y], cases_no_u_bic[,,y])
+}
+
 
 LRTI_llAb_u_bic <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (y in 1: trials){

@@ -61,7 +61,7 @@ legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + 
 # plot CE plane with clouds
 # show how top and bottom 10% of prob LRTI given RSV influences ICERs
 par(mfrow=c(1,1))
-plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(-1000,6000), ylim = c(0,4000000), xlab = "DALYs averted", ylab =
+plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,5000), ylim = c(0,4000000), xlab = "DALYs averted", ylab =
         "Added cost (USD)")
 points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_llAb_u[dec_pneum_set_l], totalcost_llAb_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "cadetblue1", pch = 19)
 points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_llAb_u[dec_pneum_set_u], totalcost_llAb_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkblue", pch = 19)
