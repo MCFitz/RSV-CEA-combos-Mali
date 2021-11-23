@@ -114,8 +114,9 @@ legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + 
 # Figure 2
 # plot probability optimal across WTP values
 quartz("pOptimal by WTP", 10, 8)
+par(mfrow =c(1,1))
 par(xaxs="i", yaxs="i")
-plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
+plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,7500), bty = "l",
      type = "l", lwd = 3, col = UMBplum,
      xlab = "Society willingness to pay (USD)",
      ylab = "Probability optimal")
@@ -153,8 +154,10 @@ lines(cprod, pO_llAb_pVax_older_pspan, col = UMBtan, lty = 1, lwd = 3)
 lines(cprod, pO_mVax_pVax_older_pspan, col = UMBslate, lty = 1, lwd = 3)
 abline(v = 1.03, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 1.50, col = UMBgray, lty = 3, lwd = 2)
+abline(v= 0.721, col = UMBgray, lty = 3, lwd = 2)
 text(1.03, 0.95, labels = "Penta", srt = 45, cex = 0.80)
 text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
+text(0.721, 0.95, labels = "MR", srt = 45, cex = 0.80)
 legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
        lty = 1, lwd = 3, bty = "n", col = UMB1)
 quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")

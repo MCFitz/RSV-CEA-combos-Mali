@@ -48,8 +48,8 @@ CFR_age_mat_3y <- CFR_age_mat[ , 1:36] # subset to first three years
 old_CFR <- sample(CFR_age_mat_3y, size = trials, replace = TRUE)
 old_CFR_mat <- matrix(rep(old_CFR, times = 36), nrow = trials)
 
-# CFR_by_age_u <- CFR_age_mat_3y[sample(nrow(CFR_age_mat_3y), size = trials, replace = TRUE),]
-CFR_by_age_u <- old_CFR_mat
+CFR_by_age_u <- CFR_age_mat_3y[sample(nrow(CFR_age_mat_3y), size = trials, replace = TRUE),]
+# CFR_by_age_u <- old_CFR_mat
 
 CFR_nr_care <- CFR_by_age/0.51 * 0.49  # 49% of infants in LMIC with RSV-LRTI die outside of inpatient care setting
 CFR_nr_care_u <- CFR_by_age_u/ 0.51 * 0.49
