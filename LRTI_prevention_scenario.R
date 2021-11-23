@@ -28,6 +28,18 @@ LRTI_pVax_older_age <- adj_func(LRTI_pVax_older_bic)
 LRTI_joint_llAb_pVax_older_age <- adj_func(LRTI_joint_llAb_pVax_older_bic)
 LRTI_joint_mVax_pVax_older_age <- adj_func(LRTI_joint_mVax_pVax_older_bic)
 
+# sum the vectors for RSV-
+LRTI_no <- sum(LRTI_no_age)
+LRTI_llAb <- sum(LRTI_llAb_age)
+LRTI_mVax <- sum(LRTI_mVax_age)
+LRTI_pVax <- sum(LRTI_pVax_age)
+LRTI_joint_llAb_pVax <- sum(LRTI_joint_llAb_pVax_age)
+LRTI_joint_mVax_pVax <- sum(LRTI_joint_mVax_pVax_age)
+LRTI_pVax_older <- sum(LRTI_pVax_older_age)
+LRTI_joint_llAb_pVax_older <- sum(LRTI_joint_llAb_pVax_older_age)
+LRTI_joint_mVax_pVax_older <- sum(LRTI_joint_mVax_pVax_older_age)
+
+
 # matrix of when babies are allive through 3 years
 babies_mat <- empty_year_cohort
 for (m in 1:12) {
