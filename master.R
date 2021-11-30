@@ -586,6 +586,8 @@ gvcosts <- c(govcost_llAb, govcost_mVax, govcost_pVax, govcost_joint_llAb_pVax,
              govcost_joint_mVax_pVax, govcost_pVax_older,
              govcost_joint_llAb_pVax_older, govcost_joint_mVax_pVax_older)
 
+source("donorcost_optimality_curve_code.R")
+
 output <- data.frame(strategies, gvcosts, dnrcosts, ics_vec)
 
 ####
