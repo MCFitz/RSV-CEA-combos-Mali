@@ -4,6 +4,7 @@
 prop_h <- p_inpatient/ mean(rsv_lrti_hosps[1:6])
 
 # create data frame with hospitalization rates (population is denominator) by age, including lower and upper 95% CIs
+# from low-income countries Shi table
 months <- c(1:36)
 hosp_rates <- p_inpatient_shi_li
 hosp_LB <- p_inpatient_shi_li_LC
@@ -13,7 +14,7 @@ DT_hosps <- data.frame(months, hosp_rates, hosp_LB, hosp_UB)
 
 ggplot(DT_hosps, aes(x = months, y = hosp_rates)) +
   geom_ribbon(aes(ymin = hosp_LB, ymax = hosp_UB), alpha = 0.2) +
-  geom_smooth(method = "gam", formula = y ~ s(x), size = 1, se = FALSE)+
+  geom_smooth(method = "gam", formula = y ~ s(x), size = 1, se = FALSE) +
   geom_point()
 
 ###########
@@ -24,8 +25,8 @@ hosp_lo <- c(rsv_lrti_hosps[1], mean(rsv_lrti_hosps[2:3]), mean(rsv_lrti_hosps[4
 
 df_hosp_lo <- data.frame(months_new, hosp_lo)
 ggplot(df_hosp_lo, aes(x = months_new, y = hosp_lo)) +
-  geom_smooth(method = "gam", formula = y ~ s(x), size = 1, se = FALSE)+
-  # geom_smooth(method = lm, formula = y ~ log(x), size = 1, se = FALSE)+
+  geom_smooth(method = "gam", formula = y ~ s(x), size = 1, se = FALSE) +
+  # geom_smooth(method = lm, formula = y ~ log(x), size = 1, se = FALSE) +
   geom_point()
 
 ############

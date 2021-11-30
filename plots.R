@@ -24,7 +24,7 @@ UMB1 <- c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal,
 # CE plane, Plot cost per DALYs averted 
 quartz("CE plane", 8, 8)
 par(xaxs="i", yaxs="i")
-plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = UMBblue, bty = "n", pch = 19, cex = 1.5, xlim = c(0,2500), ylim = c(0,5000000), xlab = "DALYs averted", ylab = 
+plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = UMBblue, bty = "n", pch = 19, cex = 1.5, xlim = c(0,2250), ylim = c(0,5000000), xlab = "DALYs averted", ylab = 
        "Incremental cost compared to status quo (USD)")
 points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = UMBforest, pch = 19, cex =1.5)
 points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = UMBplum, pch = 19, cex = 1.5)
@@ -85,10 +85,6 @@ points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - t
 legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
        pch = c(19,15,17,18,10), col = c("blue","red", "green", "orange", "purple"))
 
-
-
-
-
 # # plot probability cost-effective across WTP values
 # quartz("pCE by WTP", 8, 8)
 # par(xaxs="i", yaxs="i")
@@ -132,10 +128,35 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("topright", ncol = 2, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
        lty = 1, lwd = 3, bty = "n", col = UMB1)
 quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
 
+#####
+# donor perspective probability optimal by WTP
+quartz("Donor perspective, pOptimal by WTP", 10, 8)
+par(mfrow =c(1,1))
+par(xaxs="i", yaxs="i")
+plot(WTP_sp, dnr_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
+     type = "l", lwd = 3, col = UMBplum,
+     xlab = "Society willingness to pay (USD)",
+     ylab = "Probability optimal")
+lines(WTP_sp, dnr_pO_no, col = UMBred, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_llAb, col = UMBblue, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_mVax, col = UMBforest, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_llAb_pVax, col = UMByellow, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_pVax_older, col = UMBsea, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_llAb_pVax_older, col = UMBtan, lty = 1, lwd = 3)
+lines(WTP_sp, dnr_pO_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 3)
+abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+       lty = 1, lwd = 3, bty = "n", col = UMB1)
+quartz.save(file = "Figures/donor_pOptimal_by_WTP.pdf", type = "pdf")
+######
 
 # plot probability optimal across product cost
 quartz("pOptimal by product cost", 10, 8)

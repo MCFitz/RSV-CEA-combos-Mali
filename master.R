@@ -539,18 +539,6 @@ abline(v=totalcost_joint_llAb_pVax_older, col = "red")
 hist(totalcost_joint_mVax_pVax_older_u)
 abline(v=totalcost_joint_mVax_pVax_older, col = "red")
 
-###
-# Diagnostic: checking which ICERs are <0 and why
-test_set <- which(ICER_llAb_u < 0)
-test_ICERs <- ICER_llAb_u[test_set]
-test_DALYs <- DALYS_lost_llAb_u[test_set]
-test_totalcosts <- totalcost_llAb_u[test_set]
-test_DALYS_no <- DALYS_lost_no_u[test_set]
-test_totalcosts_no <- totalcost_no_u[test_set]
-test_ICER_llAb_u <- (totalcost_llAb_u[149] - totalcost_no_u[149]) / (DALYS_lost_no_u[149] - DALYS_lost_llAb_u[149])
-# Note: when DALYs averted are negative, then the ICER is also negative. 
-# Becomes extreme when DALYs averted are negative but close to zero.
-# If DALYs averted were even more negtive (indicating worse outcomes), then the negative ICER would not be as extreme
 
 # incremental cost to society
 ics_func <- function(cost_sq, cost_int){
@@ -566,6 +554,7 @@ ics_vec <- ics_func(totalcost_no, totalcosts_vec)
 #####
 
 # donor costs
+# donor pays cost of product - 20 cents per dose paid by the government
 donorcost_llAb <- sum(llAb_admin * coverage[1] * num_infants * (cost_prod-0.20))
 donorcost_mVax <- sum(mVax_admin * coverage[2] * num_infants * (cost_prod-0.20))
 donorcost_pVax <- sum(pVax_admin * coverage[3] * num_infants * (cost_prod-0.20))
@@ -580,6 +569,7 @@ dnrcosts <- c(donorcost_llAb, donorcost_mVax, donorcost_pVax,
               donorcost_pVax_older, donorcost_joint_llAb_pVax_older,
               donorcost_joint_mVax_pVax_older)
 
+source("donorcost_optimality_curve_code.R")
 ##
 gov_pt <- 0.20
 
@@ -615,20 +605,3 @@ dec_c_outpat_set_u <- which(cost_outpatient_u >= dec_cost_outpat[2])
 dec_cost_hosp <- dec_func(cost_hosp_u)
 dec_c_hosp_l <- which(cost_hosp_u <= dec_cost_hosp[1])
 dec_c_hosp_u <- which(cost_hosp_u >= dec_cost_hosp[2])
-
-# Follow calcs for DALYs among upper test set for p_pneum
-ts_LRTI_no <- LRTI_no_u[dec_pneum_set_u]
-ts_LRTI_llAb <- LRTI_llAb_u[dec_pneum_set_u]
-# this checks out, there are fewer cases of pneumonia among intervention group when p_pneum is high
-
-ts_inpat_no <- inpat_no_u[dec_pneum_set_u]
-ts_inpat_llAb <- inpat_llAb_u[dec_pneum_set_u]
-# generally, there are fewer hospitalizations among intervention group when p_pneum is high, OK
-
-ts_death_no <- deaths_no_u[dec_pneum_set_u]
-ts_death_llAb <- deaths_llAb_u[dec_pneum_set_u]
-# roughly 2-3 fewer deaths on average in the intervention group compared to status quo when p_pneum is high
-
-ts_DALYS_no <- DALYS_lost_no_u[dec_pneum_set_u]
-ts_DALYS_llAb <- DALYS_lost_llAb_u[dec_pneum_set_u]
-new_ts <- which((ts_DALYS_no - ts_DALYS_llAb) < 0) # these are all the trials where LRTI given RSV is higher among the intervention group than the status quo
