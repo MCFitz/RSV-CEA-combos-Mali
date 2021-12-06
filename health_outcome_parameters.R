@@ -19,8 +19,8 @@ for (m in 1:12) {
 }
 
 p_seek_care <- 0.47
-p_inpatient_u <- rbeta(trials, 13, 30)
-p_inpatient <- 13/43
+p_inpatient_u <- rbeta(trials, 13, 30) # from Buchwald for 0-6 months
+p_inpatient <- 13/43 # from Buchwald for 0-6 months
 
 p_inpatient_shi_li <- c(5, 5.2, 5.2, 6.8, 6.8, 6.8, 2.5, 2.5, 2.5, 1.8, 1.8, 1.8,
                         rep(1.3, 12), rep(0.4, 12))/1000
@@ -28,6 +28,9 @@ p_inpatient_shi_li_LC <- c(0.4, 1.4, 1.4, 1.7, 1.7, 1.7, 0.5, 0.5, 0.5, 0.9, 0.9
                         rep(0.4, 12), rep(0.1, 12))/1000
 p_inpatient_shi_li_UC <- c(69.8, 19.5, 19.5, 28.1, 28.1, 28.1, 12.9, 12.9, 12.9, 3.7, 3.7, 3.7,
                         rep(5.0, 12), rep(1.2, 12))/1000
+
+# incidence
+i_inpatient_gambia <- c(rep(32.2, 6), rep(17.4, 6), rep(6.3, 12), rep(1.6, 12))/1000 
 
 CFR_inpatient <- 0.016  # PERCH PIA
 CFR_inpatient_u <- rbeta(trials, 0.05*48, 0.552*259 - 0.05*48)

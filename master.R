@@ -103,13 +103,19 @@ LRTI_pVax_older_age <- pneum_func(p_pneum, cases_pVax_older_age)
 LRTI_joint_llAb_pVax_older_age <- pneum_func(p_pneum, cases_joint_llAb_pVax_older_age)
 LRTI_joint_mVax_pVax_older_age <- pneum_func(p_pneum, cases_joint_mVax_pVax_older_age)
 
+# LRTI for no intervention base case, binned to match Shi age groups
 LRTI_no_age_bin <- c(LRTI_no_age[1], mean(LRTI_no_age[2:3]), mean(LRTI_no_age[2:3]), rep(mean(LRTI_no_age[4:6]), 3),
                     rep(mean(LRTI_no_age[7:9]), 3), rep(mean(LRTI_no_age[10:12]), 3),
                     rep(mean(LRTI_no_age[13:24]), 12), rep(mean(LRTI_no_age[25:36]), 12))
 
-# Li Hosps by month
-Li_hosps <- p_inpatient_shi_li* mean(num_infants)
-rsv_lrti_hosps <- Li_hosps/LRTI_no_age_bin
+# Shi Hosps by month
+Shi_hosps <- p_inpatient_shi_li* mean(num_infants)
+# Shi_hosps <- p_inpatient_gambia* mean(num_infants)
+rsv_lrti_hosps <- Shi_hosps/LRTI_no_age_bin
+
+## hospitalizations from Buchwald 0-6 months
+Buchwald_hosps <- sum(LRTI_no_age[1:6] * p_inpatient) / sum(num_infants) * 1000
+# number hospitalized given RSV-LRTI in Buchwald / total number of infants 
 
 source("hospitalizations by age.R")
 source("optimality_curve_code.R")
@@ -586,7 +592,7 @@ gvcosts <- c(govcost_llAb, govcost_mVax, govcost_pVax, govcost_joint_llAb_pVax,
              govcost_joint_mVax_pVax, govcost_pVax_older,
              govcost_joint_llAb_pVax_older, govcost_joint_mVax_pVax_older)
 
-source("donorcost_optimality_curve_code.R")
+source("govcost_optimality_curve_code.R")
 
 output <- data.frame(strategies, gvcosts, dnrcosts, ics_vec)
 

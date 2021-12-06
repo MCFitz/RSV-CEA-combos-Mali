@@ -3,6 +3,10 @@
 # the proportion of hosps through 6 mo. from Buchwald : hosps through 6 mo. from low-income countries in Shi table
 prop_h <- p_inpatient/ mean(rsv_lrti_hosps[1:6])
 
+# ratio_h <- Buchwald_hosps/i_inpatient_gambia[1]
+# i_hosp_new <- ratio_h * i_inpatient_gambia
+# p_hosp_new <- i_hosp_new / LRTI_no_age
+
 # create data frame with hospitalization rates (population is denominator) by age, including lower and upper 95% CIs
 # from low-income countries Shi table
 months <- c(1:36)
@@ -38,14 +42,14 @@ ggplot(df_hosp_lo, aes(x = months_new, y = hosp_lo)) +
   gam_y <- gam(y ~ s(x), method = "REML")
   x_new <- seq(0, max(x), length.out = length(y))
   y_pred <- predict(gam_y, data.frame(x = x_new)) * prop_h
-  
+
   # par(mfrow = c(2,2))
   # gam.check(gam_y)
   # summary(gam_y)
-  
+
 p_hosp_new <- as.vector(y_pred)
-
-df_newhosp <- data.frame(months, p_hosp_new)
-ggplot(df_newhosp, aes(x = months, y = p_hosp_new)) +
-  geom_point()
-
+# 
+# df_newhosp <- data.frame(months, p_hosp_new)
+# ggplot(df_newhosp, aes(x = months, y = p_hosp_new)) +
+#   geom_point()
+# 
