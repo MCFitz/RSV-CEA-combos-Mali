@@ -47,8 +47,8 @@
 # for (llc in 1:12) {
 #   llcost_fig [llc,] <- winner_llc(llc, NHB_no, NHB_m, NHB_p, NHB_mp, NHB_p_older, NHB_mp_older)
 # }
-# 
-# 
+
+
 # par(mar = c(5.1, 4.1, 4.1, 2.1))
 # par(xaxs="i", yaxs="i")
 # image.plot(rotate(llcost_fig), axes = TRUE, legend.shrink = 0.5, legend.mar = 10.1,
@@ -73,7 +73,7 @@
 # }
 # 
 # # llAb_cost <- seq(0, 20, by = 0.25)
-# llAb_cost <- seq(0, 3, by = 0.05)
+llAb_cost <- seq(0, 3, by = 0.05)
 # 
 # SA_ller <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
 # for (ll in 1:length(llAb_cost)) {
@@ -121,4 +121,83 @@ for (lp in 1:length(llAb_cost)) {
 }
 }
 
+# for two-way sensitivity analysis figure 5
+# cost of llAb product vs. llAb vaccine efficacy
+# NOTE: objects pertaining to this analyses have suffix "ce"
+
+DALYS_lost_l_ce <- matrix(NA, trials, length(eff_red))
+medcost_l_ce <- matrix(NA, trials, length(eff_red))
+for (l in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_LRTI_l <- LRTI_func(eff_red[er], coverage[1], mat_eff_llAb, p_pneum_u[l], cases_no_u_bic[,,l]) # number of LRTI episodes
+    temp_adj_LRTI_l <- adj_func(temp_LRTI_l)
+    temp_inpat_l <- inpat_func(p_hosp_new, temp_adj_LRTI_l) # number of inpatient episodes
+    temp_outpat_l <- outpat_func(temp_adj_LRTI_l, temp_inpat_l) # number of outpatient episodes
+    temp_nrcare_l <- nr_care_func(temp_inpat_l) # number not receiving care
+    temp_death_l <- mort_inpat_func(CFR_by_age_u[l,], temp_inpat_l, CFR_nr_care_u[l,], temp_nrcare_l) # number of deaths
+    temp_YLL_l <- YLL_func(temp_death_l) # YLL
+    temp_YLD_l <- YLD_func(temp_inpat_l, temp_death_l, di_yrs_u[l], dw_LRTI_severe_u[l], temp_adj_LRTI_l, dw_LRTI_mod_u[l]) # YLD
+    DALYS_lost_l_ce[l, er] <- sum(temp_YLD_l + temp_YLL_l) # DALYs lost
+    medcost_l_ce[l, er] <- sum(medcost_func(cost_hosp_u[l], temp_inpat_l, cost_outpatient_u[l], temp_outpat_l)) # medcosts
+  }}
+
+
+DALYS_lost_lp_ce <- matrix(NA, trials, length(eff_red))
+medcost_lp_ce <- matrix(NA, trials, length(eff_red))
+for (lp in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_LRTI_lp <- LRTI_func_joint(eff_red[er], efficacy[3], coverage[1], coverage[3], mat_eff_llAb, mat_eff_pVax, p_pneum_u[lp], cases_no_u_bic[,,lp]) # number of LRTI episodes
+    temp_adj_LRTI_lp <- adj_func(temp_LRTI_lp)
+    temp_inpat_lp <- inpat_func(p_hosp_new, temp_adj_LRTI_lp) # number of inpatient episodes
+    temp_outpat_lp <- outpat_func(temp_adj_LRTI_lp, temp_inpat_lp) # number of outpatient episodes
+    temp_nrcare_lp <- nr_care_func(temp_inpat_lp) # number not receiving care
+    temp_death_lp <- mort_inpat_func(CFR_by_age_u[lp,], temp_inpat_lp, CFR_nr_care_u[lp,], temp_nrcare_lp) # number of deaths
+    temp_YLL_lp <- YLL_func(temp_death_lp) # YLL
+    temp_YLD_lp <- YLD_func(temp_inpat_lp, temp_death_lp, di_yrs_u[lp], dw_LRTI_severe_u[lp], temp_adj_LRTI_lp, dw_LRTI_mod_u[lp]) # YLD
+    DALYS_lost_lp_ce[lp, er] <- sum(temp_YLD_lp + temp_YLL_lp) # DALYs lost
+    medcost_lp_ce[lp, er] <- sum(medcost_func(cost_hosp_u[lp], temp_inpat_lp, cost_outpatient_u[lp], temp_outpat_lp)) # medcosts
+  }}
+
+DALYS_lost_lp_o_ce <- matrix(NA, trials, length(eff_red))
+medcost_lp_o_ce <- matrix(NA, trials, length(eff_red))
+for (lpo in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_LRTI_lpo <- LRTI_func_joint(eff_red[er], efficacy[3], coverage[1], cov_pVax_o, mat_eff_llAb, mat_eff_older_pVax, p_pneum_u[lpo], cases_no_u_bic[,,lpo]) # number of LRTI episodes
+    temp_adj_LRTI_lpo <- adj_func(temp_LRTI_lpo)
+    temp_inpat_lpo <- inpat_func(p_hosp_new, temp_adj_LRTI_lpo) # number of inpatient episodes
+    temp_outpat_lpo <- outpat_func(temp_adj_LRTI_lpo, temp_inpat_lpo) # number of outpatient episodes
+    temp_nrcare_lpo <- nr_care_func(temp_inpat_lpo) # number not receiving care
+    temp_death_lpo <- mort_inpat_func(CFR_by_age_u[lpo,], temp_inpat_lpo, CFR_nr_care_u[lpo,], temp_nrcare_lpo) # number of deaths
+    temp_YLL_lpo <- YLL_func(temp_death_lpo) # YLL
+    temp_YLD_lpo <- YLD_func(temp_inpat_lpo, temp_death_lpo, di_yrs_u[lpo], dw_LRTI_severe_u[lpo], temp_adj_LRTI_lpo, dw_LRTI_mod_u[lpo]) # YLD
+    DALYS_lost_lp_o_ce[lpo, er] <- sum(temp_YLD_lpo + temp_YLL_lpo) # DALYs lost
+    medcost_lp_o_ce[lpo, er] <- sum(medcost_func(cost_hosp_u[lpo], temp_inpat_lpo, cost_outpatient_u[lpo], temp_outpat_lpo)) # medcosts
+  }}
+
+winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
+  NHB1_m <- rep.col(NHB1, length(eff_red))
+  NHB2_m <- rep.col(NHB2, length(eff_red))
+  NHB3_m <- rep.col(NHB3, length(eff_red))
+  NHB4_m <- rep.col(NHB4, length(eff_red))
+  NHB5_m <- rep.col(NHB5, length(eff_red))
+  NHB6_m <- rep.col(NHB6, length(eff_red))
+
+  llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_l_ce
+  llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_lp_ce
+  llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + cost_prod)) + medcost_lp_o_ce
+  
+  NHB_llAb <- (DALYS_lost_no_u - DALYS_lost_l_ce) - (llAb_tcost - medcost_no_u) / WTP
+  NHB_llAb_pVax <- (DALYS_lost_no_u - DALYS_lost_lp_ce) - (llAb_pVax_tcost - medcost_no_u) / WTP
+  NHB_llAb_pVax_o <- (DALYS_lost_no_u - DALYS_lost_lp_o_ce) - (llAb_pVax_o_tcost - medcost_no_u) / WTP
+  
+  NHB_all <- array(c(NHB1_m, NHB_llAb, NHB2_m, NHB3_m, NHB_llAb_pVax, NHB4_m, NHB5_m, NHB_llAb_pVax_o, NHB6_m), dim = c(trials, length(eff_red), 9))
+  winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
+  wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
+  wintakeall
+}
+
+SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
+for (ll in 1:length(llAb_cost)){
+  SA_ll_ce [ll,] <- winner_llAb_cost_ce(llcc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_p_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_mp_older_GDP)
+}
 

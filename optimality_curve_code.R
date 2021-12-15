@@ -13,7 +13,6 @@ cases_no_u_age <- t(apply(AR_y_u, 3, RSVcases, babies = num_infants, mort = mort
 cases_no_u <- rowSums(cases_no_u_age)
 
 # LRTI with uncertainty by age
-
 #LRTI_no_u_bic <- LRTI_func(0, 0, 1, p_pneum_u, cases_no_u_bic)
 LRTI_no_u_bic <- array(NA, dim = c(dim(AR_y_bc)[1], dim(AR_y_bc)[2], trials))
 for (y in 1: trials){
@@ -85,15 +84,25 @@ LRTI_joint_mVax_pVax_older_u <-  rowSums(LRTI_joint_mVax_pVax_older_u_age)
 
 # NOTE: still need to add in additional uncertainty from hospitalizations by age
 # hospitalizations with uncertainty by age
-inpat_no_u_age <- t(inpat_func(p_hosp_new, t(LRTI_no_u_age)))
-inpat_llAb_u_age <- t(inpat_func(p_hosp_new, t(LRTI_llAb_u_age)))
-inpat_mVax_u_age <- t(inpat_func(p_hosp_new, t(LRTI_mVax_u_age)))
-inpat_pVax_u_age <- t(inpat_func(p_hosp_new,  t(LRTI_pVax_u_age)))
-inpat_joint_llAb_pVax_u_age <- t(inpat_func(p_hosp_new,  t(LRTI_joint_llAb_pVax_u_age)))
-inpat_joint_mVax_pVax_u_age <- t(inpat_func(p_hosp_new, t(LRTI_joint_mVax_pVax_u_age)))
-inpat_pVax_older_u_age <- t(inpat_func(p_hosp_new, t(LRTI_pVax_older_u_age)))
-inpat_joint_llAb_pVax_older_u_age <- t(inpat_func(p_hosp_new, t(LRTI_joint_llAb_pVax_older_u_age)))
-inpat_joint_mVax_pVax_older_u_age <- t(inpat_func(p_hosp_new, t(LRTI_joint_mVax_pVax_older_u_age)))
+# inpat_no_u_age <- t(inpat_func(p_hosp_new, t(LRTI_no_u_age)))
+# inpat_llAb_u_age <- t(inpat_func(p_hosp_new, t(LRTI_llAb_u_age)))
+# inpat_mVax_u_age <- t(inpat_func(p_hosp_new, t(LRTI_mVax_u_age)))
+# inpat_pVax_u_age <- t(inpat_func(p_hosp_new,  t(LRTI_pVax_u_age)))
+# inpat_joint_llAb_pVax_u_age <- t(inpat_func(p_hosp_new,  t(LRTI_joint_llAb_pVax_u_age)))
+# inpat_joint_mVax_pVax_u_age <- t(inpat_func(p_hosp_new, t(LRTI_joint_mVax_pVax_u_age)))
+# inpat_pVax_older_u_age <- t(inpat_func(p_hosp_new, t(LRTI_pVax_older_u_age)))
+# inpat_joint_llAb_pVax_older_u_age <- t(inpat_func(p_hosp_new, t(LRTI_joint_llAb_pVax_older_u_age)))
+# inpat_joint_mVax_pVax_older_u_age <- t(inpat_func(p_hosp_new, t(LRTI_joint_mVax_pVax_older_u_age)))
+
+inpat_no_u_age <- inpat_func(p_hosp_u, LRTI_no_u_age)
+inpat_llAb_u_age <- inpat_func(p_hosp_u, LRTI_llAb_u_age)
+inpat_mVax_u_age <- inpat_func(p_hosp_u, LRTI_mVax_u_age)
+inpat_pVax_u_age <- inpat_func(p_hosp_u,  LRTI_pVax_u_age)
+inpat_joint_llAb_pVax_u_age <- inpat_func(p_hosp_u, LRTI_joint_llAb_pVax_u_age)
+inpat_joint_mVax_pVax_u_age <- inpat_func(p_hosp_u, LRTI_joint_mVax_pVax_u_age)
+inpat_pVax_older_u_age <- inpat_func(p_hosp_u, LRTI_pVax_older_u_age)
+inpat_joint_llAb_pVax_older_u_age <- inpat_func(p_hosp_u, LRTI_joint_llAb_pVax_older_u_age)
+inpat_joint_mVax_pVax_older_u_age <- inpat_func(p_hosp_u, LRTI_joint_mVax_pVax_older_u_age)
 
 # total hospitalizations with uncertainty
 inpat_no_u <- apply(inpat_no_u_age, MARGIN = 1, sum)

@@ -9,7 +9,8 @@ library(abind)
 library(readr)
 library("triangle")
 library("mgcv")
-require("RColorBrewer")
+library("RColorBrewer")
+library(MetBrewer) 
 
 # generic functions for code
 rep.col<-function(x,n){
@@ -118,6 +119,7 @@ Buchwald_hosps <- sum(LRTI_no_age[1:6] * p_inpatient) / sum(num_infants) * 1000
 # number hospitalized given RSV-LRTI in Buchwald / total number of infants 
 
 source("hospitalizations by age.R")
+source("temp script for hosps.R")
 source("optimality_curve_code.R")
 
 # Calculating number of LRTI episodes across pVax efficacy (for 10 & 14 wk doses) from 0 to 100% (due to interference)
@@ -441,8 +443,13 @@ for(Ompo in 1: length(eff_red)){
 
 ####
 # Calculate NHB for strategies in SA #4 at WTP  = 1 X GDP
-# NHB_no_GDP <- NHB_func(prep_no, CET_Mali_GDP)
-# NHB_m_GDP <- NHB_func(prep_mVax, CET_Mali_GDP)
+NHB_no_GDP <- NHB_func(prep_no, CET_Mali_GDP)
+NHB_m_GDP <- NHB_func(prep_mVax, CET_Mali_GDP)
+# and fo SA # 5 at WTP = 1 X GDP
+NHB_p_GDP <- NHB_func(prep_pVax, CET_Mali_GDP)
+NHB_mp_GDP <- NHB_func(prep_joint_mVax_pVax, CET_Mali_GDP)
+NHB_p_older_GDP <- NHB_func(prep_pVax_older, CET_Mali_GDP)
+NHB_mp_older_GDP <- NHB_func(prep_joint_mVax_pVax_older, CET_Mali_GDP)
 ####
 
 ####
