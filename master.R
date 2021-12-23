@@ -1,6 +1,6 @@
 # Master Script
 trials <- 1000
-set.seed(281992)
+# set.seed(281992)
 
 # load required packages
 library(ggplot2)
@@ -52,7 +52,7 @@ int_names <- c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no 
 efficacy <- c(0.70, 0.70, 0.70, 0.70, 0.70, 0.30, 0.30, 0.50, 0.50)
 duration <- c(5, 4, 12, NA, NA, NA, NA, NA, NA)
 coverage <- c(0.830, 0.433, 0.77, NA, NA, NA, NA, NA, NA)
-costs <- c(cost_prod + 1.35, cost_prod + 1.35, cost_prod + 1.35, NA, NA, NA, NA, NA, NA)
+costs <- c(cost_prod + cost_nd, cost_prod + cost_nd, cost_prod + cost_nd, NA, NA, NA, NA, NA, NA)
 
 cov_pVax_o <- 0.70
 
@@ -298,7 +298,6 @@ medcost_pVax_older <- medcost_func(cost_hosp, inpat_pVax_older, cost_outpatient,
 medcost_joint_llAb_pVax_older <- medcost_func(cost_hosp, inpat_joint_llAb_pVax_older, cost_outpatient, outpat_func(LRTI_joint_llAb_pVax_older, inpat_joint_llAb_pVax_older))
 medcost_joint_mVax_pVax_older <- medcost_func(cost_hosp, inpat_joint_mVax_pVax_older, cost_outpatient, outpat_func(LRTI_joint_mVax_pVax_older, inpat_joint_mVax_pVax_older))
 
-
 # Calculate total intervention costs
 totalcost_no <- medcost_no
 totalcost_llAb <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + medcost_llAb
@@ -306,18 +305,18 @@ totalcost_mVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + medco
 totalcost_pVax <- sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_pVax
 totalcost_joint_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_llAb_pVax
 totalcost_joint_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_joint_mVax_pVax
-totalcost_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_pVax_older
-totalcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_joint_llAb_pVax_older
-totalcost_joint_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*1.35 +cost_prod)) + medcost_joint_mVax_pVax_older
+totalcost_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_pVax_older
+totalcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (cost_nd + cost_prod)) + medcost_joint_llAb_pVax_older
+totalcost_joint_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (cost_nd + cost_prod)) + medcost_joint_mVax_pVax_older
 
 # Calculate total intervention costs across efficacy from 0 to 100%
 totalcost_er_pVax <-  sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_er_p
 totalcost_er_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_er_lp
 totalcost_er_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_admin * coverage[3] * num_infants * costs[3]) + medcost_er_mp
 
-totalcost_er_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_er_po
-totalcost_er_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_er_lpo
-totalcost_er_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*1.35 + cost_prod)) + medcost_er_mpo
+totalcost_er_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_po
+totalcost_er_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_lpo
+totalcost_er_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_mpo
 
 # Calculate the probability of each strategy being optimal at WTP = 1XGDP
 # as the efficacy in pVax as combo strategy at 10 & 14 wks (driven by interference) increases
@@ -586,22 +585,22 @@ source("donorcost_optimality_curve_code.R")
 ##
 gov_pt <- 0.20
 
-govcost_llAb <- sum(llAb_admin * coverage[1] * num_infants * (cost_nd + gov_pt))
-govcost_mVax <- sum(mVax_admin * coverage[2] * num_infants * (cost_nd + gov_pt))
-govcost_pVax <- sum(pVax_admin * coverage[3] * num_infants * (cost_nd + gov_pt))
-govcost_joint_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * (cost_nd + gov_pt)) + sum(pVax_admin * coverage[3] * num_infants * (cost_nd + gov_pt))
-govcost_joint_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * (cost_nd + gov_pt)) + sum(pVax_admin * coverage[3] * num_infants * (cost_nd + gov_pt))
-govcost_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5*cost_EPI + 0.5*cost_nd + gov_pt))
-govcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * (cost_nd + gov_pt)) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*cost_nd + gov_pt))
-govcost_joint_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * (cost_nd + gov_pt)) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (0.5*cost_EPI + 0.5*cost_nd + gov_pt))
+govcost_llAb <- sum(llAb_admin * coverage[1] * num_infants * (cost_nd + gov_pt)) + medcost_llAb_u
+govcost_mVax <- sum(mVax_admin * coverage[2] * num_infants * (cost_nd + gov_pt)) + medcost_mVax_u
+govcost_pVax <- sum(pVax_admin * coverage[3] * num_infants * (cost_nd + gov_pt)) + medcost_pVax_u
+govcost_joint_llAb_pVax <- sum(llAb_admin * coverage[1] * num_infants * (cost_nd + gov_pt)) + sum(pVax_admin * coverage[3] * num_infants * (cost_nd + gov_pt)) + medcost_joint_llAb_pVax_u
+govcost_joint_mVax_pVax <- sum(mVax_admin * coverage[2] * num_infants * (cost_nd + gov_pt)) + sum(pVax_admin * coverage[3] * num_infants * (cost_nd + gov_pt)) + medcost_joint_mVax_pVax_u
+govcost_pVax_older <- sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + gov_pt)) + medcost_pVax_u_older
+govcost_joint_llAb_pVax_older <- sum(llAb_admin * coverage[1] * num_infants * (cost_nd + gov_pt)) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (cost_nd + gov_pt)) + medcost_joint_llAb_pVax_u_older
+govcost_joint_mVax_pVax_older <- sum(mVax_admin * coverage[2] * num_infants * (cost_nd + gov_pt)) + sum(pVax_older_admin * cov_pVax_o * num_infants *  (cost_nd + gov_pt)) + medcost_joint_mVax_pVax_u_older
 
-gvcosts <- c(govcost_llAb, govcost_mVax, govcost_pVax, govcost_joint_llAb_pVax,
-             govcost_joint_mVax_pVax, govcost_pVax_older,
-             govcost_joint_llAb_pVax_older, govcost_joint_mVax_pVax_older)
+# gvcosts <- c(govcost_llAb, govcost_mVax, govcost_pVax, govcost_joint_llAb_pVax,
+#              govcost_joint_mVax_pVax, govcost_pVax_older,
+#              govcost_joint_llAb_pVax_older, govcost_joint_mVax_pVax_older)
 
 source("govcost_optimality_curve_code.R")
 
-output <- data.frame(strategies, gvcosts, dnrcosts, ics_vec)
+# output <- data.frame(strategies, gvcosts, dnrcosts, ics_vec)
 
 ####
 # Find lower and upper 10% of all inputs
@@ -620,3 +619,43 @@ dec_c_outpat_set_u <- which(cost_outpatient_u >= dec_cost_outpat[2])
 dec_cost_hosp <- dec_func(cost_hosp_u)
 dec_c_hosp_l <- which(cost_hosp_u <= dec_cost_hosp[1])
 dec_c_hosp_u <- which(cost_hosp_u >= dec_cost_hosp[2])
+
+################################################################################
+# make df for health outcomes with uncertainty
+# need for ages 1:36 in 6 month increments
+# only need RSV-LRTI, hosps, deaths
+# only for no intervention, llAb, and llAb + pVax
+
+# convert health outcomes matrices to vectors
+cases_no_u_age_v <- as.vector(cases_no_u_age)
+LRTI_no_u_age_v <- as.vector(LRTI_no_u_age)
+LRTI_llAb_u_age_v <- as.vector(LRTI_llAb_u_age)
+LRTI_joint_llAb_pVax_u_age_v <- as.vector(LRTI_joint_llAb_pVax_u_age)
+inpat_no_u_age_v <- as.vector(inpat_no_u_age)
+inpat_llAb_u_age_v <- as.vector(inpat_llAb_u_age)
+inpat_joint_llAb_pVax_u_age_v <- as.vector(inpat_joint_llAb_pVax_u_age)
+deaths_no_u_age_v <- as.vector(deaths_no_u_age)
+deaths_llAb_u_age_v <- as.vector(deaths_llAb_u_age)
+deaths_joint_llAb_pVax_u_age_v <- as.vector(deaths_joint_llAb_pVax_u_age)
+
+st <- 3  # number of strategies in the data frame
+mo <- 36 # number of months
+
+HO_u_df <- data.frame(age = rep(rep(rep(months, each = trials), st), mo),
+                    strategy = rep(c(rep(rep("no intervention", trials), length(months)),
+                                         rep(rep("llAb", trials), length(months)),
+                                         rep(rep("llAb + pVax", trials), length(months))), st),
+                    metric = c(rep(rep("LRTI episodes", trials), length(months) * st),
+                               rep(rep("Hospitalizations", trials), length(months) * st),
+                               rep(rep("Deaths", trials), length(months) * st)),
+                    value = c(LRTI_no_u_age_v, LRTI_llAb_u_age_v, LRTI_joint_llAb_pVax_u_age_v,
+                              inpat_no_u_age_v, inpat_llAb_u_age_v, inpat_joint_llAb_pVax_u_age_v,
+                              deaths_no_u_age_v, deaths_llAb_u_age_v, deaths_joint_llAb_pVax_u_age_v))
+HO_u_df$metric <- factor(HO_u_df$metric, levels = c("LRTI episodes", "Hospitalizations", "Deaths"))
+HO_u_df$strategy <- factor(HO_u_df$strategy, levels = c("no intervention", "llAb", "llAb + pVax"))
+
+# Save an object to a file
+saveRDS(HO_u_df, file = "Health_Outcomes_Uncertainty.rds")
+# write.csv(HO_u_df,"Health_Outcomes_Uncertainty.csv", row.names = FALSE)
+
+################################################################################

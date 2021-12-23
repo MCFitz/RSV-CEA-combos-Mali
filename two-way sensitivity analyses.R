@@ -5,9 +5,9 @@
 # to calculate NHBs, inputs needed are total costs and DALYs lost
 
 # winner <- function (EPIcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
-#   pVax_old_tcost <- sum(pVax_older_admin * cov_pVax_o* num_infants * (0.5* EPIcost + 0.5 * cost_nd + cost_prod)) +  medcost_er_pVax_older
-#   llAb_pVax_old_tcost <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * cov_pVax_o * num_infants * (0.5* EPIcost + 0.5 * cost_nd + cost_prod)) + medcost_er_llAb_pVax_older
-#   mVax_pVax_old_tcost <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* EPIcost + 0.5 * cost_nd + cost_prod)) + medcost_er_mVax_pVax_older
+#   pVax_old_tcost <- sum(pVax_older_admin * cov_pVax_o* num_infants * (cost_nd + cost_prod)) +  medcost_er_pVax_older
+#   llAb_pVax_old_tcost <- sum(llAb_admin * coverage[1] * num_infants * costs[1]) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_llAb_pVax_older
+#   mVax_pVax_old_tcost <- sum(mVax_admin * coverage[2] * num_infants * costs[2]) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_mVax_pVax_older
 #   NHB_pVax_o <- (DALYS_lost_er_no - DALYS_er_pVax_older) - (pVax_old_tcost - medcost_no_u) / WTP
 #   NHB_llAb_pVax_o <- (DALYS_lost_er_no - DALYS_er_llAb_pVax_older) - (llAb_pVax_old_tcost - medcost_no_u) / WTP
 #   NHB_mVax_pVax_o <- (DALYS_lost_er_no - DALYS_er_mVax_pVax_older) - (mVax_pVax_old_tcost - medcost_no_u) / WTP
@@ -31,7 +31,7 @@
 # winner_llc <- function (llcost, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
 #   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_llAb_u
 #   llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_joint_llAb_pVax_u
-#   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + cost_prod)) + medcost_joint_llAb_pVax_u_older
+#   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_joint_llAb_pVax_u_older
 #   NHB_llAb <- (DALYS_lost_no_u - DALYS_lost_llAb_u) - (llAb_tcost - medcost_no_u) / WTP_sp
 #   NHB_llAb_pVax <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u) - (llAb_pVax_tcost - medcost_no_u) / WTP_sp
 #   NHB_llAb_pVax_o <- (DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_older_u) - (llAb_pVax_o_tcost - medcost_no_u) / WTP_sp
@@ -62,7 +62,7 @@
 # winner_ll_er <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
 #   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_llAb_u
 #   llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_llAb_pVax
-#   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + cost_prod)) + medcost_er_llAb_pVax_older
+#   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_er_llAb_pVax_older
 #   NHB_llAb <- (DALYS_lost_er_no - DALYS_lost_llAb_u) - (llAb_tcost - medcost_no_u) / WTP
 #   NHB_llAb_pVax <- (DALYS_lost_er_no - DALYS_er_llAb_pVax) - (llAb_pVax_tcost - medcost_no_u) / WTP
 #   NHB_llAb_pVax_o <- (DALYS_lost_er_no - DALYS_er_llAb_pVax_older) - (llAb_pVax_o_tcost - medcost_no_u) / WTP
@@ -93,11 +93,11 @@ pVax_cost <- seq(0, 4, by = 0.05)
 winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_llAb_u
   pVax_tcost <- sum(pVax_admin *coverage[3]* num_infants * (pvcost + cost_nd)) + medcost_pVax_u
-  pVax_o_tcost <- sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + pvcost)) + medcost_pVax_u_older
+  pVax_o_tcost <- sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_pVax_u_older
   llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_llAb_pVax_u
-  llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + pvcost)) + medcost_joint_llAb_pVax_u_older
+  llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_joint_llAb_pVax_u_older
   mVax_pVax_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_mVax_pVax_u
-  mVax_pVax_o_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + pvcost)) + medcost_joint_mVax_pVax_u_older
+  mVax_pVax_o_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_joint_mVax_pVax_u_older
   NHB_llAb <- (DALYS_lost_no_u - DALYS_lost_llAb_u) - (llAb_tcost - medcost_no_u) / WTP
   NHB_pVax <- (DALYS_lost_no_u - DALYS_lost_pVax_u) - (pVax_tcost - medcost_no_u) / WTP
   NHB_pVax_o <- (DALYS_lost_no_u - DALYS_lost_pVax_older_u) - (pVax_o_tcost - medcost_no_u) / WTP
@@ -184,11 +184,14 @@ winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6
 
   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_l_ce
   llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_lp_ce
-  llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (0.5* cost_EPI + 0.5 * cost_nd + cost_prod)) + medcost_lp_o_ce
+  llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_lp_o_ce
   
-  NHB_llAb <- (DALYS_lost_no_u - DALYS_lost_l_ce) - (llAb_tcost - medcost_no_u) / WTP
-  NHB_llAb_pVax <- (DALYS_lost_no_u - DALYS_lost_lp_ce) - (llAb_pVax_tcost - medcost_no_u) / WTP
-  NHB_llAb_pVax_o <- (DALYS_lost_no_u - DALYS_lost_lp_o_ce) - (llAb_pVax_o_tcost - medcost_no_u) / WTP
+  DALYS_no_u_m <- rep.col(DALYS_lost_no_u, length(eff_red))
+  medcost_no_u_m <- rep.col(medcost_no_u, length(eff_red))
+  
+  NHB_llAb <- (DALYS_no_u_m - DALYS_lost_l_ce) - (llAb_tcost - medcost_no_u_m) / WTP
+  NHB_llAb_pVax <- (DALYS_no_u_m - DALYS_lost_lp_ce) - (llAb_pVax_tcost - medcost_no_u_m) / WTP
+  NHB_llAb_pVax_o <- (DALYS_no_u_m - DALYS_lost_lp_o_ce) - (llAb_pVax_o_tcost - medcost_no_u_m) / WTP
   
   NHB_all <- array(c(NHB1_m, NHB_llAb, NHB2_m, NHB3_m, NHB_llAb_pVax, NHB4_m, NHB5_m, NHB_llAb_pVax_o, NHB6_m), dim = c(trials, length(eff_red), 9))
   winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
@@ -196,8 +199,8 @@ winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6
   wintakeall
 }
 
-SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
+
+SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red)) 
 for (ll in 1:length(llAb_cost)){
   SA_ll_ce [ll,] <- winner_llAb_cost_ce(llcc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_p_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_mp_older_GDP)
 }
-

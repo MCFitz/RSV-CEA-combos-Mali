@@ -109,7 +109,7 @@ legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + 
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
 # text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-# legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 8 & 9", "llAb + pVax mo. 8 & 9", "mVax + pVax mo. 8 & 9"),
+# legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 6 & 7", "llAb + pVax mo. 6 & 7", "mVax + pVax mo. 6 & 7"),
 #        lty = 1, lwd = 2, bty = "n", col = c( UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 # quartz.save(file = "Figures/pCE_by_WTP.pdf", type = "pdf")
 
@@ -134,7 +134,7 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
 
@@ -159,7 +159,7 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/donor_pOptimal_by_WTP.pdf", type = "pdf")
 ######
@@ -185,14 +185,13 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/gov_pOptimal_by_WTP.pdf", type = "pdf")
 ###############
 
 # 3 panel perspectives plot
 # NOTES: need to put legend below the plots instead of on last panel
-# also need to add medcosts to government perspective
 quartz("3_panel_perspectives_plot", 16, 8)
 par(mfrow =c(1,3))
 par(xaxs="i", yaxs="i")
@@ -246,7 +245,7 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", inset = c(-0.4, 0), ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("right", inset = c(-0.3, 0), ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/3_panel_perspectives_plot.pdf", type = "pdf")
 
@@ -272,7 +271,7 @@ abline(v= 0.721, col = UMBgray, lty = 3, lwd = 2)
 text(1.03, 0.95, labels = "Penta", srt = 45, cex = 0.80)
 text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
 text(0.721, 0.95, labels = "MR", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
 
@@ -296,7 +295,7 @@ quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-# legend(2800, 0.98, ncol = 2, cex = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+# legend(2800, 0.98, ncol = 2, cex = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
 #        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 # quartz.save(file = "Figures/SuppFig3.pdf", type = "pdf")
 ##
@@ -319,7 +318,7 @@ lines(eff_red*100, pO_llAb_pVax_older_ser, col = col_vec[8], lty = 1, lwd = 3)
 lines(eff_red*100, pO_mVax_pVax_older_ser, col = col_vec[9], lty = 1, lwd = 3)
 abline(v = 70, col = UMBgray, lty = 3, lwd = 2)
 text(70, 0.92, labels = "70% efficacy", srt = 45, cex = 0.80)
-legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/efficacy_reduction_immaturity.pdf", type = "pdf")
 
@@ -342,7 +341,7 @@ lines(eff_red*100, pO_llAb_pVax_older_er, col = col_vec[8], lty = 4, lwd = 3)
 lines(eff_red*100, pO_mVax_pVax_older_er, col = col_vec[9], lty = 4, lwd =3)
 abline(v = 70, col = UMBgray, lty = 3, lwd = 2)
 text(70, 0.92, labels = "70% efficacy", srt = 45, cex = 0.80)
-legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 8 & 9 mos", "mAb + pVax 8 & 9 mos", "mVax + pVax 8 & 9 mos"),
+legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 4, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
@@ -406,9 +405,9 @@ legend("topleft", legend =c("status quo","long-acting mAb",
                             "maternal vaccine", "pediatric vaccine 10 & 14 wks",
                             "long-acting mAb + pediatric vaccine 10 & 14 wks",
                             "maternal vaccine + pediatric vaccine 10 & 14 wks",
-                            "pediatric vaccine 8 & 9 mos",
-                            "long acting mAb + pediatric vaccine 8 & 9 mos",
-                            "maternal vaccine + pediatric vaccine 8 & 9 mos"),
+                            "pediatric vaccine 6 & 7 mos",
+                            "long acting mAb + pediatric vaccine 6 & 7 mos",
+                            "maternal vaccine + pediatric vaccine 6 & 7 mos"),
        pch=15, pt.cex=3, cex = 1.5, bty='n',
        col = col_vec)
 # mtext("Intervention strategy", at=0.25, cex = 2)
