@@ -96,8 +96,8 @@ winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   pVax_o_tcost <- sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_pVax_u_older
   llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_llAb_pVax_u
   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_joint_llAb_pVax_u_older
-  mVax_pVax_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_mVax_pVax_u
-  mVax_pVax_o_tcost <- sum(mVax_admin * coverage[2]* num_infants * cost_prod) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_joint_mVax_pVax_u_older
+  mVax_pVax_tcost <- sum(mVax_admin * coverage[2]* num_infants * (cost_prod + cost_nd)) + sum(pVax_admin * coverage[3] * num_infants * (pvcost + cost_nd)) + medcost_joint_mVax_pVax_u
+  mVax_pVax_o_tcost <- sum(mVax_admin * coverage[2]* num_infants * (cost_prod + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + pvcost)) + medcost_joint_mVax_pVax_u_older
   NHB_llAb <- (DALYS_lost_no_u - DALYS_lost_llAb_u) - (llAb_tcost - medcost_no_u) / WTP
   NHB_pVax <- (DALYS_lost_no_u - DALYS_lost_pVax_u) - (pVax_tcost - medcost_no_u) / WTP
   NHB_pVax_o <- (DALYS_lost_no_u - DALYS_lost_pVax_older_u) - (pVax_o_tcost - medcost_no_u) / WTP
@@ -131,7 +131,7 @@ for (l in 1:trials) {
   for(er in 1:length(eff_red)){
     temp_LRTI_l <- LRTI_func(eff_red[er], coverage[1], mat_eff_llAb, p_pneum_u[l], cases_no_u_bic[,,l]) # number of LRTI episodes
     temp_adj_LRTI_l <- adj_func(temp_LRTI_l)
-    temp_inpat_l <- inpat_func(p_hosp_new, temp_adj_LRTI_l) # number of inpatient episodes
+    temp_inpat_l <- inpat_func(p_hosp_u[l,], temp_adj_LRTI_l) # number of inpatient episodes
     temp_outpat_l <- outpat_func(temp_adj_LRTI_l, temp_inpat_l) # number of outpatient episodes
     temp_nrcare_l <- nr_care_func(temp_inpat_l) # number not receiving care
     temp_death_l <- mort_inpat_func(CFR_by_age_u[l,], temp_inpat_l, CFR_nr_care_u[l,], temp_nrcare_l) # number of deaths
@@ -148,7 +148,7 @@ for (lp in 1:trials) {
   for(er in 1:length(eff_red)){
     temp_LRTI_lp <- LRTI_func_joint(eff_red[er], efficacy[3], coverage[1], coverage[3], mat_eff_llAb, mat_eff_pVax, p_pneum_u[lp], cases_no_u_bic[,,lp]) # number of LRTI episodes
     temp_adj_LRTI_lp <- adj_func(temp_LRTI_lp)
-    temp_inpat_lp <- inpat_func(p_hosp_new, temp_adj_LRTI_lp) # number of inpatient episodes
+    temp_inpat_lp <- inpat_func(p_hosp_u[lp,], temp_adj_LRTI_lp) # number of inpatient episodes
     temp_outpat_lp <- outpat_func(temp_adj_LRTI_lp, temp_inpat_lp) # number of outpatient episodes
     temp_nrcare_lp <- nr_care_func(temp_inpat_lp) # number not receiving care
     temp_death_lp <- mort_inpat_func(CFR_by_age_u[lp,], temp_inpat_lp, CFR_nr_care_u[lp,], temp_nrcare_lp) # number of deaths
@@ -164,7 +164,7 @@ for (lpo in 1:trials) {
   for(er in 1:length(eff_red)){
     temp_LRTI_lpo <- LRTI_func_joint(eff_red[er], efficacy[3], coverage[1], cov_pVax_o, mat_eff_llAb, mat_eff_older_pVax, p_pneum_u[lpo], cases_no_u_bic[,,lpo]) # number of LRTI episodes
     temp_adj_LRTI_lpo <- adj_func(temp_LRTI_lpo)
-    temp_inpat_lpo <- inpat_func(p_hosp_new, temp_adj_LRTI_lpo) # number of inpatient episodes
+    temp_inpat_lpo <- inpat_func(p_hosp_u[lpo,], temp_adj_LRTI_lpo) # number of inpatient episodes
     temp_outpat_lpo <- outpat_func(temp_adj_LRTI_lpo, temp_inpat_lpo) # number of outpatient episodes
     temp_nrcare_lpo <- nr_care_func(temp_inpat_lpo) # number not receiving care
     temp_death_lpo <- mort_inpat_func(CFR_by_age_u[lpo,], temp_inpat_lpo, CFR_nr_care_u[lpo,], temp_nrcare_lpo) # number of deaths
@@ -202,5 +202,6 @@ winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6
 
 SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red)) 
 for (ll in 1:length(llAb_cost)){
+  llcc <- llAb_cost[ll]
   SA_ll_ce [ll,] <- winner_llAb_cost_ce(llcc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_p_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_mp_older_GDP)
 }

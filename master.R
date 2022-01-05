@@ -627,35 +627,34 @@ dec_c_hosp_u <- which(cost_hosp_u >= dec_cost_hosp[2])
 # only for no intervention, llAb, and llAb + pVax
 
 # convert health outcomes matrices to vectors
-cases_no_u_age_v <- as.vector(cases_no_u_age)
-LRTI_no_u_age_v <- as.vector(LRTI_no_u_age)
-LRTI_llAb_u_age_v <- as.vector(LRTI_llAb_u_age)
-LRTI_joint_llAb_pVax_u_age_v <- as.vector(LRTI_joint_llAb_pVax_u_age)
-inpat_no_u_age_v <- as.vector(inpat_no_u_age)
-inpat_llAb_u_age_v <- as.vector(inpat_llAb_u_age)
-inpat_joint_llAb_pVax_u_age_v <- as.vector(inpat_joint_llAb_pVax_u_age)
-deaths_no_u_age_v <- as.vector(deaths_no_u_age)
-deaths_llAb_u_age_v <- as.vector(deaths_llAb_u_age)
-deaths_joint_llAb_pVax_u_age_v <- as.vector(deaths_joint_llAb_pVax_u_age)
-
-st <- 3  # number of strategies in the data frame
-mo <- 36 # number of months
-
-HO_u_df <- data.frame(age = rep(rep(rep(months, each = trials), st), mo),
-                    strategy = rep(c(rep(rep("no intervention", trials), length(months)),
-                                         rep(rep("llAb", trials), length(months)),
-                                         rep(rep("llAb + pVax", trials), length(months))), st),
-                    metric = c(rep(rep("LRTI episodes", trials), length(months) * st),
-                               rep(rep("Hospitalizations", trials), length(months) * st),
-                               rep(rep("Deaths", trials), length(months) * st)),
-                    value = c(LRTI_no_u_age_v, LRTI_llAb_u_age_v, LRTI_joint_llAb_pVax_u_age_v,
-                              inpat_no_u_age_v, inpat_llAb_u_age_v, inpat_joint_llAb_pVax_u_age_v,
-                              deaths_no_u_age_v, deaths_llAb_u_age_v, deaths_joint_llAb_pVax_u_age_v))
-HO_u_df$metric <- factor(HO_u_df$metric, levels = c("LRTI episodes", "Hospitalizations", "Deaths"))
-HO_u_df$strategy <- factor(HO_u_df$strategy, levels = c("no intervention", "llAb", "llAb + pVax"))
-
-# Save an object to a file
-saveRDS(HO_u_df, file = "Health_Outcomes_Uncertainty.rds")
-# write.csv(HO_u_df,"Health_Outcomes_Uncertainty.csv", row.names = FALSE)
+# cases_no_u_age_v <- as.vector(cases_no_u_age)
+# LRTI_no_u_age_v <- as.vector(LRTI_no_u_age)
+# LRTI_llAb_u_age_v <- as.vector(LRTI_llAb_u_age)
+# LRTI_joint_llAb_pVax_u_age_v <- as.vector(LRTI_joint_llAb_pVax_u_age)
+# inpat_no_u_age_v <- as.vector(inpat_no_u_age)
+# inpat_llAb_u_age_v <- as.vector(inpat_llAb_u_age)
+# inpat_joint_llAb_pVax_u_age_v <- as.vector(inpat_joint_llAb_pVax_u_age)
+# deaths_no_u_age_v <- as.vector(deaths_no_u_age)
+# deaths_llAb_u_age_v <- as.vector(deaths_llAb_u_age)
+# deaths_joint_llAb_pVax_u_age_v <- as.vector(deaths_joint_llAb_pVax_u_age)
+# 
+# st <- 3  # number of strategies in the data frame
+# mo <- 3  # number of metrics
+# 
+# HO_u_df <- data.frame(age = rep(rep(rep(months, each = trials), st), mo),
+#                     strategy = rep(c(rep(rep("no intervention", trials), length(months)),
+#                                          rep(rep("llAb", trials), length(months)),
+#                                          rep(rep("llAb + pVax", trials), length(months))), st),
+#                     metric = c(rep(rep("LRTI episodes", trials), length(months) * st),
+#                                rep(rep("Hospitalizations", trials), length(months) * st),
+#                                rep(rep("Deaths", trials), length(months) * st)),
+#                     value = c(LRTI_no_u_age_v, LRTI_llAb_u_age_v, LRTI_joint_llAb_pVax_u_age_v,
+#                               inpat_no_u_age_v, inpat_llAb_u_age_v, inpat_joint_llAb_pVax_u_age_v,
+#                               deaths_no_u_age_v, deaths_llAb_u_age_v, deaths_joint_llAb_pVax_u_age_v))
+# HO_u_df$metric <- factor(HO_u_df$metric, levels = c("LRTI episodes", "Hospitalizations", "Deaths"))
+# HO_u_df$strategy <- factor(HO_u_df$strategy, levels = c("no intervention", "llAb", "llAb + pVax"))
+# 
+# # Save an object to a file
+# saveRDS(HO_u_df, file = "Health_Outcomes_Uncertainty.rds")
 
 ################################################################################

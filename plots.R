@@ -374,7 +374,8 @@ quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
 
 # two-way sensitivity plot 4
 # price llAb product vs price pVax product per dose
-quartz("cost of llAb vs cost pVax", 8, 8)
+quartz("price of llAb vs price pVax", 8, 8)
+par(mfrow =c(1,1))
 par(mar = c(5.1, 4.1, 4.1, 2.1))
 par(xaxs="i", yaxs="i")
 image(x = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),

@@ -64,11 +64,11 @@ LRTI_no_u_age <- t(apply(LRTI_no_u_bic, 3, adj_func))
 LRTI_llAb_u_age <- t(apply(LRTI_llAb_u_bic, 3, adj_func))
 LRTI_mVax_u_age <- t(apply(LRTI_mVax_u_bic, 3, adj_func))
 LRTI_pVax_u_age <- t(apply(LRTI_pVax_u_bic, 3, adj_func))
-LRTI_joint_llAb_pVax_u_age <-  t(apply(LRTI_joint_llAb_pVax_u_bic, 3, adj_func))
-LRTI_joint_mVax_pVax_u_age <-  t(apply(LRTI_joint_mVax_pVax_u_bic, 3, adj_func))
-LRTI_pVax_older_u_age <-  t(apply(LRTI_pVax_older_u_bic, 3, adj_func))
-LRTI_joint_llAb_pVax_older_u_age <-  t(apply(LRTI_joint_llAb_pVax_older_u_bic, 3, adj_func))
-LRTI_joint_mVax_pVax_older_u_age <-  t(apply(LRTI_joint_mVax_pVax_older_u_bic, 3, adj_func))
+LRTI_joint_llAb_pVax_u_age <- t(apply(LRTI_joint_llAb_pVax_u_bic, 3, adj_func))
+LRTI_joint_mVax_pVax_u_age <- t(apply(LRTI_joint_mVax_pVax_u_bic, 3, adj_func))
+LRTI_pVax_older_u_age <-t(apply(LRTI_pVax_older_u_bic, 3, adj_func))
+LRTI_joint_llAb_pVax_older_u_age <- t(apply(LRTI_joint_llAb_pVax_older_u_bic, 3, adj_func))
+LRTI_joint_mVax_pVax_older_u_age <- t(apply(LRTI_joint_mVax_pVax_older_u_bic, 3, adj_func))
 
 # Sum the rows to determine total LRTI episodes
 # in the birth cohort through 3 years, with uncertainty
@@ -82,7 +82,6 @@ LRTI_pVax_older_u <-  rowSums(LRTI_pVax_older_u_age)
 LRTI_joint_llAb_pVax_older_u <- rowSums(LRTI_joint_llAb_pVax_older_u_age)
 LRTI_joint_mVax_pVax_older_u <-  rowSums(LRTI_joint_mVax_pVax_older_u_age)
 
-# NOTE: still need to add in additional uncertainty from hospitalizations by age
 # hospitalizations with uncertainty by age
 # inpat_no_u_age <- t(inpat_func(p_hosp_new, t(LRTI_no_u_age)))
 # inpat_llAb_u_age <- t(inpat_func(p_hosp_new, t(LRTI_llAb_u_age)))
