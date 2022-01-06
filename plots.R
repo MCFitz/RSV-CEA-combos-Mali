@@ -399,6 +399,20 @@ image(x = c(eff_red[1]-0.005, eff_red + 0.005) * 100,
       ylab = "Price of long-acting antibody product (USD)")
 quartz.save(file = "Figures/pricellAb_effllAb", type = "pdf")
 
+
+# two-way sensitivity plot 6
+# price pVax product per dose vs efficacy of pVax (10 & 14 wk.)
+quartz("price of pVax vs efficacy pVax", 8, 8)
+par(mar = c(5.1, 4.1, 4.1, 2.1))
+par(xaxs="i", yaxs="i")
+image(x = c(eff_red[1]-0.005, eff_red + 0.005) * 100,
+      y = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),
+      z = t(SA_pe),
+      col = c(col_vec, NA),
+      xlab = "Efficacy of pediatric vaccine",
+      ylab = "Price of pediatric vaccine (USD)")
+quartz.save(file = "Figures/pricepVax_effpVax", type = "pdf")
+
 # Legend on its own
 quartz("color legend", 8,5)
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)

@@ -183,7 +183,7 @@ winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6
   NHB6_m <- rep.col(NHB6, length(eff_red))
 
   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_l_ce
-  llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_lp_ce
+  llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_admin * coverage[3] * num_infants * (cost_nd + cost_prod)) + medcost_lp_ce
   llAb_pVax_o_tcost <- sum(llAb_admin * coverage[1] * num_infants * (llcost + cost_nd)) + sum(pVax_older_admin * cov_pVax_o * num_infants * (cost_nd + cost_prod)) + medcost_lp_o_ce
   
   DALYS_no_u_m <- rep.col(DALYS_lost_no_u, length(eff_red))
@@ -204,4 +204,72 @@ SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
 for (ll in 1:length(llAb_cost)){
   llcc <- llAb_cost[ll]
   SA_ll_ce [ll,] <- winner_llAb_cost_ce(llcc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_p_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_mp_older_GDP)
+}
+
+
+# Two-way sensitvity analyis: 
+# price of pVax vaccine vs efficacy of pVax (10 and 14 wks)
+# Use "pe" suffix for this analysis
+
+DALYS_lost_p_pe <- matrix(NA, trials, length(eff_red))
+medcost_p_pe <- matrix(NA, trials, length(eff_red))
+for (p in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_LRTI_p <- LRTI_func(eff_red[er], coverage[3], mat_eff_pVax, p_pneum_u[p], cases_no_u_bic[,,p]) # number of LRTI episodes
+    temp_adj_LRTI_p <- adj_func(temp_LRTI_p)
+    temp_inpat_p <- inpat_func(p_hosp_u[p,], temp_adj_LRTI_p) # number of inpatient episodes
+    temp_outpat_p <- outpat_func(temp_adj_LRTI_p, temp_inpat_p) # number of outpatient episodes
+    temp_nrcare_p <- nr_care_func(temp_inpat_p) # number not receiving care
+    temp_death_p <- mort_inpat_func(CFR_by_age_u[p,], temp_inpat_p, CFR_nr_care_u[p,], temp_nrcare_p) # number of deaths
+    temp_YLL_p<- YLL_func(temp_death_p) # YLL
+    temp_YLD_p <- YLD_func(temp_inpat_p, temp_death_p, di_yrs_u[p], dw_LRTI_severe_u[p], temp_adj_LRTI_p, dw_LRTI_mod_u[p]) # YLD
+    DALYS_lost_p_pe[p, er] <- sum(temp_YLD_p + temp_YLL_p) # DALYs lost
+    medcost_p_pe[p, er] <- sum(medcost_func(cost_hosp_u[p], temp_inpat_p, cost_outpatient_u[p], temp_outpat_p)) # medcosts
+  }}
+
+
+DALYS_lost_lp_pe <- matrix(NA, trials, length(eff_red))
+medcost_lp_pe <- matrix(NA, trials, length(eff_red))
+for (lp in 1:trials) {
+  for(er in 1:length(eff_red)){
+    temp_LRTI_lp_pe <- LRTI_func_joint(efficacy[1], eff_red[er], coverage[1], coverage[3], mat_eff_llAb, mat_eff_pVax, p_pneum_u[lp], cases_no_u_bic[,,lp]) # number of LRTI episodes
+    temp_adj_LRTI_lp_pe <- adj_func(temp_LRTI_lp_pe)
+    temp_inpat_lp_pe <- inpat_func(p_hosp_u[lp,], temp_adj_LRTI_lp_pe) # number of inpatient episodes
+    temp_outpat_lp_pe <- outpat_func(temp_adj_LRTI_lp_pe, temp_inpat_lp_pe) # number of outpatient episodes
+    temp_nrcare_lp_pe <- nr_care_func(temp_inpat_lp_pe) # number not receiving care
+    temp_death_lp_pe <- mort_inpat_func(CFR_by_age_u[lp,], temp_inpat_lp_pe, CFR_nr_care_u[lp,], temp_nrcare_lp_pe) # number of deaths
+    temp_YLL_lp_pe <- YLL_func(temp_death_lp_pe) # YLL
+    temp_YLD_lp_pe <- YLD_func(temp_inpat_lp_pe, temp_death_lp_pe, di_yrs_u[lp], dw_LRTI_severe_u[lp], temp_adj_LRTI_lp_pe, dw_LRTI_mod_u[lp]) # YLD
+    DALYS_lost_lp_pe[lp, er] <- sum(temp_YLD_lp_pe + temp_YLL_lp_pe) # DALYs lost
+    medcost_lp_pe[lp, er] <- sum(medcost_func(cost_hosp_u[lp], temp_inpat_lp_pe, cost_outpatient_u[lp], temp_outpat_lp_pe)) # medcosts
+  }}
+
+winner_pe <- function (pvcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6, NHB7) {
+  NHB1_m <- rep.col(NHB1, length(eff_red))
+  NHB2_m <- rep.col(NHB2, length(eff_red))
+  NHB3_m <- rep.col(NHB3, length(eff_red))
+  NHB4_m <- rep.col(NHB4, length(eff_red))
+  NHB5_m <- rep.col(NHB5, length(eff_red))
+  NHB6_m <- rep.col(NHB6, length(eff_red))
+  NHB7_m <- rep.col(NHB7, length(eff_red))
+  
+  pVax_tcost <- sum(pVax_admin * coverage[3]* num_infants * (pvcost + cost_nd)) +  medcost_p_pe
+  llAb_pVax_tcost <- sum(llAb_admin * coverage[1] * num_infants * (cost_prod + cost_nd)) + sum(pVax_admin * coverage[3] * num_infants * (cost_nd + pvcost)) + medcost_lp_pe
+  
+  DALYS_no_u_m <- rep.col(DALYS_lost_no_u, length(eff_red))
+  medcost_no_u_m <- rep.col(medcost_no_u, length(eff_red))
+  
+  NHB_pVax <- (DALYS_no_u_m - DALYS_lost_p_pe) - (pVax_tcost - medcost_no_u_m) / WTP
+  NHB_llAb_pVax <- (DALYS_no_u_m - DALYS_lost_lp_pe) - (llAb_pVax_tcost - medcost_no_u_m) / WTP
+  
+  NHB_all <- array(c(NHB1_m, NHB2_m, NHB3_m, NHB_pVax, NHB_llAb_pVax, NHB4_m, NHB5_m, NHB6_m, NHB7_m), dim = c(trials, length(eff_red), 9))
+  winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
+  wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
+  wintakeall
+}
+
+SA_pe <- matrix(NA, nrow = length(pVax_cost), ncol = length(eff_red)) 
+for (pe in 1:length(pVax_cost)){
+  pecost <- pVax_cost[pe]
+  SA_pe[pe,] <- winner_pe(pecost, CET_Mali_GDP, NHB_no_GDP, NHB_l_GDP, NHB_m_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_lp_older_GDP, NHB_mp_older_GDP)
 }

@@ -449,6 +449,9 @@ NHB_p_GDP <- NHB_func(prep_pVax, CET_Mali_GDP)
 NHB_mp_GDP <- NHB_func(prep_joint_mVax_pVax, CET_Mali_GDP)
 NHB_p_older_GDP <- NHB_func(prep_pVax_older, CET_Mali_GDP)
 NHB_mp_older_GDP <- NHB_func(prep_joint_mVax_pVax_older, CET_Mali_GDP)
+# and for SA # 6 at WTP 1 X GDP
+NHB_l_GDP <- NHB_func(prep_llAb, CET_Mali_GDP)
+NHB_lp_older_GDP <- NHB_func(prep_joint_llAb_pVax_older, CET_Mali_GDP)
 ####
 
 ####
