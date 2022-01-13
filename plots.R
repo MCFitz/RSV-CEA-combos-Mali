@@ -30,7 +30,7 @@ col_vec <- c(Cross_vec[2], Cross_vec[8], Cross_vec[6], Cross_vec[1],
 # CE plane, Plot cost per DALYs averted 
 quartz("CE plane", 8, 8)
 par(xaxs="i", yaxs="i")
-plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = col_vec[2], bty = "n", pch = 19, cex = 1.5, xlim = c(0,2250), ylim = c(0,5000000), xlab = "DALYs averted", ylab = 
+plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = col_vec[2], bty = "n", pch = 19, cex = 1.5, xlim = c(0,2250), ylim = c(0,2500000), xlab = "DALYs averted", ylab = 
        "Incremental cost compared to status quo (USD)")
 points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = col_vec[3], pch = 19, cex =1.5)
 points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = col_vec[4], pch = 19, cex = 1.5)
@@ -348,16 +348,16 @@ quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 # Figure 3
 # two-way sensitivity plot 1
 # cost of adding EPI visit vs efficacy of pVax at 10 and 14 wks
-quartz("cost EPI vs efficacy pVax", 8, 8)
-par(mar = c(5.1, 4.1, 4.1, 2.1))
-par(xaxs="i", yaxs="i")
-image(x = c(eff_red[1]- 0.005, eff_red + 0.005)*100 ,
-      y = c(EPI_cost[1]- 0.05, EPI_cost + 0.05),
-      z = t(figdata),
-      col = c(col_vec, NA),
-      xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
-      ylab="Cost of adding a new immunization visit (USD)")
-quartz.save(file = "Figures/costEPI_effpVax", type = "pdf")
+# quartz("cost EPI vs efficacy pVax", 8, 8)
+# par(mar = c(5.1, 4.1, 4.1, 2.1))
+# par(xaxs="i", yaxs="i")
+# image(x = c(eff_red[1]- 0.005, eff_red + 0.005)*100 ,
+#       y = c(EPI_cost[1]- 0.05, EPI_cost + 0.05),
+#       z = t(figdata),
+#       col = c(col_vec, NA),
+#       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
+#       ylab="Cost of adding a new immunization visit (USD)")
+# quartz.save(file = "Figures/costEPI_effpVax", type = "pdf")
 
 # two-way sensitivity plot 3
 # cost of llAb product vs. efficacy of pVax at 10 & 14 wks.

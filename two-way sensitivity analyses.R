@@ -87,7 +87,6 @@ llAb_cost <- seq(0, 3, by = 0.05)
 # which product has the greatest probability of being optimal across the following margins:
 # cost of llAb product vs. cost of pVax product per dose
 
-# pVax_cost <- seq(0, 10, by = 0.25)
 pVax_cost <- seq(0, 4, by = 0.05)
 
 winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
@@ -111,15 +110,44 @@ winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   wintakeall
 }
 
+## Here, write a second function for generating probability optimal
+
+
 
 SA_llpv <- matrix(NA, nrow = length(llAb_cost), ncol = length(pVax_cost))
-for (lp in 1:length(llAb_cost)) {
+# alpha_llpv <- matrix(NA, nrow = length(llAb_cost), ncol = length(pVax_cost))
+for (lpp in 1:length(llAb_cost)) {
   for(pv in 1:length(pVax_cost)){
-  llc <- llAb_cost[lp]
+  llc <- llAb_cost[lpp]
   pvc <- pVax_cost[pv]
-  SA_llpv [lp,pv] <- winner_lp(llc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
+  SA_llpv [lpp,pv] <- winner_lp(llc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
+  # alpha_llpv[lpp,pv] <- second_func(lc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
 }
 }
+
+# then construct new data frame with 4 columns: x-value = price llAb,
+# y-value = price pVax, winner strategy, alpha value (pOptimal)
+library(reshape2)
+
+SA_llpv_df <- melt(
+  SA_llpv,
+  varnames = names(dimnames(SA_llpv)),
+  na.rm = FALSE,
+  as.is = FALSE,
+  value.name = "value"
+)
+
+colnames(SA_llpv_df) <- c("$llAb", "$pVax", "strategy")
+
+
+# then do the same thing for alpha (pOptimal matrix)
+# take the last column of values and add it to SA_llpv_df
+# then try plotting, you will need to relabel the x-axes manually with the costs
+
+
+
+
+  
 
 # for two-way sensitivity analysis figure 5
 # cost of llAb product vs. llAb vaccine efficacy
