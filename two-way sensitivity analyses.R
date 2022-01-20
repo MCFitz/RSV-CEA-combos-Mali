@@ -73,7 +73,7 @@
 # }
 # 
 # # llAb_cost <- seq(0, 20, by = 0.25)
-llAb_cost <- seq(0, 3, by = 0.05)
+llAb_cost <- seq(0, 3, by = 0.02)
 # 
 # SA_ller <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
 # for (ll in 1:length(llAb_cost)) {
@@ -87,7 +87,7 @@ llAb_cost <- seq(0, 3, by = 0.05)
 # which product has the greatest probability of being optimal across the following margins:
 # cost of llAb product vs. cost of pVax product per dose
 
-pVax_cost <- seq(0, 4, by = 0.05)
+pVax_cost <- seq(0, 2, by = 0.02)
 
 winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_llAb_u
@@ -107,21 +107,20 @@ winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   NHB_all <- matrix(c(NHB1, NHB_llAb, NHB2, NHB_pVax, NHB_llAb_pVax, NHB_mVax_pVax, NHB_pVax_o, NHB_llAb_pVax_o, NHB_mVax_pVax_o), nrow = trials, ncol = 9)
   winners <- apply(NHB_all, MARGIN = 1, FUN = which.max)
   wintakeall <- getmode(winners)
-  wintakeall
+  probwin <-sum(winners == wintakeall)/length(winners)
+  list(wintakeall, probwin)
 }
-
-## Here, write a second function for generating probability optimal
-
 
 
 SA_llpv <- matrix(NA, nrow = length(llAb_cost), ncol = length(pVax_cost))
-# alpha_llpv <- matrix(NA, nrow = length(llAb_cost), ncol = length(pVax_cost))
+alpha_llpv <- matrix(NA, nrow = length(llAb_cost), ncol = length(pVax_cost))
 for (lpp in 1:length(llAb_cost)) {
   for(pv in 1:length(pVax_cost)){
   llc <- llAb_cost[lpp]
   pvc <- pVax_cost[pv]
-  SA_llpv [lpp,pv] <- winner_lp(llc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
-  # alpha_llpv[lpp,pv] <- second_func(lc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
+  temp <- winner_lp(llc, pvc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP)
+  SA_llpv[lpp,pv] <- temp[[1]]
+  alpha_llpv[lpp,pv] <- temp[[2]]
 }
 }
 
@@ -137,17 +136,26 @@ SA_llpv_df <- melt(
   value.name = "value"
 )
 
-colnames(SA_llpv_df) <- c("$llAb", "$pVax", "strategy")
+colnames(SA_llpv_df) <- c("llAb_price", "pVax_price", "strategy")
+
+SA_llpv_df$llAb_price <- rep(llAb_cost, times = length(pVax_cost))
+SA_llpv_df$pVax_price <- rep(pVax_cost, each = length(llAb_cost))
 
 
 # then do the same thing for alpha (pOptimal matrix)
 # take the last column of values and add it to SA_llpv_df
-# then try plotting, you will need to relabel the x-axes manually with the costs
 
+alpha_llpv_df <- melt(
+  alpha_llpv,
+  varnames = names(dimnames(alpha_llpv)),
+  na.rm = FALSE,
+  as.is = FALSE,
+  value.name = "value"
+)
+colnames(alpha_llpv_df) <- c("llAb_price", "pVax_price", "probwin")
 
-
-
-  
+SA_llpv_df$probwin <- alpha_llpv_df$probwin
+SA_llpv_df$strategy <- factor(SA_llpv_df$strategy, levels = 1:10)
 
 # for two-way sensitivity analysis figure 5
 # cost of llAb product vs. llAb vaccine efficacy
@@ -202,6 +210,12 @@ for (lpo in 1:trials) {
     medcost_lp_o_ce[lpo, er] <- sum(medcost_func(cost_hosp_u[lpo], temp_inpat_lpo, cost_outpatient_u[lpo], temp_outpat_lpo)) # medcosts
   }}
 
+pwin <- function(x){
+  y <- getmode(x)
+  w <- sum((x == y)/ length(x))
+  w
+}
+
 winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6) {
   NHB1_m <- rep.col(NHB1, length(eff_red))
   NHB2_m <- rep.col(NHB2, length(eff_red))
@@ -224,15 +238,45 @@ winner_llAb_cost_ce <- function (llcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6
   NHB_all <- array(c(NHB1_m, NHB_llAb, NHB2_m, NHB3_m, NHB_llAb_pVax, NHB4_m, NHB5_m, NHB_llAb_pVax_o, NHB6_m), dim = c(trials, length(eff_red), 9))
   winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
   wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
-  wintakeall
+  probwin <- apply(winners, MARGIN = 2, FUN = pwin)
+  list(wintakeall, probwin)
 }
 
 
-SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red)) 
+
+SA_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
+alpha_ll_ce <- matrix(NA, nrow = length(llAb_cost), ncol = length(eff_red))
 for (ll in 1:length(llAb_cost)){
   llcc <- llAb_cost[ll]
-  SA_ll_ce [ll,] <- winner_llAb_cost_ce(llcc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_p_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_mp_older_GDP)
-}
+  temp_ce <- winner_llAb_cost_ce(llcc, CET_Mali_GDP, NHB_no_GDP, NHB_m_GDP, NHB_p_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_mp_older_GDP)
+  SA_ll_ce[ll,] <- temp_ce[[1]]
+  alpha_ll_ce[ll,] <- temp_ce[[2]]
+  }
+
+SA_ll_ce_df <- melt(
+  SA_ll_ce,
+  varnames = names(dimnames(SA_ll_ce)),
+  na.rm = FALSE,
+  as.is = FALSE,
+  value.name = "value"
+)
+
+colnames(SA_ll_ce_df) <- c("llAb_price", "llAb_efficacy", "strategy")
+
+SA_ll_ce_df$llAb_price <- rep(llAb_cost, times = length(eff_red))
+SA_ll_ce_df$llAb_efficacy <- rep(eff_red*100, each = length(llAb_cost))
+
+alpha_ll_ce_df <- melt(
+  alpha_ll_ce,
+  varnames = names(dimnames(alpha_ll_ce)),
+  na.rm = FALSE,
+  as.is = FALSE,
+  value.name = "value"
+)
+colnames(alpha_ll_ce_df) <- c("llAb_price", "llAb_efficacy", "probwin")
+
+SA_ll_ce_df$probwin <- alpha_ll_ce_df$probwin
+SA_ll_ce_df$strategy <- factor(SA_ll_ce_df$strategy, levels = 1:10)
 
 
 # Two-way sensitvity analyis: 
@@ -293,11 +337,41 @@ winner_pe <- function (pvcost, WTP, NHB1, NHB2, NHB3, NHB4, NHB5, NHB6, NHB7) {
   NHB_all <- array(c(NHB1_m, NHB2_m, NHB3_m, NHB_pVax, NHB_llAb_pVax, NHB4_m, NHB5_m, NHB6_m, NHB7_m), dim = c(trials, length(eff_red), 9))
   winners <- apply(NHB_all, MARGIN = c(1,2), FUN = which.max)
   wintakeall <- apply(winners, MARGIN = 2, FUN = getmode)
-  wintakeall
+  probwin <- apply(winners, MARGIN = 2, FUN = pwin)
+  list(wintakeall, probwin)
 }
 
-SA_pe <- matrix(NA, nrow = length(pVax_cost), ncol = length(eff_red)) 
+SA_pe <- matrix(NA, nrow = length(pVax_cost), ncol = length(eff_red))
+alpha_pe <- matrix(NA, nrow = length(pVax_cost), ncol = length(eff_red))
 for (pe in 1:length(pVax_cost)){
   pecost <- pVax_cost[pe]
-  SA_pe[pe,] <- winner_pe(pecost, CET_Mali_GDP, NHB_no_GDP, NHB_l_GDP, NHB_m_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_lp_older_GDP, NHB_mp_older_GDP)
-}
+  temp_pe <- winner_pe(pecost, CET_Mali_GDP, NHB_no_GDP, NHB_l_GDP, NHB_m_GDP, NHB_mp_GDP, NHB_p_older_GDP, NHB_lp_older_GDP, NHB_mp_older_GDP)
+  SA_pe[pe,] <- temp_pe[[1]]
+  alpha_pe[pe,] <- temp_pe[[2]]
+  }
+
+SA_pe_df <- melt(
+  SA_pe,
+  varnames = names(dimnames(SA_pe)),
+  na.rm = FALSE,
+  as.is = FALSE,
+  value.name = "value"
+)
+
+colnames(SA_pe_df) <- c("pVax_price", "pVax_efficacy", "strategy")
+
+SA_pe_df$pVax_price <- rep(pVax_cost, times = length(eff_red))
+SA_pe_df$pVax_efficacy <- rep(eff_red*100, each = length(pVax_cost))
+
+alpha_pe_df <- melt(
+  alpha_pe,
+  varnames = names(dimnames(alpha_pe)),
+  na.rm = FALSE,
+  as.is = FALSE,
+  value.name = "value"
+)
+colnames(alpha_pe_df) <- c("pVax_price", "pVax_efficacy", "probwin")
+
+SA_pe_df$probwin <- alpha_pe_df$probwin
+SA_pe_df$strategy <- factor(SA_pe_df$strategy, levels = 1:10)
+

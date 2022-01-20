@@ -1,5 +1,5 @@
 # Master Script
-trials <- 25
+trials <- 1000
 # set.seed(281992)
 
 # load required packages
