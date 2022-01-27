@@ -293,3 +293,95 @@
 # cases_pVax_older_u <- rowSums(cases_pVax_older_u_age)
 # cases_joint_llAb_pVax_older_u <- rowSums(cases_joint_llAb_pVax_older_u_age)
 # cases_joint_mVax_pVax_older_u <- rowSums(cases_joint_mVax_pVax_older_u_age)
+
+# # 3 panel perspectives plot
+# # NOTES: need to put legend below the plots instead of on last panel
+# quartz("3_panel_perspectives_plot", 16, 8)
+# par(mfrow =c(1,3))
+# par(xaxs="i", yaxs="i")
+# plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,7500), bty = "l",
+#      type = "l", lwd = 3, col = col_vec[4],
+#      xlab = "Society willingness to pay (USD)",
+#      ylab = "Probability optimal")
+# lines(WTP_sp, pO_no, col = col_vec[1], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
+# lines(WTP_sp, pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
+# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+# 
+# plot(WTP_sp, dnr_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
+#      type = "l", lwd = 3, col = col_vec[4],
+#      xlab = "Donor willingness to pay (USD)",
+#      ylab = "Probability optimal")
+# lines(WTP_sp, dnr_pO_no, col = col_vec[1], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
+# lines(WTP_sp, dnr_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
+# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+# 
+# plot(WTP_sp, gov_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
+#      type = "l", lwd = 3, col = col_vec[4],
+#      xlab = "Government willingness to pay (USD)",
+#      ylab = "Probability optimal")
+# lines(WTP_sp, gov_pO_no, col = col_vec[1], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
+# lines(WTP_sp, gov_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
+# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+# legend("right", inset = c(-0.3, 0), ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+#        lty = 1, lwd = 3, bty = "n", col = col_vec)
+# quartz.save(file = "Figures/3_panel_perspectives_plot.pdf", type = "pdf")
+
+# par(mfrow =c(1,1))
+# par(mar = c(5.1, 4.1, 4.1, 2.1))
+# par(xaxs="i", yaxs="i")
+# image(x = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),
+#       y = c(llAb_cost[1] - 0.025, llAb_cost + 0.025),
+#       z = t(SA_llpv),
+#       col = c(col_vec, NA),
+#       xlab = "Price of pediatric vaccine product per dose (USD)",
+#       ylab = "Price of long-acting antibody product (USD)")
+
+# SA_llpv_df$probwin2 <- replace(x = SA_llpv_df$probwin, SA_llpv_df$probwin<0.25, 0.25)
+
+# par(mar = c(5.1, 4.1, 4.1, 2.1))
+# par(xaxs="i", yaxs="i")
+# image(x = c(eff_red[1]-0.005, eff_red + 0.005) * 100,
+#       y = c(llAb_cost[1] - 0.025, llAb_cost + 0.025),
+#       z = t(SA_ll_ce),
+#       col = c(col_vec, NA),
+#       xlab = "Efficacy of long-acting antibody",
+#       ylab = "Price of long-acting antibody product (USD)")
+
+# par(mar = c(5.1, 4.1, 4.1, 2.1))
+# par(xaxs="i", yaxs="i")
+# image(x = c(eff_red[1]-0.005, eff_red + 0.005) * 100,
+#       y = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),
+#       z = t(SA_pe),
+#       col = c(col_vec, NA),
+#       xlab = "Efficacy of pediatric vaccine",
+#       ylab = "Price of pediatric vaccine (USD)")
+
+
+

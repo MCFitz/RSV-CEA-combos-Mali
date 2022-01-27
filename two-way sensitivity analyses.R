@@ -126,7 +126,6 @@ for (lpp in 1:length(llAb_cost)) {
 
 # then construct new data frame with 4 columns: x-value = price llAb,
 # y-value = price pVax, winner strategy, alpha value (pOptimal)
-library(reshape2)
 
 SA_llpv_df <- melt(
   SA_llpv,

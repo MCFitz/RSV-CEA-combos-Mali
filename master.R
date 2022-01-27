@@ -4,13 +4,16 @@ trials <- 1000
 
 # load required packages
 library(ggplot2)
+library(ggthemes)
+library(cowplot)
 library(dplyr)
 library(abind)
 library(readr)
 library("triangle")
 library("mgcv")
 library("RColorBrewer")
-library(MetBrewer) 
+library(MetBrewer)
+library(reshape2)
 
 # generic functions for code
 rep.col<-function(x,n){

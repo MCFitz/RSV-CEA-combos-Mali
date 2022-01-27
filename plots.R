@@ -1,7 +1,5 @@
 # plots
 # source("master.R")
-library(ggplot2)
-library(ggthemes)
 
 # UMB color palette
 UMBred <- rgb(200, 16, 46, maxColorValue = 255)
@@ -15,16 +13,19 @@ UMBforest <- rgb(51, 70, 13, maxColorValue = 255)
 UMBsea <- rgb(180, 204, 149, maxColorValue = 255)
 UMBtan <- rgb(200, 177, 139, maxColorValue = 255)
 
-# make standard vector for colors
-UMB1 <- c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal,
-          UMBsea, UMBtan, UMBslate)
+# make standard vector for UMB colors
+UMB1 <- c(UMBgray, UMBblue, UMBred, UMByellow, UMBforest, UMBtan,
+          UMBplum, UMBslate, UMBsea)
 
 # Cross color palette
 Cross_vec <- met.brewer("Cross", n = 8, "discrete")
 
-col_vec <- c("gray80", Cross_vec[7], Cross_vec[2], Cross_vec[5], Cross_vec[6],
+# color palette for our plots
+# col_vec <- c("gray80", Cross_vec[7], Cross_vec[2], Cross_vec[5], Cross_vec[6],
+#              Cross_vec[4], Cross_vec[1], Cross_vec[8], Cross_vec[3])
+
+col_vec <- c(UMBred, UMBblue, UMBplum, UMByellow, UMBforest,
              Cross_vec[4], Cross_vec[1], Cross_vec[8], Cross_vec[3])
-  
 
 # For figures on slides, make font larger
 # cex.lab = 1.5, cex.axis = 1.5
@@ -193,65 +194,6 @@ legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 w
 quartz.save(file = "Figures/gov_pOptimal_by_WTP.pdf", type = "pdf")
 ###############
 
-# 3 panel perspectives plot
-# NOTES: need to put legend below the plots instead of on last panel
-quartz("3_panel_perspectives_plot", 16, 8)
-par(mfrow =c(1,3))
-par(xaxs="i", yaxs="i")
-plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,7500), bty = "l",
-     type = "l", lwd = 3, col = col_vec[4],
-     xlab = "Society willingness to pay (USD)",
-     ylab = "Probability optimal")
-lines(WTP_sp, pO_no, col = col_vec[1], lty = 1, lwd = 3)
-lines(WTP_sp, pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
-lines(WTP_sp, pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
-lines(WTP_sp, pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
-lines(WTP_sp, pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
-lines(WTP_sp, pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
-lines(WTP_sp, pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
-lines(WTP_sp, pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
-abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-
-plot(WTP_sp, dnr_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
-     type = "l", lwd = 3, col = col_vec[4],
-     xlab = "Donor willingness to pay (USD)",
-     ylab = "Probability optimal")
-lines(WTP_sp, dnr_pO_no, col = col_vec[1], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
-lines(WTP_sp, dnr_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
-abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-
-plot(WTP_sp, gov_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
-     type = "l", lwd = 3, col = col_vec[4],
-     xlab = "Government willingness to pay (USD)",
-     ylab = "Probability optimal")
-lines(WTP_sp, gov_pO_no, col = col_vec[1], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
-abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", inset = c(-0.3, 0), ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-       lty = 1, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/3_panel_perspectives_plot.pdf", type = "pdf")
-
 
 # plot probability optimal across product price
 quartz("pOptimal by product price", 10, 8)
@@ -364,80 +306,65 @@ quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
 # two-way sensitivity plot 3
 # cost of llAb product vs. efficacy of pVax at 10 & 14 wks.
-quartz("cost of llAb vs pVax eff", 8, 8)
-par(mar = c(5.1, 4.1, 4.1, 2.1))
-par(xaxs="i", yaxs="i")
-image(x = c(eff_red[1]-0.005, eff_red + 0.005)*100,
-      y = c(llAb_cost[1]- 0.125, llAb_cost + 0.125),
-      z = t(SA_ller),
-      col =c(col_vec, NA),
-      xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
-      ylab="Price of long-acting antibody product (USD)")
-quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
+# quartz("cost of llAb vs pVax eff", 8, 8)
+# par(mar = c(5.1, 4.1, 4.1, 2.1))
+# par(xaxs="i", yaxs="i")
+# image(x = c(eff_red[1]-0.005, eff_red + 0.005)*100,
+#       y = c(llAb_cost[1]- 0.125, llAb_cost + 0.125),
+#       z = t(SA_ller),
+#       col =c(col_vec, NA),
+#       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
+#       ylab="Price of long-acting antibody product (USD)")
+# quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
+
 
 # two-way sensitivity plot 4
 # price llAb product vs price pVax product per dose
 quartz("price of llAb vs price pVax", 8, 8)
-par(mfrow =c(1,1))
-par(mar = c(5.1, 4.1, 4.1, 2.1))
-par(xaxs="i", yaxs="i")
-image(x = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),
-      y = c(llAb_cost[1] - 0.025, llAb_cost + 0.025),
-      z = t(SA_llpv),
-      col = c(col_vec, NA),
-      xlab = "Price of pediatric vaccine product per dose (USD)",
-      ylab = "Price of long-acting antibody product (USD)")
-quartz.save(file = "Figures/costllAb_costpVax", type = "pdf")
-
 col_llpv <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
-# SA_llpv_df$probwin2 <- replace(x = SA_llpv_df$probwin, SA_llpv_df$probwin<0.25, 0.25)
 ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) + 
   geom_tile(aes(fill = strategy, alpha = probwin)) +
   scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
   scale_fill_manual(values = c(col_llpv, "white")) +
-  theme_base()
+  scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost+0.01)), expand = c(-0.01, -0.01)) +
+  scale_y_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.01)) +
+  xlab("Price of long-acting antibody (USD)") +
+  ylab("Price of pediatric vaccine (USD)") +
+  theme_cowplot(12)
+quartz.save(file = "Figures/costllAb_costpVax", type = "pdf")
+
 
 # two-way sensitivity plot 5
 # price llAb product per dose vs efficacy of llAb
 quartz("price of llAb vs efficacy llAb", 8, 8)
-par(mar = c(5.1, 4.1, 4.1, 2.1))
-par(xaxs="i", yaxs="i")
-image(x = c(eff_red[1]-0.005, eff_red + 0.005) * 100,
-      y = c(llAb_cost[1] - 0.025, llAb_cost + 0.025),
-      z = t(SA_ll_ce),
-      col = c(col_vec, NA),
-      xlab = "Efficacy of long-acting antibody",
-      ylab = "Price of long-acting antibody product (USD)")
-quartz.save(file = "Figures/pricellAb_effllAb", type = "pdf")
-
 col_ll_ce <- col_vec[1:2]
-# SA_ll_ce_df$probwin2 <- replace(x = SA_ll_ce_df$probwin, SA_ll_ce_df$probwin<0.25, 0.25)
 ggplot(data = SA_ll_ce_df, aes(x = llAb_price, y = llAb_efficacy)) + 
   geom_tile(aes(fill = strategy, alpha = probwin)) +
   scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
   scale_fill_manual(values = c(col_ll_ce, "white")) +
-  theme_base()
+  scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost)+0.01), expand = c(-0.01, -0.005)) +
+  scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  xlab("Price of long-acting antibody (USD)") +
+  ylab("Efficacy of long-acting antibody (%)") +
+  theme_cowplot(12)
+quartz.save(file = "Figures/pricellAb_effllAb", type = "pdf")
+
 
 # two-way sensitivity plot 6
 # price pVax product per dose vs efficacy of pVax (10 & 14 wk.)
 quartz("price of pVax vs efficacy pVax", 8, 8)
-par(mar = c(5.1, 4.1, 4.1, 2.1))
-par(xaxs="i", yaxs="i")
-image(x = c(eff_red[1]-0.005, eff_red + 0.005) * 100,
-      y = c(pVax_cost[1] - 0.025, pVax_cost + 0.025),
-      z = t(SA_pe),
-      col = c(col_vec, NA),
-      xlab = "Efficacy of pediatric vaccine",
-      ylab = "Price of pediatric vaccine (USD)")
-quartz.save(file = "Figures/pricepVax_effpVax", type = "pdf")
-
-
 col_pe <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
 ggplot(data = SA_pe_df, aes(x = pVax_price, y = pVax_efficacy)) + 
   geom_tile(aes(fill = strategy, alpha = probwin)) +
   scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
   scale_fill_manual(values = c(col_pe, "white")) +
-  theme_base()
+  scale_x_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.005)) +
+  scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  xlab("Price of pediatric vaccine at 10/14 weeks (USD)") +
+  ylab("Efficacy of pediatric vaccine at 10/14 weeks (%)") +
+  theme_cowplot(12)
+quartz.save(file = "Figures/pricepVax_effpVax", type = "pdf")
+
 
 # Legend on its own
 quartz("color legend", 8,5)
@@ -497,7 +424,6 @@ ggplot(temp_HO, aes(x = bin, y = tot, fill = intervention)) +
    scale_x_continuous(breaks = seq(1, 6, by = 1), labels = c("<6", "6-<12", "12-<18", "18-<24", "24-<30", "30-<36")) +
    xlab(NULL) +
    facet_wrap(~metric, scales = "free") +
-   # scale_fill_manual(values = met.brewer("Juarez", ni, "discrete")) +
    scale_fill_manual(values = c(col_vec[1], col_vec[7], col_vec[3], col_vec[4], col_vec[2], col_vec[5])) +
    ylab("") +
    xlab("Month of age") +
@@ -549,7 +475,7 @@ ggplot(AR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", b
    facet_wrap(~month, scales = "free") +
    geom_vline(AR_age_df, mapping = aes(xintercept= pe), color="red") +
    theme_bw()
-quartz.save(file ="Figures/Attack_Rates_by_Month_of_Age_Histograms.pdf", type = pdf)
+quartz.save(file ="Figures/Attack_Rates_by_Month_of_Age_Histograms.pdf", type = "pdf")
 
 CFR_age_df <- data.frame(month = rep(1:36, each = trials),
                         value = c(CFR_age_mat_3y[,1], CFR_age_mat_3y[,2], CFR_age_mat_3y[,3], CFR_age_mat_3y[,4], CFR_age_mat_3y[,5], CFR_age_mat_3y[,6],
@@ -564,7 +490,7 @@ ggplot(CFR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", 
    facet_wrap(~month, scales = "free") +
    geom_vline(CFR_age_df, mapping = aes(xintercept= pe), color="red") +
    theme_bw()
-quartz.save(file = "Figures/Case_Fatality_Rates_by_Month_of_Age.pdf", type = pdf)
+quartz.save(file = "Figures/Case_Fatality_Rates_by_Month_of_Age.pdf", type = "pdf")
 
 ######
 
