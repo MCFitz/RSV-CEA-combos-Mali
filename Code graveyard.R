@@ -383,5 +383,7 @@
 #       xlab = "Efficacy of pediatric vaccine",
 #       ylab = "Price of pediatric vaccine (USD)")
 
+# cost_EPI <- 3.73 # fully loaded EPI visit intervention costs
+
 
 

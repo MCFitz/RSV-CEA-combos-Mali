@@ -210,12 +210,12 @@ lines(cprod, pO_mVax_pVax_pspan, col = col_vec[6], lty = 1, lwd = 3)
 lines(cprod, pO_pVax_older_pspan, col = col_vec[7], lty = 1, lwd = 3)
 lines(cprod, pO_llAb_pVax_older_pspan, col = col_vec[8], lty = 1, lwd = 3)
 lines(cprod, pO_mVax_pVax_older_pspan, col = col_vec[9], lty = 1, lwd = 3)
-abline(v = 1.03, col = UMBgray, lty = 3, lwd = 2)
+abline(v = cost_prod, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 1.50, col = UMBgray, lty = 3, lwd = 2)
-abline(v= 0.721, col = UMBgray, lty = 3, lwd = 2)
-text(1.03, 0.95, labels = "Penta", srt = 45, cex = 0.80)
+abline(v= MR_cost, col = UMBgray, lty = 3, lwd = 2)
+text(cost_prod, 0.95, labels = "Penta", srt = 45, cex = 0.80)
 text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
-text(0.721, 0.95, labels = "MR", srt = 45, cex = 0.80)
+text(MR_cost, 0.95, labels = "MR", srt = 45, cex = 0.80)
 legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
@@ -306,16 +306,26 @@ quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
 # two-way sensitivity plot 3
 # cost of llAb product vs. efficacy of pVax at 10 & 14 wks.
-# quartz("cost of llAb vs pVax eff", 8, 8)
+quartz("cost of llAb vs pVax eff", 8, 8)
+col_clpe <- col_vec[1:2]
+ggplot(data = SA_clpe_df, aes(x = llAb_price, y = pVax_efficacy)) + 
+  geom_tile(aes(fill = strategy, alpha = probwin)) +
+  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
+  scale_fill_manual(values = c(col_clpe, "white")) +
+  scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost)+0.01), expand = c(-0.01, -0.005)) +
+  scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  xlab("Price of long-acting antibody (USD)") +
+  ylab("Efficacy of pediatric vaccine (%)") +
+  theme_cowplot(12)
 # par(mar = c(5.1, 4.1, 4.1, 2.1))
 # par(xaxs="i", yaxs="i")
 # image(x = c(eff_red[1]-0.005, eff_red + 0.005)*100,
-#       y = c(llAb_cost[1]- 0.125, llAb_cost + 0.125),
+#       y = c(llAb_cost[1]- 0.01, llAb_cost + 0.01),
 #       z = t(SA_ller),
 #       col =c(col_vec, NA),
 #       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
 #       ylab="Price of long-acting antibody product (USD)")
-# quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
+quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
 
 
 # two-way sensitivity plot 4
@@ -476,6 +486,17 @@ ggplot(AR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", b
    geom_vline(AR_age_df, mapping = aes(xintercept= pe), color="red") +
    theme_bw()
 quartz.save(file ="Figures/Attack_Rates_by_Month_of_Age_Histograms.pdf", type = "pdf")
+
+hosp_age_df <- data.frame(month = rep(c("0<6", "6<12", "12<24", "24<36"), each = trials),
+                        value = c(p_hosp_u[,1], p_hosp_u[,7], p_hosp_u[,13], p_hosp_u[,25]),
+                        pe = rep(c(p_hosp_new[1], p_hosp_new[7], p_hosp_new[13], p_hosp_new[25]), each = trials))
+hosp_age_df$month <- factor(hosp_age_df$month, levels=c("0<6", "6<12", "12<24", "24<36"))
+quartz("Hospitalization Rates by Month of Age Histograms", 12, 8)
+ggplot(hosp_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", bins = 15) +
+  facet_wrap(~month, scales = "free") +
+  geom_vline(hosp_age_df, mapping = aes(xintercept= pe), color="red") +
+  theme_bw()
+quartz.save(file ="Figures/Hospitalization_Rates_by_Month_of_Age_Histograms.pdf", type = "pdf")
 
 CFR_age_df <- data.frame(month = rep(1:36, each = trials),
                         value = c(CFR_age_mat_3y[,1], CFR_age_mat_3y[,2], CFR_age_mat_3y[,3], CFR_age_mat_3y[,4], CFR_age_mat_3y[,5], CFR_age_mat_3y[,6],
