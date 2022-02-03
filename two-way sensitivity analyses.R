@@ -62,7 +62,7 @@
 # cost of llAb product vs. cost of pVax product per dose
 
 llAb_cost <- seq(0, 3, by = 0.02)
-pVax_cost <- seq(0, 2, by = 0.02)
+pVax_cost <- seq(0, 2, by = 0.01)
 
 winner_lp <- function (llcost, pvcost, WTP, NHB1, NHB2) {
   llAb_tcost <- sum(llAb_admin * coverage[1]* num_infants * (llcost + cost_nd)) +  medcost_llAb_u

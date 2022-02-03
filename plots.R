@@ -1,5 +1,6 @@
 # plots
 # source("master.R")
+source("figure_label_function.R")
 
 # UMB color palette
 UMBred <- rgb(200, 16, 46, maxColorValue = 255)
@@ -117,11 +118,34 @@ legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + 
 #        lty = 1, lwd = 2, bty = "n", col = c( UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
 # quartz.save(file = "Figures/pCE_by_WTP.pdf", type = "pdf")
 
-# Figure 2
-# plot probability optimal across WTP values, societal perspective
-quartz("pOptimal by WTP", 10, 8)
-par(mfrow =c(1,1))
+# plot probability optimal across product price
+quartz("Two panel plot:pOptimal across product price and societal WTP", 12, 8)
+par(mar = c(9, 4.1, 4.1, 2.1))
+par(mfrow =c(1,2))
 par(xaxs="i", yaxs="i")
+plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0, max(cprod)), bty = "l",
+     type = "l", lwd = 3, col = col_vec[4],
+     xlab = "Product price (USD)",
+     ylab = "Probability optimal")
+lines(cprod, pO_no_pspan, col = col_vec[1], lty = 1, lwd = 3)
+lines(cprod, pO_llAb_pspan, col = col_vec[2], lty = 1, lwd = 3)
+lines(cprod, pO_mVax_pspan, col = col_vec[3], lty = 1, lwd = 3)
+lines(cprod, pO_llAb_pVax_pspan, col = col_vec[5], lty = 1, lwd = 3)
+lines(cprod, pO_mVax_pVax_pspan, col = col_vec[6], lty = 1, lwd = 3)
+lines(cprod, pO_pVax_older_pspan, col = col_vec[7], lty = 1, lwd = 3)
+lines(cprod, pO_llAb_pVax_older_pspan, col = col_vec[8], lty = 1, lwd = 3)
+lines(cprod, pO_mVax_pVax_older_pspan, col = col_vec[9], lty = 1, lwd = 3)
+abline(v = cost_prod, col = UMBgray, lty = 3, lwd = 2)
+abline(v = 1.50, col = UMBgray, lty = 3, lwd = 2)
+abline(v= MR_cost, col = UMBgray, lty = 3, lwd = 2)
+text(cost_prod, 0.95, labels = "Penta", srt = 45, cex = 0.80)
+text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
+text(MR_cost, 0.95, labels = "MR", srt = 45, cex = 0.80)
+fig_label("A", "figure", "topleft")
+# legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+#        lty = 1, lwd = 3, bty = "n", col = col_vec)
+
+# plot probability optimal across WTP values, societal perspective
 plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,7500), bty = "l",
      type = "l", lwd = 3, col = col_vec[4],
      xlab = "Society willingness to pay (USD)",
@@ -138,9 +162,15 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-       lty = 1, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/pOptimal_by_WTP.pdf", type = "pdf")
+fig_label("B", "figure", "topleft")
+# legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+#        lty = 1, lwd = 3, bty = "n", col = col_vec)
+par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE)
+plot(0, 0, type = 'l', bty = 'n', xaxt = 'n', yaxt = 'n')
+par(xpd=TRUE)
+legend("bottom", ncol = 3, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+       lty = 1, lwd = 3, bty = "n", col = col_vec, xpd = TRUE)
+quartz.save(file = "Figures/2panel_pOptimal_by_prodcost_and_WTP.pdf", type = "pdf")
 
 #####
 # donor perspective probability optimal by WTP
@@ -195,30 +225,6 @@ quartz.save(file = "Figures/gov_pOptimal_by_WTP.pdf", type = "pdf")
 ###############
 
 
-# plot probability optimal across product price
-quartz("pOptimal by product price", 10, 8)
-par(xaxs="i", yaxs="i")
-plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0, max(cprod)), bty = "l",
-     type = "l", lwd = 3, col = col_vec[4],
-     xlab = "Product price (USD)",
-     ylab = "Probability optimal")
-lines(cprod, pO_no_pspan, col = col_vec[1], lty = 1, lwd = 3)
-lines(cprod, pO_llAb_pspan, col = col_vec[2], lty = 1, lwd = 3)
-lines(cprod, pO_mVax_pspan, col = col_vec[3], lty = 1, lwd = 3)
-lines(cprod, pO_llAb_pVax_pspan, col = col_vec[5], lty = 1, lwd = 3)
-lines(cprod, pO_mVax_pVax_pspan, col = col_vec[6], lty = 1, lwd = 3)
-lines(cprod, pO_pVax_older_pspan, col = col_vec[7], lty = 1, lwd = 3)
-lines(cprod, pO_llAb_pVax_older_pspan, col = col_vec[8], lty = 1, lwd = 3)
-lines(cprod, pO_mVax_pVax_older_pspan, col = col_vec[9], lty = 1, lwd = 3)
-abline(v = cost_prod, col = UMBgray, lty = 3, lwd = 2)
-abline(v = 1.50, col = UMBgray, lty = 3, lwd = 2)
-abline(v= MR_cost, col = UMBgray, lty = 3, lwd = 2)
-text(cost_prod, 0.95, labels = "Penta", srt = 45, cex = 0.80)
-text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
-text(MR_cost, 0.95, labels = "MR", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-       lty = 1, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/pOptimal_by_product_cost.pdf", type = "pdf")
 
 
 ##
@@ -317,24 +323,18 @@ ggplot(data = SA_clpe_df, aes(x = llAb_price, y = pVax_efficacy)) +
   xlab("Price of long-acting antibody (USD)") +
   ylab("Efficacy of pediatric vaccine (%)") +
   theme_cowplot(12)
-# par(mar = c(5.1, 4.1, 4.1, 2.1))
-# par(xaxs="i", yaxs="i")
-# image(x = c(eff_red[1]-0.005, eff_red + 0.005)*100,
-#       y = c(llAb_cost[1]- 0.01, llAb_cost + 0.01),
-#       z = t(SA_ller),
-#       col =c(col_vec, NA),
-#       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
-#       ylab="Price of long-acting antibody product (USD)")
 quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
 
-
+## NOTE: change the threshold
 # two-way sensitivity plot 4
 # price llAb product vs price pVax product per dose
+
+SA_llpv_df$probwin2 <- ifelse(SA_llpv_df$probwin<0.5, 0.5, SA_llpv_df$probwin)
 quartz("price of llAb vs price pVax", 8, 8)
 col_llpv <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
-ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) + 
-  geom_tile(aes(fill = strategy, alpha = probwin)) +
-  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
+ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) +
+  geom_tile(aes(fill = strategy, alpha = probwin2)) +
+  # scale_alpha_continuous(limits = c(0,1), breaks = c(0.5, 0.6, .7, .8, .9, 1)) +
   scale_fill_manual(values = c(col_llpv, "white")) +
   scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost+0.01)), expand = c(-0.01, -0.01)) +
   scale_y_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.01)) +
@@ -343,7 +343,7 @@ ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) +
   theme_cowplot(12)
 quartz.save(file = "Figures/costllAb_costpVax", type = "pdf")
 
-
+#NOTE: adjust threshold to 50%
 # two-way sensitivity plot 5
 # price llAb product per dose vs efficacy of llAb
 quartz("price of llAb vs efficacy llAb", 8, 8)
