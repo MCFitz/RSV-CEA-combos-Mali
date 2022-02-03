@@ -69,54 +69,6 @@ points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - t
 legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
        pch = c(19,15,17,18,10), col = col_vec[2:6])
 
-# plot CE plane with clouds
-# show how top and bottom 10% of prob LRTI given RSV influences ICERs
-par(mfrow=c(1,1))
-plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,5000), ylim = c(0,4000000), xlab = "DALYs averted", ylab =
-        "Added cost (USD)")
-points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_llAb_u[dec_pneum_set_l], totalcost_llAb_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "cadetblue1", pch = 19)
-points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_llAb_u[dec_pneum_set_u], totalcost_llAb_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkblue", pch = 19)
-points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "red", pch = 15)
-points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_mVax_u[dec_pneum_set_l], totalcost_mVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "indianred1", pch = 15)
-points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_mVax_u[dec_pneum_set_u], totalcost_mVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkred", pch = 15)
-points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "yellowgreen", pch = 17)
-points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_pVax_u[dec_pneum_set_l], totalcost_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "green", pch = 17)
-points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_pVax_u[dec_pneum_set_u], totalcost_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkgreen", pch = 17)
-points(DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u - totalcost_no_u, col ="coral", pch = 18)
-points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_joint_llAb_pVax_u[dec_pneum_set_l], totalcost_joint_llAb_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "orange", pch =18)
-points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_joint_llAb_pVax_u[dec_pneum_set_u], totalcost_joint_llAb_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkorange3", pch =18)
-points(DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u, totalcost_joint_mVax_pVax_u - totalcost_no_u, col = "purple", pch = 10)
-points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_joint_mVax_pVax_u[dec_pneum_set_l], totalcost_joint_mVax_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "mediumorchid1", pch = 10)
-points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_joint_mVax_pVax_u[dec_pneum_set_u], totalcost_joint_mVax_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkorchid4", pch = 10)
-points(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "goldenrod", pch = 19)
-points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "goldenrod", pch = 15)
-points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "goldenrod", pch = 17)
-points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = "goldenrod", pch = 18)
-points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = "goldenrod", pch = 10)
-legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
-       pch = c(19,15,17,18,10), col = c("blue","red", "green", "orange", "purple"))
-
-# # plot probability cost-effective across WTP values
-# quartz("pCE by WTP", 8, 8)
-# par(xaxs="i", yaxs="i")
-# plot(WTP_sp, pce_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
-#      type = "l", lwd = 2, col = UMBplum,
-#      xlab = "Society willingness to pay (USD)",
-#      ylab = "Probability cost-effective")
-# lines(WTP_sp, pce_llAb, col = UMBblue, lty = 1, lwd = 2)
-# lines(WTP_sp, pce_mVax, col = UMBforest, lty = 1, lwd = 2)
-# lines(WTP_sp, pce_joint_llAb_pVax, col = UMByellow, lty = 1, lwd = 2)
-# lines(WTP_sp, pce_joint_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 2)
-# lines(WTP_sp, pce_pVax_older, col = UMBsea, lty = 1, lwd = 2)
-# lines(WTP_sp, pce_joint_llAb_pVax_older, col = UMBtan, lty = 1, lwd =2)
-# lines(WTP_sp, pce_joint_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 2)
-# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
-# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
-# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-# legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 6 & 7", "llAb + pVax mo. 6 & 7", "mVax + pVax mo. 6 & 7"),
-#        lty = 1, lwd = 2, bty = "n", col = c( UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
-# quartz.save(file = "Figures/pCE_by_WTP.pdf", type = "pdf")
 
 # plot probability optimal across product price
 quartz("Two panel plot:pOptimal across product price and societal WTP", 12, 8)
@@ -296,8 +248,6 @@ legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 
        lty = 4, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
-# Figure 3
-# two-way sensitivity plot 1
 # cost of adding EPI visit vs efficacy of pVax at 10 and 14 wks
 # quartz("cost EPI vs efficacy pVax", 8, 8)
 # par(mar = c(5.1, 4.1, 4.1, 2.1))
@@ -310,70 +260,71 @@ quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 #       ylab="Cost of adding a new immunization visit (USD)")
 # quartz.save(file = "Figures/costEPI_effpVax", type = "pdf")
 
-# two-way sensitivity plot 3
-# cost of llAb product vs. efficacy of pVax at 10 & 14 wks.
-quartz("cost of llAb vs pVax eff", 8, 8)
-col_clpe <- col_vec[1:2]
-ggplot(data = SA_clpe_df, aes(x = llAb_price, y = pVax_efficacy)) + 
-  geom_tile(aes(fill = strategy, alpha = probwin)) +
-  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
-  scale_fill_manual(values = c(col_clpe, "white")) +
-  scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost)+0.01), expand = c(-0.01, -0.005)) +
-  scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
-  xlab("Price of long-acting antibody (USD)") +
-  ylab("Efficacy of pediatric vaccine (%)") +
-  theme_cowplot(12)
-quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
+# # price of llAb product vs. efficacy of pVax at 10 & 14 wks.
+# quartz("cost of llAb vs pVax eff", 8, 8)
+# col_clpe <- col_vec[1:2]
+# ggplot(data = SA_clpe_df, aes(x = llAb_price, y = pVax_efficacy)) + 
+#   geom_tile(aes(fill = strategy, alpha = probwin)) +
+#   scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
+#   scale_fill_manual(values = c(col_clpe, "white")) +
+#   scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost)+0.01), expand = c(-0.01, -0.005)) +
+#   scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+#   xlab("Price of long-acting antibody (USD)") +
+#   ylab("Efficacy of pediatric vaccine (%)") +
+#   theme_cowplot(12)
+# quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
 
-## NOTE: change the threshold
-# two-way sensitivity plot 4
+# NOTE: add crosshairs point (pch = 10) where base case is for each plot
 # price llAb product vs price pVax product per dose
-
-SA_llpv_df$probwin2 <- ifelse(SA_llpv_df$probwin<0.5, 0.5, SA_llpv_df$probwin)
-quartz("price of llAb vs price pVax", 8, 8)
+# SA_llpv_df$probwin2 <- ifelse(SA_llpv_df$probwin<0.5, 0.5, SA_llpv_df$probwin)
+quartz("3panel two-way analyses", 14, 8)
 col_llpv <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
-ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) +
-  geom_tile(aes(fill = strategy, alpha = probwin2)) +
-  # scale_alpha_continuous(limits = c(0,1), breaks = c(0.5, 0.6, .7, .8, .9, 1)) +
+p1 <- ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) +
+  geom_tile(aes(fill = strategy, alpha = probwin)) +
+  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25, 0.5, 0.75, 1)) +
   scale_fill_manual(values = c(col_llpv, "white")) +
   scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost+0.01)), expand = c(-0.01, -0.01)) +
   scale_y_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.01)) +
+  geom_point(aes(x = cost_prod, y = cost_prod), shape = 10, size = 3) +
   xlab("Price of long-acting antibody (USD)") +
   ylab("Price of pediatric vaccine (USD)") +
   theme_cowplot(12)
-quartz.save(file = "Figures/costllAb_costpVax", type = "pdf")
 
-#NOTE: adjust threshold to 50%
-# two-way sensitivity plot 5
 # price llAb product per dose vs efficacy of llAb
-quartz("price of llAb vs efficacy llAb", 8, 8)
+# SA_ll_ce_df$probwin2 <- ifelse(SA_ll_ce_df$probwin<0.5, 0.5, SA_ll_ce_df$probwin)
 col_ll_ce <- col_vec[1:2]
-ggplot(data = SA_ll_ce_df, aes(x = llAb_price, y = llAb_efficacy)) + 
+p2 <- ggplot(data = SA_ll_ce_df, aes(x = llAb_price, y = llAb_efficacy)) + 
   geom_tile(aes(fill = strategy, alpha = probwin)) +
   scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
   scale_fill_manual(values = c(col_ll_ce, "white")) +
   scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost)+0.01), expand = c(-0.01, -0.005)) +
   scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  geom_point(aes(x = cost_prod, y = efficacy[1]*100), shape = 10, size = 3) +
   xlab("Price of long-acting antibody (USD)") +
   ylab("Efficacy of long-acting antibody (%)") +
   theme_cowplot(12)
-quartz.save(file = "Figures/pricellAb_effllAb", type = "pdf")
 
-
-# two-way sensitivity plot 6
 # price pVax product per dose vs efficacy of pVax (10 & 14 wk.)
-quartz("price of pVax vs efficacy pVax", 8, 8)
+# SA_pe_df$probwin2 <- ifelse(SA_pe_df$probwin<0.5, 0.5, SA_pe_df$probwin)
 col_pe <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
-ggplot(data = SA_pe_df, aes(x = pVax_price, y = pVax_efficacy)) + 
+p3 <- ggplot(data = SA_pe_df, aes(x = pVax_price, y = pVax_efficacy)) + 
   geom_tile(aes(fill = strategy, alpha = probwin)) +
   scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
   scale_fill_manual(values = c(col_pe, "white")) +
   scale_x_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.005)) +
   scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  geom_point(aes(x = cost_prod, y = efficacy[1]*100), shape = 10, size = 3) +
   xlab("Price of pediatric vaccine at 10/14 weeks (USD)") +
   ylab("Efficacy of pediatric vaccine at 10/14 weeks (%)") +
   theme_cowplot(12)
-quartz.save(file = "Figures/pricepVax_effpVax", type = "pdf")
+
+grid.arrange(
+  p1,
+  p2,
+  p3,
+  nrow = 1
+  )
+quartz.save(file = "Figures/3panel_2way_analyses", type = "pdf")
 
 
 # Legend on its own

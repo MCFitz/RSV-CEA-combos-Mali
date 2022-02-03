@@ -385,5 +385,54 @@
 
 # cost_EPI <- 3.73 # fully loaded EPI visit intervention costs
 
+# # plot CE plane with clouds
+# # show how top and bottom 10% of prob LRTI given RSV influences ICERs
+# par(mfrow=c(1,1))
+# plot(DALYS_lost_no_u - DALYS_lost_llAb_u, totalcost_llAb_u- totalcost_no_u, col = "blue", pch = 19, xlim = c(0,5000), ylim = c(0,4000000), xlab = "DALYs averted", ylab =
+#        "Added cost (USD)")
+# points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_llAb_u[dec_pneum_set_l], totalcost_llAb_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "cadetblue1", pch = 19)
+# points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_llAb_u[dec_pneum_set_u], totalcost_llAb_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkblue", pch = 19)
+# points(DALYS_lost_no_u - DALYS_lost_mVax_u, totalcost_mVax_u- totalcost_no_u, col = "red", pch = 15)
+# points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_mVax_u[dec_pneum_set_l], totalcost_mVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "indianred1", pch = 15)
+# points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_mVax_u[dec_pneum_set_u], totalcost_mVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkred", pch = 15)
+# points(DALYS_lost_no_u - DALYS_lost_pVax_u, totalcost_pVax_u- totalcost_no_u, col = "yellowgreen", pch = 17)
+# points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_pVax_u[dec_pneum_set_l], totalcost_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "green", pch = 17)
+# points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_pVax_u[dec_pneum_set_u], totalcost_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkgreen", pch = 17)
+# points(DALYS_lost_no_u - DALYS_lost_joint_llAb_pVax_u, totalcost_joint_llAb_pVax_u - totalcost_no_u, col ="coral", pch = 18)
+# points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_joint_llAb_pVax_u[dec_pneum_set_l], totalcost_joint_llAb_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "orange", pch =18)
+# points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_joint_llAb_pVax_u[dec_pneum_set_u], totalcost_joint_llAb_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkorange3", pch =18)
+# points(DALYS_lost_no_u - DALYS_lost_joint_mVax_pVax_u, totalcost_joint_mVax_pVax_u - totalcost_no_u, col = "purple", pch = 10)
+# points(DALYS_lost_no_u[dec_pneum_set_l] - DALYS_lost_joint_mVax_pVax_u[dec_pneum_set_l], totalcost_joint_mVax_pVax_u[dec_pneum_set_l] - totalcost_no_u[dec_pneum_set_l], col = "mediumorchid1", pch = 10)
+# points(DALYS_lost_no_u[dec_pneum_set_u] - DALYS_lost_joint_mVax_pVax_u[dec_pneum_set_u], totalcost_joint_mVax_pVax_u[dec_pneum_set_u] - totalcost_no_u[dec_pneum_set_u], col = "darkorchid4", pch = 10)
+# points(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = "goldenrod", pch = 19)
+# points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = "goldenrod", pch = 15)
+# points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = "goldenrod", pch = 17)
+# points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = "goldenrod", pch = 18)
+# points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = "goldenrod", pch = 10)
+# legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax"),
+#        pch = c(19,15,17,18,10), col = c("blue","red", "green", "orange", "purple"))
+
+# # plot probability cost-effective across WTP values
+# quartz("pCE by WTP", 8, 8)
+# par(xaxs="i", yaxs="i")
+# plot(WTP_sp, pce_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
+#      type = "l", lwd = 2, col = UMBplum,
+#      xlab = "Society willingness to pay (USD)",
+#      ylab = "Probability cost-effective")
+# lines(WTP_sp, pce_llAb, col = UMBblue, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_mVax, col = UMBforest, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_joint_llAb_pVax, col = UMByellow, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_joint_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_pVax_older, col = UMBsea, lty = 1, lwd = 2)
+# lines(WTP_sp, pce_joint_llAb_pVax_older, col = UMBtan, lty = 1, lwd =2)
+# lines(WTP_sp, pce_joint_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 2)
+# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3)
+# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3)
+# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+# legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + pVax", "pVax mo. 6 & 7", "llAb + pVax mo. 6 & 7", "mVax + pVax mo. 6 & 7"),
+#        lty = 1, lwd = 2, bty = "n", col = c( UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
+# quartz.save(file = "Figures/pCE_by_WTP.pdf", type = "pdf")
+
 
 

@@ -6,6 +6,7 @@ trials <- 10000
 library(ggplot2)
 library(ggthemes)
 library(cowplot)
+library(gridExtra)
 library(dplyr)
 library(abind)
 library(readr)
