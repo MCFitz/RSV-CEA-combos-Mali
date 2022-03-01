@@ -248,17 +248,6 @@ legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 
        lty = 4, lwd = 3, bty = "n", col = col_vec)
 quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 
-# cost of adding EPI visit vs efficacy of pVax at 10 and 14 wks
-# quartz("cost EPI vs efficacy pVax", 8, 8)
-# par(mar = c(5.1, 4.1, 4.1, 2.1))
-# par(xaxs="i", yaxs="i")
-# image(x = c(eff_red[1]- 0.005, eff_red + 0.005)*100 ,
-#       y = c(EPI_cost[1]- 0.05, EPI_cost + 0.05),
-#       z = t(figdata),
-#       col = c(col_vec, NA),
-#       xlab="Efficacy of pediatric vaccine administered at 10 & 14 weeks (%)",
-#       ylab="Cost of adding a new immunization visit (USD)")
-# quartz.save(file = "Figures/costEPI_effpVax", type = "pdf")
 
 # # price of llAb product vs. efficacy of pVax at 10 & 14 wks.
 # quartz("cost of llAb vs pVax eff", 8, 8)
@@ -274,57 +263,74 @@ quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
 #   theme_cowplot(12)
 # quartz.save(file = "Figures/costllAb_effpVax", type = "pdf")
 
-# NOTE: add crosshairs point (pch = 10) where base case is for each plot
 # price llAb product vs price pVax product per dose
-# SA_llpv_df$probwin2 <- ifelse(SA_llpv_df$probwin<0.5, 0.5, SA_llpv_df$probwin)
-quartz("3panel two-way analyses", 14, 8)
+SA_llpv_df$probwin2 <- ifelse(SA_llpv_df$probwin<0.5, 0.5, SA_llpv_df$probwin)
+quartz("4panel two-way analyses", 10, 10)
 col_llpv <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
-p1 <- ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) +
-  geom_tile(aes(fill = strategy, alpha = probwin)) +
-  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25, 0.5, 0.75, 1)) +
+p3 <- ggplot(data = SA_llpv_df, aes(x = llAb_price, y = pVax_price)) +
+  geom_tile(aes(fill = strategy, alpha = probwin2), show.legend = FALSE) +
+  scale_alpha_continuous(limits = c(0.5,1), breaks = c(0.5, 0.6, 0.7, 0.8, 0.9)) +
   scale_fill_manual(values = c(col_llpv, "white")) +
   scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost+0.01)), expand = c(-0.01, -0.01)) +
   scale_y_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.01)) +
   geom_point(aes(x = cost_prod, y = cost_prod), shape = 10, size = 3) +
-  xlab("Price of long-acting antibody (USD)") +
-  ylab("Price of pediatric vaccine (USD)") +
+  coord_fixed(ratio = 1) +
+  xlab("Price of long-acting mAb (USD)") +
+  ylab("Price of pediatric vaccine at 10/14 weeks (USD)") +
   theme_cowplot(12)
 
 # price llAb product per dose vs efficacy of llAb
-# SA_ll_ce_df$probwin2 <- ifelse(SA_ll_ce_df$probwin<0.5, 0.5, SA_ll_ce_df$probwin)
+SA_ll_ce_df$probwin2 <- ifelse(SA_ll_ce_df$probwin<0.5, 0.5, SA_ll_ce_df$probwin)
 col_ll_ce <- col_vec[1:2]
-p2 <- ggplot(data = SA_ll_ce_df, aes(x = llAb_price, y = llAb_efficacy)) + 
-  geom_tile(aes(fill = strategy, alpha = probwin)) +
-  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
+p1 <- ggplot(data = SA_ll_ce_df, aes(x = llAb_price, y = llAb_efficacy)) + 
+  geom_tile(aes(fill = strategy, alpha = probwin2), show.legend = FALSE) +
+  scale_alpha_continuous(limits = c(0.5,1), breaks = c(0.5, 0.6, 0.7, 0.8, 0.9)) +
   scale_fill_manual(values = c(col_ll_ce, "white")) +
   scale_x_continuous(limits = c(llAb_cost[1]-0.01, max(llAb_cost)+0.01), expand = c(-0.01, -0.005)) +
   scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
   geom_point(aes(x = cost_prod, y = efficacy[1]*100), shape = 10, size = 3) +
-  xlab("Price of long-acting antibody (USD)") +
-  ylab("Efficacy of long-acting antibody (%)") +
+  coord_fixed(ratio = 2.50/100) +
+  xlab("Price of long-acting mAb (USD)") +
+  ylab("Efficacy of long-acting mAb (%)") +
   theme_cowplot(12)
 
 # price pVax product per dose vs efficacy of pVax (10 & 14 wk.)
-# SA_pe_df$probwin2 <- ifelse(SA_pe_df$probwin<0.5, 0.5, SA_pe_df$probwin)
+SA_pe_df$probwin2 <- ifelse(SA_pe_df$probwin<0.5, 0.5, SA_pe_df$probwin)
 col_pe <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
-p3 <- ggplot(data = SA_pe_df, aes(x = pVax_price, y = pVax_efficacy)) + 
-  geom_tile(aes(fill = strategy, alpha = probwin)) +
-  scale_alpha_continuous(limits = c(0.25,1), breaks = c(0.25,0.5,0.75,1)) +
+p4 <- ggplot(data = SA_pe_df, aes(x = pVax_efficacy, y = pVax_price)) + 
+  geom_tile(aes(fill = strategy, alpha = probwin2), show.legend = FALSE) +
+  scale_alpha_continuous(limits = c(0.5,1), breaks = c(0.5, 0.6, 0.7, 0.8, 0.9)) +
   scale_fill_manual(values = c(col_pe, "white")) +
-  scale_x_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.005)) +
-  scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
-  geom_point(aes(x = cost_prod, y = efficacy[1]*100), shape = 10, size = 3) +
-  xlab("Price of pediatric vaccine at 10/14 weeks (USD)") +
-  ylab("Efficacy of pediatric vaccine at 10/14 weeks (%)") +
+  scale_x_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  scale_y_continuous(limits = c(pVax_cost[1]-0.01, max(pVax_cost)+0.01), expand = c(-0.01, -0.005)) +
+  geom_point(aes(x = efficacy[1]*100, y = cost_prod), shape = 10, size = 3) +
+  coord_fixed(ratio = 100/2.50) +
+  xlab("Efficacy of pediatric vaccine at 10/14 weeks (%)") +
+  ylab("Price of pediatric vaccine at 10/14 weeks (USD)") +
   theme_cowplot(12)
 
-grid.arrange(
-  p1,
-  p2,
-  p3,
-  nrow = 1
-  )
-quartz.save(file = "Figures/3panel_2way_analyses", type = "pdf")
+# efficacy of llAb vs efficacy of pVax (10 & 14 wk.)
+SA_eff_df$probwin2 <- ifelse(SA_eff_df$probwin<0.5, 0.5, SA_eff_df$probwin)
+col_eff <- c(col_vec[1], col_vec[2])
+p2 <- ggplot(data = SA_eff_df, aes(x = pVax_efficacy, y = llAb_efficacy)) + 
+  geom_tile(aes(fill = strategy, alpha = probwin2), show.legend = FALSE) +
+  scale_alpha_continuous(limits = c(0.5,1), breaks = c(0.5, 0.6, 0.7, 0.8, 0.9)) +
+  scale_fill_manual(values = c(col_eff, "white")) +
+  scale_x_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  scale_y_continuous(limits = 100*c(eff_red[1]-0.005, max(eff_red)+0.005), expand = c(-0.01, -0.005)) +
+  geom_point(aes(x = efficacy[1]* 100, y = efficacy[1]*100), shape = 10, size = 3) +
+  coord_fixed(ratio = 1) +
+  xlab("Efficacy of pediatric vaccine at 10/14 weeks (%)") +
+  ylab("Efficacy of long-acting mAb (%)") +
+  theme_cowplot(12)
+
+plot_grid(p1, p2, p3, p4, labels = "AUTO")
+
+quartz.save(file = "Figures/4panel_2way_analyses", type = "pdf")
+
+# Legend for panel plot
+SA_colors <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
+SA_alpha <- seq(0.5, 0.9, by = 0.10)
 
 
 # Legend on its own

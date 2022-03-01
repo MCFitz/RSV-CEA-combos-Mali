@@ -148,15 +148,15 @@ DALYS_lost_joint_llAb_pVax_older_u <- YLL_func(deaths_joint_llAb_pVax_older_u) +
 DALYS_lost_joint_mVax_pVax_older_u <- YLL_func(deaths_joint_mVax_pVax_older_u) + YLD_func(inpat_joint_mVax_pVax_older_u, deaths_joint_mVax_pVax_older_u, di_yrs_u, dw_LRTI_severe_u, LRTI_joint_mVax_pVax_older_u, dw_LRTI_mod_u)
 
 # Calculate medical costs with uncertainty
-medcost_no_u <- medcost_func(cost_hosp_u, inpat_no_u, cost_outpatient_u, outpat_func(LRTI_no_u, inpat_no_u))
-medcost_llAb_u <- medcost_func(cost_hosp_u, inpat_llAb_u, cost_outpatient_u, outpat_func(LRTI_llAb_u, inpat_llAb_u))
-medcost_mVax_u <- medcost_func(cost_hosp_u, inpat_mVax_u, cost_outpatient_u, outpat_func(LRTI_mVax_u, inpat_mVax_u))
-medcost_pVax_u <- medcost_func(cost_hosp_u, inpat_pVax_u, cost_outpatient_u, outpat_func(LRTI_pVax_u, inpat_pVax_u))
-medcost_joint_llAb_pVax_u <- medcost_func(cost_hosp_u, inpat_joint_llAb_pVax_u, cost_outpatient_u, outpat_func(LRTI_joint_llAb_pVax_u, inpat_joint_llAb_pVax_u))
-medcost_joint_mVax_pVax_u <- medcost_func(cost_hosp_u, inpat_joint_mVax_pVax_u, cost_outpatient_u, outpat_func(LRTI_joint_mVax_pVax_u, inpat_joint_mVax_pVax_u))
-medcost_pVax_u_older <- medcost_func(cost_hosp_u, inpat_pVax_older_u, cost_outpatient_u, outpat_func(LRTI_pVax_older_u, inpat_pVax_older_u))
-medcost_joint_llAb_pVax_u_older <- medcost_func(cost_hosp_u, inpat_joint_llAb_pVax_older_u, cost_outpatient_u, outpat_func(LRTI_joint_llAb_pVax_older_u, inpat_joint_llAb_pVax_older_u))
-medcost_joint_mVax_pVax_u_older <- medcost_func(cost_hosp_u, inpat_joint_mVax_pVax_older_u, cost_outpatient_u, outpat_func(LRTI_joint_mVax_pVax_older_u, inpat_joint_mVax_pVax_older_u))
+medcost_no_u <- medcost_func(cost_hosp_u, inpat_no_u, cost_outpatient_u, outpat_func(LRTI_no_u, inpat_no_u, nr_care_func(inpat_no_u)))
+medcost_llAb_u <- medcost_func(cost_hosp_u, inpat_llAb_u, cost_outpatient_u, outpat_func(LRTI_llAb_u, inpat_llAb_u, nr_care_func(inpat_llAb_u)))
+medcost_mVax_u <- medcost_func(cost_hosp_u, inpat_mVax_u, cost_outpatient_u, outpat_func(LRTI_mVax_u, inpat_mVax_u, nr_care_func(inpat_mVax_u)))
+medcost_pVax_u <- medcost_func(cost_hosp_u, inpat_pVax_u, cost_outpatient_u, outpat_func(LRTI_pVax_u, inpat_pVax_u, nr_care_func(inpat_pVax_u)))
+medcost_joint_llAb_pVax_u <- medcost_func(cost_hosp_u, inpat_joint_llAb_pVax_u, cost_outpatient_u, outpat_func(LRTI_joint_llAb_pVax_u, inpat_joint_llAb_pVax_u, nr_care_func(inpat_joint_llAb_pVax_u)))
+medcost_joint_mVax_pVax_u <- medcost_func(cost_hosp_u, inpat_joint_mVax_pVax_u, cost_outpatient_u, outpat_func(LRTI_joint_mVax_pVax_u, inpat_joint_mVax_pVax_u, nr_care_func(inpat_joint_mVax_pVax_u)))
+medcost_pVax_u_older <- medcost_func(cost_hosp_u, inpat_pVax_older_u, cost_outpatient_u, outpat_func(LRTI_pVax_older_u, inpat_pVax_older_u, nr_care_func(inpat_pVax_older_u)))
+medcost_joint_llAb_pVax_u_older <- medcost_func(cost_hosp_u, inpat_joint_llAb_pVax_older_u, cost_outpatient_u, outpat_func(LRTI_joint_llAb_pVax_older_u, inpat_joint_llAb_pVax_older_u, nr_care_func(inpat_joint_llAb_pVax_older_u)))
+medcost_joint_mVax_pVax_u_older <- medcost_func(cost_hosp_u, inpat_joint_mVax_pVax_older_u, cost_outpatient_u, outpat_func(LRTI_joint_mVax_pVax_older_u, inpat_joint_mVax_pVax_older_u, nr_care_func(inpat_joint_mVax_pVax_older_u)))
 
 # Calculate total intervention costs with uncertainty
 totalcost_no_u <- medcost_no_u

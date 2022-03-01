@@ -74,8 +74,8 @@ inpat_func <- function(p_inpat, num_pneum){
 }
 
 # calculate number of infants receiving outpatient care
-outpat_func <- function(num_pneum, num_hosp){
-  num_outpat <- (num_pneum - num_hosp)
+outpat_func <- function(num_pneum, num_hosp, num_nr_care){
+  num_outpat <- num_pneum - num_hosp - num_nr_care
   num_outpat
 }
 
