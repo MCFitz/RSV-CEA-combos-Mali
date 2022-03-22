@@ -125,10 +125,30 @@ legend("bottom", ncol = 3, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 
 quartz.save(file = "Figures/2panel_pOptimal_by_prodcost_and_WTP.pdf", type = "pdf")
 
 #####
-# donor perspective probability optimal by WTP
-quartz("Donor perspective, pOptimal by WTP", 10, 8)
-par(mfrow =c(1,1))
+# government perspective probability optimal by WTP
+quartz("Donor and Gov perspective, pOptimal by WTP", 12, 8)
+par(mar = c(9, 4.1, 4.1, 2.1))
+par(mfrow =c(1,2))
 par(xaxs="i", yaxs="i")
+plot(WTP_sp, gov_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
+     type = "l", lwd = 3, col = col_vec[4],
+     xlab = "Government willingness to pay (USD)",
+     ylab = "Probability optimal")
+lines(WTP_sp, gov_pO_no, col = col_vec[1], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
+lines(WTP_sp, gov_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
+abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
+# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+fig_label("A", "figure", "topleft")
+
+# donor perspective probability optimal by WTP
 plot(WTP_sp, dnr_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
      type = "l", lwd = 3, col = col_vec[4],
      xlab = "Donor willingness to pay (USD)",
@@ -145,35 +165,14 @@ abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
 text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-       lty = 1, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/donor_pOptimal_by_WTP.pdf", type = "pdf")
-######
+fig_label("B", "figure", "topleft")
+par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE)
+plot(0, 0, type = 'l', bty = 'n', xaxt = 'n', yaxt = 'n')
+par(xpd=TRUE)
+legend("bottom", ncol = 3, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+       lty = 1, lwd = 3, bty = "n", col = col_vec, xpd = TRUE)
 
-######
-# government perspective probability optimal by WTP
-quartz("Government perspective, pOptimal by WTP", 10, 8)
-par(mfrow =c(1,1))
-par(xaxs="i", yaxs="i")
-plot(WTP_sp, gov_pO_pVax, ylim = c(0, 1), xlim = c(0,5000), bty = "l",
-     type = "l", lwd = 3, col = col_vec[4],
-     xlab = "Government willingness to pay (USD)",
-     ylab = "Probability optimal")
-lines(WTP_sp, gov_pO_no, col = col_vec[1], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_llAb, col = col_vec[2], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_mVax, col = col_vec[3], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_llAb_pVax, col = col_vec[5], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_mVax_pVax, col = col_vec[6], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
-lines(WTP_sp, gov_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
-abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-       lty = 1, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/gov_pOptimal_by_WTP.pdf", type = "pdf")
+quartz.save(file = "Figures/donr_and_gov_pOptimal_by_WTP.pdf", type = "pdf")
 ###############
 
 
@@ -205,11 +204,12 @@ quartz.save(file = "Figures/gov_pOptimal_by_WTP.pdf", type = "pdf")
 
 # plot probability optimal across increasing pVax efficacy
 # when efficacy reduction is based on immune immaturity
-quartz("efficacy reduction, immaturity", 10, 8)
+quartz("efficacy reduction", 14, 8)
+par(mfrow = c(1,2))
 par(xaxs="i", yaxs="i")
 plot(eff_red*100, pO_pVax_ser, ylim = c(0, 1), xlim = c(0,100), bty = "l",
      type = "l", col = col_vec[4], lty = 1, lwd = 3,
-     xlab = "Pediatric vaccine efficacy when administered at 10 & 14 weeks (%)",
+     xlab = "Pediatric vaccine efficacy when administered at 10/14 weeks (%)",
      ylab = "Probability optimal")
 lines(eff_red*100, pO_no_ser, col = col_vec[1], lty = 1, lwd = 3)
 lines(eff_red*100, pO_llAb_ser, col = col_vec[2], lty = 1, lwd = 3)
@@ -221,18 +221,15 @@ lines(eff_red*100, pO_llAb_pVax_older_ser, col = col_vec[8], lty = 1, lwd = 3)
 lines(eff_red*100, pO_mVax_pVax_older_ser, col = col_vec[9], lty = 1, lwd = 3)
 abline(v = 70, col = UMBgray, lty = 3, lwd = 2)
 text(70, 0.92, labels = "70% efficacy", srt = 45, cex = 0.80)
+fig_label("A", "figure", "topleft")
 legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/efficacy_reduction_immaturity.pdf", type = "pdf")
-
 
 # plot probability optimal across increasing pVax efficacy 
 # when efficacy reduction is based on interference
-quartz("efficacy reduction, interference", 10, 8)
-par(xaxs="i", yaxs="i")
 plot(eff_red*100, pO_pVax_er, ylim = c(0, 1), xlim = c(0,100), bty = "l",
      type = "l", lty = 4, lwd = 3, col = col_vec[4],
-     xlab = "Pediatric vaccine efficacy when administered at 10 & 14 weeks as part of a combination strategy (%)",
+     xlab = "Pediatric vaccine efficacy when administered at 10/14 weeks \n as part of a combination strategy (%)",
      ylab = "Probability optimal")
 lines(eff_red*100, pO_no_er, col = col_vec[1], lty = 4, lwd = 3)
 lines(eff_red*100, pO_llAb_er, col = col_vec[2], lty = 4, lwd = 3)
@@ -244,9 +241,10 @@ lines(eff_red*100, pO_llAb_pVax_older_er, col = col_vec[8], lty = 4, lwd = 3)
 lines(eff_red*100, pO_mVax_pVax_older_er, col = col_vec[9], lty = 4, lwd =3)
 abline(v = 70, col = UMBgray, lty = 3, lwd = 2)
 text(70, 0.92, labels = "70% efficacy", srt = 45, cex = 0.80)
+fig_label("B", "figure", "topleft")
 legend("topleft", ncol =1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 4, lwd = 3, bty = "n", col = col_vec)
-quartz.save(file = "Figures/efficacy_reduction_interference.pdf", type = "pdf")
+quartz.save(file = "Figures/efficacy_reduction.pdf", type = "pdf")
 
 
 # # price of llAb product vs. efficacy of pVax at 10 & 14 wks.
@@ -415,7 +413,7 @@ quartz.save(file = "Figures/Health_Outcomes_Barplot", type = "pdf")
 ###
 # Input Params Histogram Panel Plots
 # do ARs and CFRs by age separately
-# need to add uncertainty for probability inpatient (by age)
+
 param_names <- c("probability LRTI given RSV", "cost outpatient care", "cost inpatient care",
                  "duration of illness (years)", "disability weight LRTI severe", "disability weight LRTI moderate")
 params_df <- data.frame(id = rep(param_names, each = trials),
@@ -456,19 +454,36 @@ ggplot(hosp_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey",
 quartz.save(file ="Figures/Hospitalization_Rates_by_Month_of_Age_Histograms.pdf", type = "pdf")
 
 CFR_age_df <- data.frame(month = rep(1:36, each = trials),
-                        value = c(CFR_age_mat_3y[,1], CFR_age_mat_3y[,2], CFR_age_mat_3y[,3], CFR_age_mat_3y[,4], CFR_age_mat_3y[,5], CFR_age_mat_3y[,6],
-                                  CFR_age_mat_3y[,7], CFR_age_mat_3y[,8], CFR_age_mat_3y[,9], CFR_age_mat_3y[,10], CFR_age_mat_3y[,11], CFR_age_mat_3y[,12],
-                                  CFR_age_mat_3y[,13], CFR_age_mat_3y[,14], CFR_age_mat_3y[,15], CFR_age_mat_3y[,16], CFR_age_mat_3y[,17], CFR_age_mat_3y[,18],
-                                  CFR_age_mat_3y[,19], CFR_age_mat_3y[,20], CFR_age_mat_3y[,21], CFR_age_mat_3y[,22], CFR_age_mat_3y[,23], CFR_age_mat_3y[,24],
-                                  CFR_age_mat_3y[,25], CFR_age_mat_3y[,26], CFR_age_mat_3y[,27], CFR_age_mat_3y[,28], CFR_age_mat_3y[,29], CFR_age_mat_3y[,30],
-                                  CFR_age_mat_3y[,31], CFR_age_mat_3y[,32], CFR_age_mat_3y[,33], CFR_age_mat_3y[,34], CFR_age_mat_3y[,35], CFR_age_mat_3y[,36]),
+                        value = c(CFR_by_age_u[,1], CFR_by_age_u[,2], CFR_by_age_u[,3], CFR_by_age_u[,4], CFR_by_age_u[,5], CFR_by_age_u[,6],
+                                  CFR_by_age_u[,7], CFR_by_age_u[,8], CFR_by_age_u[,9], CFR_by_age_u[,10], CFR_by_age_u[,11], CFR_by_age_u[,12],
+                                  CFR_by_age_u[,13], CFR_by_age_u[,14], CFR_by_age_u[,15], CFR_by_age_u[,16], CFR_by_age_u[,17], CFR_by_age_u[,18],
+                                  CFR_by_age_u[,19], CFR_by_age_u[,20], CFR_by_age_u[,21], CFR_by_age_u[,22], CFR_by_age_u[,23], CFR_by_age_u[,24],
+                                  CFR_by_age_u[,25], CFR_by_age_u[,26], CFR_by_age_u[,27], CFR_by_age_u[,28], CFR_by_age_u[,29], CFR_by_age_u[,30],
+                                  CFR_by_age_u[,31], CFR_by_age_u[,32], CFR_by_age_u[,33], CFR_by_age_u[,34], CFR_by_age_u[,35], CFR_by_age_u[,36]),
                         pe = rep(CFR_by_age, each = trials))
 quartz("Case Fatality Rate by Month of Age", 12, 8)
 ggplot(CFR_age_df, aes(value)) + geom_histogram(color = "black", fill = "grey", bins = 15) +
-   facet_wrap(~month, scales = "free") +
+   facet_wrap(~month) +
    geom_vline(CFR_age_df, mapping = aes(xintercept= pe), color="red") +
    theme_bw()
 quartz.save(file = "Figures/Case_Fatality_Rates_by_Month_of_Age.pdf", type = "pdf")
 
+CFR_LMIC_vec <- apply(CFR_by_age_u[,1:6], 1, mean)
+CFR_barplot_df <- data.frame(Source = c("LMICs", "Mali"), CFR = c(mean(CFR_by_age[1:6]), CFR_inpatient),
+                              lower = c(CI_func(CFR_LMIC_vec)[1], CI_func(CFR_inpatient_u)[1]),
+                              upper = c(CI_func(CFR_LMIC_vec)[2], CI_func(CFR_inpatient_u)[2]))
+
+CFR_by_source <- ggplot(data = CFR_barplot_df, aes(x = Source, y = CFR, fill = Source)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymin= lower, ymax= upper), width=.2,
+                position=position_dodge(.9)) +
+  xlab("Data Source") +
+  ylab("CFR") +
+  scale_fill_grey() +
+  theme_classic()
+quartz("CFR by Source", 4,4)
+CFR_by_source +
+  theme(legend.title = element_blank())
+quartz.save(file = "Figures/CFR_by_source.pdf", type = "pdf")
 ######
 

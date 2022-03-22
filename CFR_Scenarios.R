@@ -3,7 +3,7 @@
 
 CFR_scenario_names <- c("Li age-gradient", "Li without age-gradient",
                         "PERCH PIA, Mali", "New CFR by age from LICs",
-                        "PE for 0-6 m, Mali", "CHAMPS w/ RSV in causal chain",
+                        "Buchwald for 0-6 m, Mali", "CHAMPS w/ RSV in causal chain",
                         "CHAMPS RSV detected")
 
 no_scenarios <- length(CFR_scenario_names)

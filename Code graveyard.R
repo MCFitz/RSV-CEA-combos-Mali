@@ -508,3 +508,46 @@
 #   p4,
 #   nrow = 2
 #   )
+
+
+
+# Plot government perspective
+# 
+# par(xaxs="i", yaxs="i")
+# plot(DALYS_lost_no - DALYS_lost_llAb, govcost_llAb_bc- totalcost_no, col = col_vec[2], bty = "n", pch = 19, cex = 1.5, xlim = c(0,2250), ylim = c(0,2500000), xlab = "DALYs averted", ylab = 
+#        "Incremental cost compared to status quo (USD)")
+# points(DALYS_lost_no - DALYS_lost_mVax, govcost_mVax_bc- totalcost_no, col = col_vec[3], pch = 19, cex =1.5)
+# points(DALYS_lost_no - DALYS_lost_pVax, govcost_pVax_bc- totalcost_no, col = col_vec[4], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, govcost_joint_llAb_pVax_bc - totalcost_no, col = col_vec[5], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, govcost_joint_mVax_pVax_bc - totalcost_no, col = col_vec[6], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_pVax_older, govcost_pVax_older_bc - totalcost_no, col = col_vec[7], pch = 19,  cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax_older, govcost_joint_llAb_pVax_older_bc - totalcost_no, col = col_vec[8], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax_older, govcost_joint_mVax_pVax_older_bc - totalcost_no, col = col_vec[9], pch = 19, cex = 1.5)
+# 
+# segments(0, 0, x1 = DALYS_lost_no - DALYS_lost_llAb, y1 = govcost_llAb_bc- totalcost_no,
+#          col = par("fg"), lty = 2, lwd = 2)
+# segments(DALYS_lost_no - DALYS_lost_llAb, govcost_llAb_bc- totalcost_no, x1 = DALYS_lost_no - DALYS_lost_joint_llAb_pVax, y1 = govcost_joint_llAb_pVax_bc- totalcost_no,
+#          col = par("fg"), lty = 2, lwd = 2)
+# legend("bottomright", legend = c("mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+#        bty = "n", pch = 19, col = col_vec[2:9])
+# 
+# # Plot donor perspective
+# 
+# par(xaxs="i", yaxs="i")
+# plot(DALYS_lost_no - DALYS_lost_llAb, donorcost_llAb- 0, col = col_vec[2], bty = "n", pch = 19, cex = 1.5, xlim = c(0,2250), ylim = c(0,2500000), xlab = "DALYs averted", ylab = 
+#        "Incremental cost compared to status quo (USD)")
+# points(DALYS_lost_no - DALYS_lost_mVax, donorcost_mVax- 0, col = col_vec[3], pch = 19, cex =1.5)
+# points(DALYS_lost_no - DALYS_lost_pVax, donorcost_pVax- 0, col = col_vec[4], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, donorcost_joint_llAb_pVax - 0, col = col_vec[5], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, donorcost_joint_mVax_pVax - 0, col = col_vec[6], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_pVax_older, donorcost_pVax_older - 0, col = col_vec[7], pch = 19,  cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax_older, donorcost_joint_llAb_pVax_older - 0, col = col_vec[8], pch = 19, cex = 1.5)
+# points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax_older, donorcost_joint_mVax_pVax_older - 0, col = col_vec[9], pch = 19, cex = 1.5)
+# 
+# segments(0, 0, x1 = DALYS_lost_no - DALYS_lost_llAb, y1 = donorcost_llAb- 0,
+#          col = par("fg"), lty = 2, lwd = 2)
+# segments(DALYS_lost_no - DALYS_lost_llAb, donorcost_llAb- 0, x1 = DALYS_lost_no - DALYS_lost_joint_llAb_pVax, y1 = donorcost_joint_llAb_pVax- 0,
+#          col = par("fg"), lty = 2, lwd = 2)
+# legend("bottomright", legend = c("mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+#        bty = "n", pch = 19, col = col_vec[2:9])
+
