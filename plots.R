@@ -14,7 +14,7 @@ UMBforest <- rgb(51, 70, 13, maxColorValue = 255)
 UMBsea <- rgb(180, 204, 149, maxColorValue = 255)
 UMBtan <- rgb(200, 177, 139, maxColorValue = 255)
 
-# make standard vector for UMB colors
+# UMB color palette
 UMB1 <- c(UMBgray, UMBblue, UMBred, UMByellow, UMBforest, UMBtan,
           UMBplum, UMBslate, UMBsea)
 
@@ -22,9 +22,6 @@ UMB1 <- c(UMBgray, UMBblue, UMBred, UMByellow, UMBforest, UMBtan,
 Cross_vec <- met.brewer("Cross", n = 8, "discrete")
 
 # color palette for our plots
-# col_vec <- c("gray80", Cross_vec[7], Cross_vec[2], Cross_vec[5], Cross_vec[6],
-#              Cross_vec[4], Cross_vec[1], Cross_vec[8], Cross_vec[3])
-
 col_vec <- c(UMBred, UMBblue, UMBplum, UMByellow, UMBforest,
              Cross_vec[4], Cross_vec[1], Cross_vec[8], Cross_vec[3])
 
@@ -37,7 +34,7 @@ quartz("CE plane", 8, 8)
 par(xaxs="i", yaxs="i")
 plot(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, col = col_vec[2], bty = "n", pch = 19, cex = 1.5, xlim = c(0,2250), ylim = c(0,2500000), xlab = "DALYs averted", ylab = 
        "Incremental cost compared to status quo (USD)")
-points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = col_vec[3], pch = 19, cex =1.5)
+points(DALYS_lost_no - DALYS_lost_mVax, totalcost_mVax- totalcost_no, col = col_vec[3], pch = 19, cex = 1.5)
 points(DALYS_lost_no - DALYS_lost_pVax, totalcost_pVax- totalcost_no, col = col_vec[4], pch = 19, cex = 1.5)
 points(DALYS_lost_no - DALYS_lost_joint_llAb_pVax, totalcost_joint_llAb_pVax - totalcost_no, col = col_vec[5], pch = 19, cex = 1.5)
 points(DALYS_lost_no - DALYS_lost_joint_mVax_pVax, totalcost_joint_mVax_pVax - totalcost_no, col = col_vec[6], pch = 19, cex = 1.5)
@@ -52,6 +49,7 @@ segments(DALYS_lost_no - DALYS_lost_llAb, totalcost_llAb- totalcost_no, x1 = DAL
 legend("bottomright", legend = c("mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        bty = "n", pch = 19, col = col_vec[2:9])
 quartz.save(file = "Figures/CE_plane.pdf", type = "pdf")
+# quartz.save(file = "Figures/ppt_figures/CE_plane.pdf", type = "pdf")
 
 # plot cost per DALYs averted with uncertainty
 par(mfrow=c(1,1))
@@ -90,12 +88,10 @@ lines(cprod, pO_mVax_pVax_older_pspan, col = col_vec[9], lty = 1, lwd = 3)
 abline(v = cost_prod, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 1.50, col = UMBgray, lty = 3, lwd = 2)
 abline(v= MR_cost, col = UMBgray, lty = 3, lwd = 2)
-text(cost_prod, 0.95, labels = "Penta", srt = 45, cex = 0.80)
-text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.80)
-text(MR_cost, 0.95, labels = "MR", srt = 45, cex = 0.80)
+text(cost_prod, 0.95, labels = "Penta", srt = 45, cex = 0.8)
+text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.8)
+text(MR_cost, 0.95, labels = "MR", srt = 45, cex = 0.8)
 fig_label("A", "figure", "topleft")
-# legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-#        lty = 1, lwd = 3, bty = "n", col = col_vec)
 
 # plot probability optimal across WTP values, societal perspective
 plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,7500), bty = "l",
@@ -112,17 +108,17 @@ lines(WTP_sp, pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
 lines(WTP_sp, pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
 abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.8)
+text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.8)
 fig_label("B", "figure", "topleft")
-# legend("right", ncol = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-#        lty = 1, lwd = 3, bty = "n", col = col_vec)
+
 par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE)
 plot(0, 0, type = 'l', bty = 'n', xaxt = 'n', yaxt = 'n')
 par(xpd=TRUE)
 legend("bottom", ncol = 3, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec, xpd = TRUE)
 quartz.save(file = "Figures/2panel_pOptimal_by_prodcost_and_WTP.pdf", type = "pdf")
+# quartz.save(file = "Figures/ppt_figures/2panel_pOptimal_by_prodcost_and_WTP.pdf", type = "pdf")
 
 #####
 # government perspective probability optimal by WTP
@@ -143,7 +139,7 @@ lines(WTP_sp, gov_pO_pVax_older, col = col_vec[7], lty = 1, lwd = 3)
 lines(WTP_sp, gov_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
 lines(WTP_sp, gov_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
 abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.8)
 # abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 # text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
 fig_label("A", "figure", "topleft")
@@ -163,44 +159,17 @@ lines(WTP_sp, dnr_pO_llAb_pVax_older, col = col_vec[8], lty = 1, lwd = 3)
 lines(WTP_sp, dnr_pO_mVax_pVax_older, col = col_vec[9], lty = 1, lwd = 3)
 abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
 abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
+text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.8)
+text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.8)
 fig_label("B", "figure", "topleft")
 par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE)
 plot(0, 0, type = 'l', bty = 'n', xaxt = 'n', yaxt = 'n')
 par(xpd=TRUE)
 legend("bottom", ncol = 3, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
        lty = 1, lwd = 3, bty = "n", col = col_vec, xpd = TRUE)
-
 quartz.save(file = "Figures/donr_and_gov_pOptimal_by_WTP.pdf", type = "pdf")
+# quartz.save(file = "Figures/ppt_figures/donr_and_gov_pOptimal_by_WTP.pdf", type = "pdf")
 ###############
-
-
-
-
-##
-# quartz("SuppFig3", 10, 8)
-# par(xaxs="i", yaxs="i")
-# plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,10000), bty = "l",
-#      type = "l", lwd = 3, col = UMBplum,
-#      xlab = "Society willingness to pay (USD)",
-#      ylab = "Probability optimal")
-# lines(WTP_sp, pO_no, col = UMBred, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_llAb, col = UMBblue, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_mVax, col = UMBforest, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_llAb_pVax, col = UMByellow, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_mVax_pVax, col = UMBcharcoal, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_pVax_older, col = UMBsea, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_llAb_pVax_older, col = UMBtan, lty = 1, lwd = 3)
-# lines(WTP_sp, pO_mVax_pVax_older, col = UMBslate, lty = 1, lwd = 3)
-# abline(v = CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-# abline(v = 3*CET_Mali_GDP, col = UMBgray, lty = 3, lwd = 2)
-# text(CET_Mali_GDP, 0.92, labels = "1xGDP", srt = 45, cex = 0.80)
-# text(3*CET_Mali_GDP, 0.92, labels = "3xGDP", srt = 45, cex = 0.80)
-# legend(2800, 0.98, ncol = 2, cex = 1, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
-#        lty = 1, lwd = 3, bty = "n", col = c(UMBred, UMBblue, UMBforest, UMBplum, UMByellow, UMBcharcoal, UMBsea, UMBtan, UMBslate))
-# quartz.save(file = "Figures/SuppFig3.pdf", type = "pdf")
-##
 
 # plot probability optimal across increasing pVax efficacy
 # when efficacy reduction is based on immune immaturity
@@ -322,15 +291,17 @@ p2 <- ggplot(data = SA_eff_df, aes(x = pVax_efficacy, y = llAb_efficacy)) +
   ylab("Efficacy of long-acting mAb (%)") +
   theme_cowplot(12)
 
-plot_grid(p1, p2, p3, p4, labels = "AUTO")
-
+plot_grid(p1, p2, p3, p4, labels = "AUTO", label_size = 12,
+          label_fontface = "plain", label_fontfamily = "sans")
 quartz.save(file = "Figures/4panel_2way_analyses.pdf", type = "pdf")
+# quartz.save(file = "Figures/ppt_figures/4panel_2way_analyses.pdf", type = "pdf")
+
 
 # Legend for panel plot
 SA_colors <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
 SA_alpha <- seq(0.5, 0.9, by = 0.10)
 SA_mat <- rep.col(SA_alpha, 4)
-colnames(SA_mat) <- c("status quo", "mAb", "pVax 10/14 wks", "mAb + pVax 10/14 wks")
+colnames(SA_mat) <- c("status quo", "mAb", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks")
 
 quartz("gradient legend mAb", 6, 6)
 ggplot(melt(SA_mat), aes(Var1, Var2, fill=value)) +
