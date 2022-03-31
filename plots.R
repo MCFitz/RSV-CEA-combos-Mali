@@ -324,11 +324,27 @@ p2 <- ggplot(data = SA_eff_df, aes(x = pVax_efficacy, y = llAb_efficacy)) +
 
 plot_grid(p1, p2, p3, p4, labels = "AUTO")
 
-quartz.save(file = "Figures/4panel_2way_analyses", type = "pdf")
+quartz.save(file = "Figures/4panel_2way_analyses.pdf", type = "pdf")
 
 # Legend for panel plot
 SA_colors <- c(col_vec[1], col_vec[2], col_vec[4], col_vec[5])
 SA_alpha <- seq(0.5, 0.9, by = 0.10)
+SA_mat <- rep.col(SA_alpha, 4)
+colnames(SA_mat) <- c("status quo", "mAb", "pVax 10/14 wks", "mAb + pVax 10/14 wks")
+
+quartz("gradient legend mAb", 6, 6)
+ggplot(melt(SA_mat), aes(Var1, Var2, fill=value)) +
+  geom_tile(height=0.8, width=0.8) +
+  geom_text(aes(label=value)) +
+  scale_fill_gradient2(limit=c(0.5, 1),
+                       low="white", high= SA_colors[2], midpoint = 0.4) +
+  coord_equal() +
+  theme_map(12) +
+  labs(x="", y="colnames(SA_mat)", fill="") +
+  theme(axis.text.y=element_text(size=15, vjust=1, hjust=1, 
+                                 margin=margin(0,-3,0,0)))
+quartz.save(file =  "Figures/gradient_legend_mAb.pdf", type = "pdf")
+
 
 
 # Legend on its own
@@ -344,7 +360,7 @@ legend("topleft", legend =c("status quo","long-acting mAb",
        pch=15, pt.cex=3, cex = 1.5, bty='n',
        col = col_vec)
 # mtext("Intervention strategy", at=0.25, cex = 2)
-quartz.save(file = "Figures/legend", type = "pdf")
+quartz.save(file = "Figures/legend.pdf", type = "pdf")
 ###
 
 ####
@@ -373,7 +389,7 @@ HO_df <- data.frame(age = rep(rep(months, ni), nm),
                               deaths_no_age, deaths_llAb_age, deaths_mVax_age, deaths_pVax_age, deaths_joint_llAb_pVax_age, deaths_pVax_older_age))
 
 HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
-HO_df$intervention <- factor(HO_df$intervention, levels = c("no intervention", "pVax 6 & 7 mos", "mVax", "pVax 10 & 14 wks", "mAb", "mAb + pVax 10 & 14 wks"))
+HO_df$intervention <- factor(HO_df$intervention, levels = c("status quo", "pVax 6 & 7 mos", "mVax", "pVax 10 & 14 wks", "mAb", "mAb + pVax 10 & 14 wks"))
 
 temp_HO <- HO_df %>% mutate(bin = floor((age-1) / 6) + 1) %>% 
    group_by(bin, intervention, metric) %>% 
@@ -394,7 +410,7 @@ ggplot(temp_HO, aes(x = bin, y = tot, fill = intervention)) +
    xlab("Month of age") +
    theme_bw() +
    theme(legend.title = element_blank())
-quartz.save(file = "Figures/Health_Outcomes_Barplot", type = "pdf")
+quartz.save(file = "Figures/Health_Outcomes_Barplot.pdf", type = "pdf")
 ###
 
 # quartz("Health Outcomes Barplot, Secondary Analysis", 12, 8)
