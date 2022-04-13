@@ -70,8 +70,10 @@ legend("bottomright", legend = c("llAb", "mVax", "pVax", "llAb + pVax", "mVax + 
 
 # plot probability optimal across product price
 quartz("Two panel plot:pOptimal across product price and societal WTP", 12, 8)
+# quartz("pOptimal across product price and societal WTP", 8, 8)
 par(mar = c(9, 4.1, 4.1, 2.1))
 par(mfrow =c(1,2))
+# par(mfrow =c(1,1))
 par(xaxs="i", yaxs="i")
 plot(cprod, pO_pVax_pspan, ylim = c(0, 1), xlim = c(0, max(cprod)), bty = "l",
      type = "l", lwd = 3, col = col_vec[4],
@@ -91,7 +93,13 @@ abline(v= MR_cost, col = UMBgray, lty = 3, lwd = 2)
 text(cost_prod, 0.95, labels = "Penta", srt = 45, cex = 0.8)
 text(1.50, 0.95, labels = "TCV", srt = 45, cex = 0.8)
 text(MR_cost, 0.95, labels = "MR", srt = 45, cex = 0.8)
-fig_label("A", "figure", "topleft")
+# fig_label("A", "figure", "topleft")
+# par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE)
+# plot(0, 0, type = 'l', bty = 'n', xaxt = 'n', yaxt = 'n')
+# par(xpd=TRUE)
+# legend("bottom", ncol = 3, legend = c("status quo","mAb", "mVax", "pVax 10 & 14 wks", "mAb + pVax 10 & 14 wks", "mVax + pVax 10 & 14 wks", "pVax 6 & 7 mos", "mAb + pVax 6 & 7 mos", "mVax + pVax 6 & 7 mos"),
+#        lty = 1, lwd = 3, bty = "n", col = col_vec, xpd = TRUE)
+# quartz.save(file = "Figures/ppt_figures/pOptimal_by_prodcost.pdf", type = "pdf")
 
 # plot probability optimal across WTP values, societal perspective
 plot(WTP_sp, pO_pVax, ylim = c(0, 1), xlim = c(0,7500), bty = "l",
@@ -344,22 +352,22 @@ ni <- 6 # number of interventions to include in the plot
 nm <- 4 # number of health metrics to include in the plot
    
 HO_df <- data.frame(age = rep(rep(months, ni), nm),
-                    intervention = rep(c(rep("no intervention", length(months)),
+                    intervention = rep(c(rep("status quo", length(months)),
                                      rep("mAb", length(months)),
                                      rep("mVax", length(months)),
                                      rep("pVax 10 & 14 wks", length(months)),
                                      rep("mAb + pVax 10 & 14 wks", length(months)),
                                      rep("pVax 6 & 7 mos", length(months))), nm),
-                    metric = c(rep("RSV cases", length(months) * ni),
-                                                     rep("LRTI episodes", length(months) * ni),
-                                                     rep("Hospitalizations", length(months) * ni),
-                                                     rep("Deaths", length(months) * ni)),
+                    metric = c(rep("A: RSV cases", length(months) * ni),
+                                                     rep("B: LRTI episodes", length(months) * ni),
+                                                     rep("C: Hospitalizations", length(months) * ni),
+                                                     rep("D: Deaths", length(months) * ni)),
                     value = c(rep(cases_no_age, ni),
                               LRTI_no_age, LRTI_llAb_age, LRTI_mVax_age, LRTI_pVax_age, LRTI_joint_llAb_pVax_age, LRTI_pVax_older_age,
                               inpat_no_age, inpat_llAb_age, inpat_mVax_age, inpat_pVax_age, inpat_joint_llAb_pVax_age, inpat_pVax_older_age,
                               deaths_no_age, deaths_llAb_age, deaths_mVax_age, deaths_pVax_age, deaths_joint_llAb_pVax_age, deaths_pVax_older_age))
 
-HO_df$metric <- factor(HO_df$metric, levels = c("RSV cases", "LRTI episodes", "Hospitalizations", "Deaths"))
+HO_df$metric <- factor(HO_df$metric, levels = c("A: RSV cases", "B: LRTI episodes", "C: Hospitalizations", "D: Deaths"))
 HO_df$intervention <- factor(HO_df$intervention, levels = c("status quo", "pVax 6 & 7 mos", "mVax", "pVax 10 & 14 wks", "mAb", "mAb + pVax 10 & 14 wks"))
 
 temp_HO <- HO_df %>% mutate(bin = floor((age-1) / 6) + 1) %>% 
