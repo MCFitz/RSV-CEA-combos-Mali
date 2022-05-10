@@ -30,8 +30,36 @@ CFR_S4 <- c(rep(2.6, 3), rep(2.2, 3), rep(1.8, 6), rep(1.6, 24))/100
 
 CFR_S8 <- c(rep(1/64, 3), rep(5/52, 3), rep(2/(13+8), 6), rep(1/(11+5), 12), rep(1/7, 12))
 
+CFR_scenarios <- cbind(CFR_S1, CFR_S2, CFR_S3, CFR_S4, CFR_S8)
+
+###########################
 # Uncertainty distributions
-CFR_S5_u <- rep.col(rbeta(trials, 1, 12), 36)
+CFR_S1_u <- CFR_by_age_u
+
+CFR_S2_u <- rep.col(CFR_by_age_u, length(months))
+
+# age cats = 1-2M, 3-5M, 6-11M, 12-35M (no 0-1 so have to assume = 1-2)
+# also these are 15000 iterations, so will need to sample
+PERCH_PIA_raw <- read_csv("CFR_iterations.csv", 
+                   col_types = cols(X1 = col_skip()))
+
+PIA_1 <- sample(PERCH_PIA_raw$cfr.data.age1, size = trials, replace = TRUE)
+PIA_2 <- sample(PERCH_PIA_raw$cfr.data.age2, size = trials, replace = TRUE)
+PIA_3 <-sample(PERCH_PIA_raw$cfr.data.age3, size = trials, replace = TRUE)
+PIA_4 <- sample(PERCH_PIA_raw$cfr.data.age4, size = trials, replace = TRUE)
+
+CFR_S3_u <- cbind(rep.col(PIA_1, 3),
+                  rep.col(PIA_2, 3),
+                  rep.col(PIA_3, 6),
+                  rep.col(PIA_4, 24))
+
+# distribution to use for CFR estimates from Li??
+CFR_S4_u <- cbind(rep.col(rgamma(trials, 2.6), 3),
+                  rep.col(rgamma(trials, 2.2), 3),
+                  rep.col(rgamma(trials, 1.8), 6),
+                  rep.col(rgamma(trials, 1.6), 24))/100
+
+# CFR_S5_u <- rep.col(rbeta(trials, 1, 12), 36)
 
 CFR_S8_u <- cbind(rep.col(rbeta(trials, 1, 63), 3),
                   rep.col(rbeta(trials, 5, 47), 3),
@@ -39,8 +67,6 @@ CFR_S8_u <- cbind(rep.col(rbeta(trials, 1, 63), 3),
                   rep.col(rbeta(trials, 1, 15), 12),
                   rep.col(rbeta(trials, 1, 6), 12))
 
-
-CFR_scenarios <- cbind(CFR_S1, CFR_S2, CFR_S3, CFR_S4, CFR_S8)
 
 # Confidence Intervals
 CI_S1 <- apply(CFR_by_age_u, 2, CI_func)

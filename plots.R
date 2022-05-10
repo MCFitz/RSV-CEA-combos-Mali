@@ -374,6 +374,8 @@ temp_HO <- HO_df %>% mutate(bin = floor((age-1) / 6) + 1) %>%
    group_by(bin, intervention, metric) %>% 
    summarise(tot = sum(value))
 
+# write.csv(HO_df,"Health_Outcomes_Data.csv", row.names = FALSE)
+
 ###
 # brewer.pal(ni, "Set2")
 # met.brewer("Cross", ni, "discrete"))

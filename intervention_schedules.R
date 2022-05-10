@@ -80,6 +80,25 @@ for (i in 1:12) {
   mat_eff_mVax[i, i:(i+(mVax_months-1))] <- 1
 }
 
+#######################
+# Comment out this section unless running this scenario
+# As a scenario analysis
+# mVax, seasonal delivery to mothers
+# mVax_admin <- mVax_admin
+# for (i in 1:36) {
+#   for(h in 1:12){
+#     if(i <4 | i > 10){
+#       mVax_admin[h,i] <-0
+#     }}}
+# 
+# mat_eff_mVax <- empty_year_cohort
+# for (i in 1:36) {
+#   if (i > 3 & i < 11){
+#     mat_eff_mVax[i, i:(i+(mVax_months-1))] <- 1
+#   }}
+########################
+
+
 # pVax, pre-seasonal, two doses admin at weeks 10 & 14, protection delayed (2 wks)
 pVax_admin <- empty_year_cohort
 for (i in 1:12){

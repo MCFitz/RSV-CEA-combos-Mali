@@ -56,6 +56,10 @@ int_names <- c("llAb", "mVax", "pVax", "llAb + pVax, no intf", "mVax + pVax, no 
 efficacy <- c(0.70, 0.70, 0.70, 0.70, 0.70, 0.30, 0.30, 0.50, 0.50)
 duration <- c(5, 4, 12, NA, NA, NA, NA, NA, NA)
 coverage <- c(0.830, 0.433, 0.77, NA, NA, NA, NA, NA, NA)
+#### Remember to comment out this vector unless running this specific scenario
+# for scenario analysis with seasonal maternal vaccine, and ANC1 care coverage
+# coverage <- c(0.830, 0.819, 0.77, NA, NA, NA, NA, NA, NA)
+####
 costs <- c(cost_prod + cost_nd, cost_prod + cost_nd, cost_prod + cost_nd, NA, NA, NA, NA, NA, NA)
 
 cov_pVax_o <- 0.70
