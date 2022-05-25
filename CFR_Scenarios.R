@@ -36,7 +36,7 @@ CFR_scenarios <- cbind(CFR_S1, CFR_S2, CFR_S3, CFR_S4, CFR_S8)
 # Uncertainty distributions
 CFR_S1_u <- CFR_by_age_u
 
-CFR_S2_u <- rep.col(CFR_by_age_u, length(months))
+CFR_S2_u <- rep.col(rowMeans(CFR_by_age_u), length(months))
 
 # age cats = 1-2M, 3-5M, 6-11M, 12-35M (no 0-1 so have to assume = 1-2)
 # also these are 15000 iterations, so will need to sample
@@ -67,6 +67,8 @@ CFR_S8_u <- cbind(rep.col(rbeta(trials, 1, 63), 3),
                   rep.col(rbeta(trials, 1, 15), 12),
                   rep.col(rbeta(trials, 1, 6), 12))
 
+CFR_scenarios_u <- array(c(CFR_S1_u, CFR_S2_u, CFR_S3_u, CFR_S4_u, CFR_S8_u),
+                         dim = c(trials, length(months), no_scenarios))
 
 # Confidence Intervals
 CI_S1 <- apply(CFR_by_age_u, 2, CI_func)
