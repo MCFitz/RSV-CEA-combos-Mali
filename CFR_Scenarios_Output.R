@@ -65,6 +65,46 @@ for(c in 1: no_scenarios){
 deaths_llAb_CFR_scenarios_u <- apply(deaths_llAb_cs_u, c(1,3), sum)
 
 # DALYs for status quo under different CFR scenarios
-DALYS_lost_no_cs_u <- YLL_func(deaths_no_cs_u) +
-  YLD_func(inpat_no_u_age, deaths_no_cs_u, di_yrs_u, dw_LRTI_severe_u,
+DALYS_lost_no_cs_u <- array(0, dim=c(trials, length(months), no_scenarios))
+for(c in 1:no_scenarios){
+DALYS_lost_no_cs_u[,,c] <- YLL_func(deaths_no_cs_u[,,c]) +
+  YLD_func(inpat_no_u_age, deaths_no_cs_u[,,c], di_yrs_u, dw_LRTI_severe_u,
            LRTI_no_u_age, dw_LRTI_mod_u)
+}
+
+# DALYs for llAb under different CFR scenarios
+DALYS_lost_llAb_cs_u <- array(0, dim=c(trials, length(months), no_scenarios))
+for(c in 1:no_scenarios){
+  DALYS_lost_llAb_cs_u[,,c] <- YLL_func(deaths_llAb_cs_u[,,c]) +
+    YLD_func(inpat_llAb_u_age, deaths_llAb_cs_u[,,c], di_yrs_u, dw_LRTI_severe_u,
+             LRTI_llAb_u_age, dw_LRTI_mod_u)
+}
+
+# ICERs for llAb compared to status quo under different CFR scenarios
+ICER_CFR_scenarios_u <- matrix(0, nrow = trials, ncol = no_scenarios)
+for (c in 1:no_scenarios){
+  ICER_CFR_scenarios_u[,c] <- (totalcost_llAb_u - totalcost_no_u) / (rowSums(DALYS_lost_no_cs_u[,,c]) - rowSums(DALYS_lost_llAb_cs_u[,,c]))
+}
+
+# Generate confidence intervals for deaths and ICERs under different CFR scenarios
+CI_deaths_no_CFR_scenarios <- apply(na.omit(deaths_no_CFR_scenarios_u), 2, CI_func)
+CI_deaths_llAb_CFR_scenarios <- apply(na.omit(deaths_llAb_CFR_scenarios_u), 2, CI_func)
+CI_ICER_CFR_scenarios <- apply(na.omit(ICER_CFR_scenarios_u), 2, CI_func)
+
+output_CFR_scenarios_u <- tibble(CFR_scenario_names,
+                                 CI_deaths_no_CFR_scenarios[1,],
+                                 CI_deaths_no_CFR_scenarios[2,],
+                                 CI_deaths_llAb_CFR_scenarios[1,],
+                                 CI_deaths_llAb_CFR_scenarios[2,],
+                                 CI_ICER_CFR_scenarios[1,],
+                                 CI_ICER_CFR_scenarios[2,])
+
+colnames(output_CFR_scenarios_u) <- c("scenario",
+                                      "deaths, status quo, LB",
+                                      "deaths, status quo, UB",
+                                      "deaths, llAb, LB",
+                                      "deaths, llAb, UB",
+                                      "ICER, llAb, LB",
+                                      "ICER, llAb, UB")
+
+write.csv(output_CFR_scenarios_u ,"Output_CFR_Scenarios_uncertainty.csv", row.names = FALSE)
