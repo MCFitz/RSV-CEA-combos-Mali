@@ -7,7 +7,7 @@
 # number of deaths for status quo under different CFR scenarios
 deaths_no_cs <- matrix(0, nrow = length(months), ncol = no_scenarios)
 for(c in 1:no_scenarios){
-  deaths_no_cs[,c] <- mort_inpat_func(CFR_scenarios[,c], inpat_no_age, CFR_nr_care, nr_care_func(inpat_no_age)) 
+  deaths_no_cs[,c] <- mort_inpat_func(CFR_scenarios[,c], inpat_no_age, CFR_scenarios[,c]/ 0.51 * 0.49, nr_care_func(inpat_no_age)) 
 }
 colnames(deaths_no_cs) <- CFR_scenario_names
 deaths_no_CFR_scenarios <- colSums(deaths_no_cs)
@@ -15,7 +15,7 @@ deaths_no_CFR_scenarios <- colSums(deaths_no_cs)
 # number of deaths for llAb under different CFR scenarios
 deaths_llAb_cs <- matrix(0, nrow = length(months), ncol = no_scenarios)
 for(c in 1: no_scenarios){
-  deaths_llAb_cs[,c] <- mort_inpat_func(CFR_scenarios[,c], inpat_llAb_age, CFR_nr_care, nr_care_func(inpat_llAb_age))
+  deaths_llAb_cs[,c] <- mort_inpat_func(CFR_scenarios[,c], inpat_llAb_age, CFR_scenarios[,c]/ 0.51 * 0.49, nr_care_func(inpat_llAb_age))
   }
 colnames(deaths_llAb_cs) <- CFR_scenario_names
 deaths_llAb_CFR_scenarios <- colSums(deaths_llAb_cs)
