@@ -49,7 +49,7 @@ deaths_no_cs_u <- array(0, dim = c(trials, length(months), no_scenarios))
 for(c in 1:no_scenarios){
   for(t in 1: trials){
   deaths_no_cs_u[t,,c] <- mort_inpat_func(CFR_scenarios_u[t, ,c], inpat_no_u_age[t,],
-                                        CFR_nr_care_u[t,], nr_care_func(inpat_no_u_age[t,])) 
+                                          CFR_scenarios_u[t, ,c]/ 0.51 * 0.49, nr_care_func(inpat_no_u_age[t,])) 
   }}
 
 deaths_no_CFR_scenarios_u <- apply(deaths_no_cs_u, 3, rowSums)
@@ -59,7 +59,7 @@ deaths_llAb_cs_u <- array(0, dim = c(trials, length(months), no_scenarios))
 for(c in 1: no_scenarios){
   for(t in 1: trials){
   deaths_llAb_cs_u[t,,c] <- mort_inpat_func(CFR_scenarios_u[t,,c], inpat_llAb_u_age[t,],
-                                            CFR_nr_care_u[t,], nr_care_func(inpat_llAb_u_age[t,]))
+                                            CFR_scenarios_u[t, ,c]/ 0.51 * 0.49, nr_care_func(inpat_llAb_u_age[t,]))
   }}
 
 deaths_llAb_CFR_scenarios_u <- apply(deaths_llAb_cs_u, c(1,3), sum)

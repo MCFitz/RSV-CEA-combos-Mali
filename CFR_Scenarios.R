@@ -1,6 +1,13 @@
 ################################################################################
 ############################# CFR Scenarios ####################################
 
+# function for obtaining params for lognormal distributions
+lnorm.param_func <- function(mean.obs, ub.obs){
+  sigma.est <- (2*qnorm(0.975) - sqrt((2*qnorm(0.975))^2 -
+                                        4*(-2*log(mean.obs) + 2*log(ub.obs)))) / 2
+  mu.est <- log(ub.obs) - qnorm(0.975)*sigma.est
+  c(sigma.est, mu.est)
+}
 
 # REMOVE CHAMPS, BUCHWALD OUT FOR NOW
 
@@ -53,11 +60,15 @@ CFR_S3_u <- cbind(rep.col(PIA_1, 3),
                   rep.col(PIA_3, 6),
                   rep.col(PIA_4, 24))
 
-# distribution to use for CFR estimates from Li??
-CFR_S4_u <- cbind(rep.col(rgamma(trials, 2.6), 3),
-                  rep.col(rgamma(trials, 2.2), 3),
-                  rep.col(rgamma(trials, 1.8), 6),
-                  rep.col(rgamma(trials, 1.6), 24))/100
+# use lognormal distribution for CFR estimates from Li 2022
+CFR_S4_u <- cbind(rep.col(rlnorm(trials, lnorm.param_func(2.6, 3.6)[1],
+                                 lnorm.param_func(2.6, 3.6)[2]), 3),
+                  rep.col(rlnorm(trials, lnorm.param_func(2.2, 3.3)[1],
+                                 lnorm.param_func(2.2, 3)[2]), 3),
+                  rep.col(rlnorm(trials, lnorm.param_func(1.8, 3.4)[1],
+                                 lnorm.param_func(1.8, 3.4)[2]), 6),
+                  rep.col(rlnorm(trials, lnorm.param_func(1.6, 5.7)[1],
+                                 lnorm.param_func(1.6, 5.7)[2]), 24))/100
 
 # CFR_S5_u <- rep.col(rbeta(trials, 1, 12), 36)
 
