@@ -1,5 +1,18 @@
 ################################################################################
 ############################# CFR Scenarios ####################################
+library(ggplot2)
+library(readr)
+trials <- 100
+
+# generic functions for code
+rep.col<-function(x,n){
+  matrix(rep(x,each=n), ncol=n, byrow=TRUE)
+}
+
+# generating 95% confidence intervals
+CI_func <- function(param) {
+  c(quantile(param, probs = 0.05), quantile(param, probs = 0.95))
+}
 
 # function for obtaining params for lognormal distributions
 lnorm.param_func <- function(mean.obs, ub.obs){
@@ -18,6 +31,18 @@ CFR_scenario_names <- c("Li 2020, age-gradient", "Li 2020, without age-gradient"
 # "Buchwald for 0-6 m, Mali", "CHAMPS w/ RSV in causal chain", "CHAMPS RSV detected"
 
 no_scenarios <- length(CFR_scenario_names)
+
+Li_CFR <- read_csv("cfr_lmic_ts_n5000.csv", 
+                   col_types = cols(X1 = col_skip()))
+CFR_age_mat <- matrix(Li_CFR$pred, ncol = 60, byrow = TRUE)
+CFR_by_age <- apply(CFR_age_mat[ , 1:36], 2, mean)
+
+CFR_age_mat_3y <- CFR_age_mat[ , 1:36] # subset to first three years
+old_CFR <- sample(CFR_age_mat_3y, size = trials, replace = TRUE)
+old_CFR_mat <- matrix(rep(old_CFR, times = 36), nrow = trials)
+
+CFR_by_age_u <- CFR_age_mat_3y[sample(nrow(CFR_age_mat_3y), size = trials, replace = TRUE),]
+
 
 # Scenarios 
 CFR_S1 <- CFR_by_age
@@ -102,8 +127,8 @@ CI_S4 <- rbind(c(rep(1.8, 3), rep(1.5, 3), rep(0.9, 6), rep(0.4, 24))/100,
 CI_S8 <- apply(CFR_S8_u, 2, CI_func)
 
 # Make data frame
-CFR_scenario_df <- data.frame(Scenario = rep(CFR_scenario_names, each = length(months)),
-                              Month = rep(months, no_scenarios),
+CFR_scenario_df <- data.frame(Scenario = rep(CFR_scenario_names, each = 36),
+                              Month = rep(36, no_scenarios),
                               CFR = c(CFR_S1, CFR_S2, CFR_S3, CFR_S4, CFR_S8),
                               Lower = c(CI_S1[1,], CI_S2[1,], CI_S3[1,], CI_S4[1,],
                                         CI_S8[1,]),
